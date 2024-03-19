@@ -1,10 +1,10 @@
-import TitleCard from "../../components/Cards/TitleCard";
-import InputText from "../../components/Input/InputText";
-import TextAreaInput from "../../components/Input/TextAreaInput";
-import ToogleInput from "../../components/Input/ToogleInput";
+import TitleCard from "../../../components/Cards/TitleCard.tsx";
+import InputText from "../../../components/Input/InputText.tsx";
+import TextAreaInput from "../../../components/Input/TextAreaInput.tsx";
+import ToogleInput from "../../../components/Input/ToogleInput.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import toast from "react-hot-toast";
-import SelectBox from "../../components/Input/SelectBox";
+import SelectBox from "../../../components/Input/SelectBox.tsx";
 
 const breadcrumbsData = [
     {

@@ -1,11 +1,9 @@
 import Subtitle from "../Typography/Subtitle"
 import {ReactNode} from "react";
-import {Link} from "react-router-dom";
+import {IBreadcrumbData} from "../../utils/TableDataType.ts";
+import {BreadcrumbComponent} from "../Breadcrumbs/BreadcrumbComponent.tsx";
 
-interface IBreadcrumbData {
-    name: string,
-    url: string
-}
+
 
 interface TitleCardProps {
     title: string,
@@ -21,15 +19,7 @@ interface TitleCardProps {
           <div className={"card w-full p-6 bg-base-100 shadow-xl " + (topMargin || "mt-6")}>
 
               {breadcrumbsData && (
-                  <div className="text-sm breadcrumbs mb-1">
-                      <ul>
-                          {breadcrumbsData.map((b, i) => (
-                              (breadcrumbsData?.length - i) !== 1 ?
-                              <li key={i}><Link to={b.url}>{b.name}</Link></li> : <li>{b.name}</li>
-                              ))}
-                      </ul>
-                  </div>
-
+                  <BreadcrumbComponent breadcrumbsData={breadcrumbsData} />
               )}
 
             {/* Title for Card */}

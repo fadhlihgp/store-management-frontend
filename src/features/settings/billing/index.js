@@ -7,21 +7,21 @@ import { showNotification } from '../../common/headerSlice.js'
 
 
 const BILLS = [
-    {invoiceNo : "#4567", amount : "23,989", description : "Product usages", status : "Pending", generatedOn : moment(new Date()).add(-30*1, 'days').format("DD MMM YYYY"),  paidOn : "-"},
+    {invoiceNo : "#4567", amount : "23,989", description : "ProductList usages", status : "Pending", generatedOn : moment(new Date()).add(-30*1, 'days').format("DD MMM YYYY"),  paidOn : "-"},
 
-    {invoiceNo : "#4523", amount : "34,989", description : "Product usages", status : "Pending", generatedOn : moment(new Date()).add(-30*2, 'days').format("DD MMM YYYY"), paidOn : "-"},
+    {invoiceNo : "#4523", amount : "34,989", description : "ProductList usages", status : "Pending", generatedOn : moment(new Date()).add(-30*2, 'days').format("DD MMM YYYY"), paidOn : "-"},
 
-    {invoiceNo : "#4453", amount : "39,989", description : "Product usages", status : "Paid", generatedOn : moment(new Date()).add(-30*3, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*2, 'days').format("DD MMM YYYY")},
+    {invoiceNo : "#4453", amount : "39,989", description : "ProductList usages", status : "Paid", generatedOn : moment(new Date()).add(-30*3, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*2, 'days').format("DD MMM YYYY")},
 
-    {invoiceNo : "#4359", amount : "28,927", description : "Product usages", status : "Paid", generatedOn : moment(new Date()).add(-30*4, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*3, 'days').format("DD MMM YYYY")},
+    {invoiceNo : "#4359", amount : "28,927", description : "ProductList usages", status : "Paid", generatedOn : moment(new Date()).add(-30*4, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*3, 'days').format("DD MMM YYYY")},
 
-    {invoiceNo : "#3359", amount : "28,927", description : "Product usages", status : "Paid", generatedOn : moment(new Date()).add(-30*5, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*4, 'days').format("DD MMM YYYY")},
+    {invoiceNo : "#3359", amount : "28,927", description : "ProductList usages", status : "Paid", generatedOn : moment(new Date()).add(-30*5, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*4, 'days').format("DD MMM YYYY")},
 
-    {invoiceNo : "#3367", amount : "28,927", description : "Product usages", status : "Paid", generatedOn : moment(new Date()).add(-30*6, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*5, 'days').format("DD MMM YYYY")},
+    {invoiceNo : "#3367", amount : "28,927", description : "ProductList usages", status : "Paid", generatedOn : moment(new Date()).add(-30*6, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*5, 'days').format("DD MMM YYYY")},
 
-    {invoiceNo : "#3359", amount : "28,927", description : "Product usages", status : "Paid", generatedOn : moment(new Date()).add(-30*7, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*6, 'days').format("DD MMM YYYY")},
+    {invoiceNo : "#3359", amount : "28,927", description : "ProductList usages", status : "Paid", generatedOn : moment(new Date()).add(-30*7, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*6, 'days').format("DD MMM YYYY")},
 
-    {invoiceNo : "#2359", amount : "28,927", description : "Product usages", status : "Paid", generatedOn : moment(new Date()).add(-30*8, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*7, 'days').format("DD MMM YYYY")},
+    {invoiceNo : "#2359", amount : "28,927", description : "ProductList usages", status : "Paid", generatedOn : moment(new Date()).add(-30*8, 'days').format("DD MMM YYYY"), paidOn : moment(new Date()).add(-24*7, 'days').format("DD MMM YYYY")},
 
 
 ]

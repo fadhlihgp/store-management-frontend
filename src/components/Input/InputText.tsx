@@ -1,11 +1,21 @@
-import React, { useState } from "react"
+import { useState } from "react"
 
+interface InputTextProps {
+    labelTitle: string,
+    labelStyle?: string,
+    type?: string,
+    containerStyle?: string,
+    defaultValue: string,
+    placeholder?: string,
+    updateFormValue: (e: any) => void,
+    updateType?: any
+}
 
-function InputText({labelTitle, labelStyle, type, containerStyle, defaultValue, placeholder, updateFormValue, updateType}: any){
+function InputText({labelTitle, labelStyle, type, containerStyle, defaultValue, placeholder, updateFormValue, updateType}: InputTextProps){
 
-    const [value, setValue] = useState(defaultValue)
+    const [value, setValue] = useState<string>(defaultValue)
 
-    const updateInputValue = (val: React.ChangeEvent<HTMLInputElement>): void => {
+    const updateInputValue = (val: string): void => {
         setValue(val)
         updateFormValue({updateType, value : val})
     }
@@ -15,7 +25,7 @@ function InputText({labelTitle, labelStyle, type, containerStyle, defaultValue, 
             <label className="label">
                 <span className={"label-text text-base-content " + labelStyle}>{labelTitle}</span>
             </label>
-            <input type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)}className="input  input-bordered w-full " />
+            <input type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="input  input-bordered w-full " />
         </div>
     )
 }

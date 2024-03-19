@@ -1,6 +1,6 @@
 import Layout from "../../widgets/Layout";
 import {useParams} from "react-router-dom";
-import {UserManagementFormContainer} from "../../features/UserManagementForm";
+import {UserManagementFormContainer} from "../../features/UserManagement/Form";
 
 export const UserManagementForm = () => {
     const {id} = useParams();

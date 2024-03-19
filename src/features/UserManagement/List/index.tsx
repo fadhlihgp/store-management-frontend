@@ -1,11 +1,11 @@
-import {useDispatch} from "react-redux";
-import TitleCard from "../../components/Cards/TitleCard";
+// import {useDispatch} from "react-redux";
+import TitleCard from "../../../components/Cards/TitleCard.tsx";
 import moment from "moment/moment";
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import {PencilSquareIcon} from "@heroicons/react/24/outline";
-import {TopSideButtons} from "../../components/Input/TopSideButtons";
+import {TopSideButtons} from "../../../components/Input/TopSideButtons.tsx";
 import {useNavigate} from "react-router-dom";
-import {ConfirmationModal} from "../../components/Modals/ConfirmationModal";
+import {ConfirmationModal} from "../../../components/Modals/ConfirmationModal.tsx";
 import {useState} from "react";
 import toast from "react-hot-toast";
 
@@ -54,7 +54,6 @@ const users = [
 export const UserContainer = () => {
     const navigate = useNavigate();
     const [userId, setUserId] = useState<string>("-1");
-    const [openModal, setOpenModal] = useState<boolean>(false);
     // const users = useSelector(state => state.user.users);
 
     const handleAddOrEdit = (id:string = "-1") => {
@@ -71,7 +70,7 @@ export const UserContainer = () => {
         document.getElementById('modal-delete').showModal();
     }
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     //
     // useEffect(() => {
     //     dispatch(getLeadsContent())
@@ -140,7 +139,7 @@ export const UserContainer = () => {
                                                 Tidak Aktif
                                             </div>}
                                         </td>
-                                        <td>{moment(u.lastLogin).format("DD-MMM-YY hh:mm:ss")}</td>
+                                        <td>{u.lastLogin ? moment(u.lastLogin).format("DD-MMM-YY hh:mm:ss") : "-"}</td>
                                         <td className={'flex'}>
                                             <button className="btn btn-square btn-ghost" onClick={() => handleAddOrEdit(u.id)}><PencilSquareIcon className="w-5"/></button>
                                             <button className="btn btn-square btn-ghost" onClick={() => handleDelete(u.id)}><TrashIcon className="w-5"/></button>

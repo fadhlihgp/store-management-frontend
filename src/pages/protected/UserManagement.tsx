@@ -1,4 +1,4 @@
-import {UserContainer} from "../../features/UserManagement";
+import {UserContainer} from "../../features/UserManagement/List";
 import Layout from "../../widgets/Layout";
 
 export const UserManagement = () => {

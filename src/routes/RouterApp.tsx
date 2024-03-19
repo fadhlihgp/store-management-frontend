@@ -11,6 +11,14 @@ import NotFound from "../pages/protected/NotFound";
 import {Testing} from "../pages/protected/Testing";
 import {UserManagement} from "../pages/protected/UserManagement";
 import {UserManagementForm} from "../pages/protected/UserManagementForm";
+import {StoreManagement} from "../pages/protected/StoreManagement.tsx";
+import {StoreManagementForm} from "../pages/protected/StoreManagementForm.tsx";
+import {StoreManagementDetail} from "../pages/protected/StoreManagementDetail.tsx";
+import {Customer} from "../pages/protected/Customer.tsx";
+import {CustomerForm} from "../pages/protected/CustomerForm.tsx";
+import {CustomerDetail} from "../pages/protected/CustomerDetail.tsx";
+import {ProductList} from "../pages/protected/ProductList.tsx";
+import {ProductDetail} from "../pages/protected/ProductDetail.tsx";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -53,6 +61,67 @@ export const RouterApp = () => {
                     <Route
                         path={"/user-management/edit/:id"}
                         element={<PrivateRoute><UserManagementForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/store-management"}
+                        element={<PrivateRoute><StoreManagement /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/store-management/detail/:id"}
+                        element={<PrivateRoute><StoreManagementDetail /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/store-management/add"}
+                        element={<PrivateRoute><StoreManagementForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/store-management/edit/:id"}
+                        element={<PrivateRoute><StoreManagementForm /></PrivateRoute>}
+                    />
+
+
+                    <Route
+                        path={"/customer"}
+                        element={<PrivateRoute><Customer /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/customer/add"}
+                        element={<PrivateRoute><CustomerForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/customer/edit/:id"}
+                        element={<PrivateRoute><CustomerForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/customer/detail/:id"}
+                        element={<PrivateRoute><CustomerDetail /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/product"}
+                        element={<PrivateRoute><ProductList /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/product/add"}
+                        element={<PrivateRoute><CustomerForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/product/edit/:id"}
+                        element={<PrivateRoute><CustomerForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/product/detail/:id"}
+                        element={<PrivateRoute><ProductDetail /></PrivateRoute>}
                     />
                     {/* CLIENT */}
                     <Route

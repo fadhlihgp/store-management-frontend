@@ -11,14 +11,15 @@ interface SelectBoxProps {
     labelDescription?: string,
     defaultValue?: string,
     containerStyle?: string,
-    placeholder: string,
+    placeholder?: string,
     labelStyle?: string,
     options: IOption[],
     updateType?:any,
-    updateFormValue: (e:any) => void
+    updateFormValue: (e:any) => void,
+    selectStyle?: string
 }
 
-function SelectBox({labelTitle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue}: SelectBoxProps){
+function SelectBox({labelTitle, selectStyle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue}: SelectBoxProps){
 
     // const {labelTitle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue} = props
 
@@ -39,7 +40,7 @@ function SelectBox({labelTitle, labelDescription, defaultValue, containerStyle, 
                 </div>
             </label>
 
-            <select className="select select-bordered w-full" value={value} onChange={(e) => updateValue(e.target.value)}>
+            <select className={`select select-bordered w-full ${selectStyle}`} value={value} onChange={(e) => updateValue(e.target.value)}>
                 <option disabled value="">{placeholder}</option>
                 {
                     options.map((o, k) => {

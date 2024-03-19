@@ -91,7 +91,7 @@ const routes: Route[] = [
       {
         path: '/master-unit',
         icon: IconData.HistoryIcon,
-        name: 'Product Unit'
+        name: 'ProductList Unit'
       }
     ]
   }
