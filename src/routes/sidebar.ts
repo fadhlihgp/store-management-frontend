@@ -45,14 +45,9 @@ const routes: Route[] = [
         name: 'Hutang'
       },
       {
-        path: '/note-expense',
+        path: '/note-incomeExpense',
         icon: IconData.DebtIcon,
-        name: 'Pengeluaran'
-      },
-      {
-        path: '/note-income',
-        icon: IconData.DebtIcon,
-        name: 'Pemasukkan'
+        name: 'Pemasukkan & Pengeluaran'
       },
       {
         path: '/note-other',

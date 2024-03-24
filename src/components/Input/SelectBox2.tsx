@@ -6,7 +6,7 @@ interface IOption {
     value?: string | number
 }
 
-interface SelectBoxProps {
+interface SelectBox2Props {
     labelTitle: string,
     labelDescription?: string,
     defaultValue?: string,
@@ -19,7 +19,7 @@ interface SelectBoxProps {
     selectStyle?: string
 }
 
-function SelectBox({labelTitle, selectStyle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue}: SelectBoxProps){
+function SelectBox2({labelTitle, selectStyle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue}: SelectBox2Props){
 
     // const {labelTitle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue} = props
 
@@ -36,7 +36,7 @@ function SelectBox({labelTitle, selectStyle, labelDescription, defaultValue, con
         <div className={`inline-block ${containerStyle}`}>
             <label  className={`label  ${labelStyle}`}>
                 <div className="label-text">{labelTitle}
-                {labelDescription && <div className="tooltip tooltip-right" data-tip={labelDescription}><InformationCircleIcon className='w-4 h-4'/></div>}
+                    {labelDescription && <div className="tooltip tooltip-right" data-tip={labelDescription}><InformationCircleIcon className='w-4 h-4'/></div>}
                 </div>
             </label>
 
@@ -52,4 +52,4 @@ function SelectBox({labelTitle, selectStyle, labelDescription, defaultValue, con
     )
 }
 
-export default SelectBox
+export default SelectBox2

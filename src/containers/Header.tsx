@@ -8,6 +8,7 @@ import SunIcon from '@heroicons/react/24/outline/SunIcon'
 import { openRightDrawer } from '../features/common/rightDrawerSlice';
 import { RIGHT_DRAWER_TYPES } from '../utils/globalConstantUtil'
 import {Link} from "react-router-dom";
+import {ConfirmationModal} from "../components/Modals/ConfirmationModal.tsx";
 
 // import { NavLink,  Routes, Link , useLocation} from 'react-router-dom'
 
@@ -48,6 +49,7 @@ function Header({title}: HeaderProps){
         // navbar fixed  flex-none justify-between bg-base-300  z-10 shadow-md
 
         <>
+            <ConfirmationModal id={"modal-confirmation"} title={"Konfirmasi keluar"} message={"Anda yakin ingin keluar aplikasi ?"} onClickYes={logoutUser} />
             <div className="navbar sticky top-0 bg-base-100  z-10 shadow-md ">
 
 
@@ -87,14 +89,14 @@ function Header({title}: HeaderProps){
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <li className="justify-between">
-                        <Link to={'/app/settings-profile'}>
-                            Profile Settings
-                            <span className="badge">New</span>
+                        <Link to={'/app/profile'}>
+                            Profile
                             </Link>
                         </li>
-                        <li className=''><Link to={'/app/settings-billing'}>Bill History</Link></li>
+                        <li className=''><Link to={'/app/change-password'}>Ganti Password</Link></li>
+                        <li className=''><Link to={'/app/report-problem'}>Laporkan Masalah</Link></li>
                         <div className="divider mt-0 mb-0"></div>
-                        <li><a onClick={logoutUser}>Logout</a></li>
+                        <li><a onClick={() => document.getElementById("modal-confirmation").showModal()}>Logout</a></li>
                     </ul>
                 </div>
             </div>

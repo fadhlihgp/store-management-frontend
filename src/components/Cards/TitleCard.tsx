@@ -2,6 +2,8 @@ import Subtitle from "../Typography/Subtitle"
 import {ReactNode} from "react";
 import {IBreadcrumbData} from "../../utils/TableDataType.ts";
 import {BreadcrumbComponent} from "../Breadcrumbs/BreadcrumbComponent.tsx";
+import {ArrowLeftIcon} from "@heroicons/react/24/outline";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -10,12 +12,14 @@ interface TitleCardProps {
     children: ReactNode,
     topMargin?: string,
     topSideButtons?: ReactNode,
-    breadcrumbsData?: IBreadcrumbData[]
+    breadcrumbsData?: IBreadcrumbData[],
+    showButtonBack?: boolean
 
 }
 
-  function TitleCard({title, children, topMargin, topSideButtons, breadcrumbsData}: TitleCardProps){
-      return(
+  function TitleCard({title, children, topMargin, topSideButtons, breadcrumbsData, showButtonBack}: TitleCardProps){
+    const navigate = useNavigate();
+    return(
           <div className={"card w-full p-6 bg-base-100 shadow-xl " + (topMargin || "mt-6")}>
 
               {breadcrumbsData && (
@@ -24,7 +28,10 @@ interface TitleCardProps {
 
             {/* Title for Card */}
               <Subtitle styleClass={topSideButtons ? "inline-block flex lg:flex-row md:flex-row flex-col items-center justify-between " : ""}>
-                {title}
+                  {showButtonBack && (
+                      <button className={'mr-3'} onClick={() => navigate(-1)}><ArrowLeftIcon className={'h-5 w-5'} /></button>
+                  )}
+                  {title}
 
                 {/* Top side button, show only if present */}
                 {

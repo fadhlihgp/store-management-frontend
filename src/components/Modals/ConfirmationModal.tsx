@@ -1,12 +1,13 @@
 interface ConfirmationModalProps {
     title?: string,
     message?: string,
+    id?: string,
     onClickYes: () => void
 }
 
-export const ConfirmationModal = ({message = "Anda yakin ingin menghapus user ?", title = "Konfirmasi", onClickYes}: ConfirmationModalProps) => {
+export const ConfirmationModal = ({id, message = "Anda yakin ingin menghapus user ?", title = "Konfirmasi", onClickYes}: ConfirmationModalProps) => {
     return(
-        <dialog id="modal-delete" className="modal modal-bottom sm:modal-middle">
+        <dialog id={id ?? "modal-delete"} className="modal modal-bottom sm:modal-middle">
             <div className="modal-box">
                 <h3 className="font-bold text-lg">{title}</h3>
                 <p className="py-4">{message}</p>

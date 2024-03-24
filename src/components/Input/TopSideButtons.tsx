@@ -21,7 +21,7 @@ export const TopSideButtons = ({onClick, onChangeInput, placeHolder, componentCh
             )}
 
             {!componentChildren && (
-                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={onClick}>Tambah</button>
+                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={onClick}>Tambah Data</button>
             )}
         </div>
     )

@@ -64,3 +64,60 @@ export interface IProduct {
     editedAt?: Date,
     productPrices: IProductPrice[]
 }
+
+export interface IDebtDetail {
+    id: string,
+    createdAt: Date,
+    productId: string,
+    productName: string,
+    count: number,
+    price: number,
+    note?: string,
+    unitId: string,
+    unit: string,
+    customerId: string,
+    storeId: string,
+    debtDate: Date,
+    isPaid: boolean,
+}
+
+export interface IDebt {
+    id: string,
+    customerId: string,
+    storeId: string,
+    totalDebt: number,
+    customer: ICustomer,
+    debtDetails?: IDebtDetail[]
+}
+
+export interface IDebtForm {
+    customerId: string,
+    debtDate: string,
+    productId: string,
+    unit: string,
+    count: number,
+    price: number,
+    note: string
+}
+
+export interface IIncomeExpense {
+    id: string,
+    dateNote: Date,
+    nominal: number,
+    note?: string,
+    createdAt: Date,
+    createdBy: string,
+    editedAt?: Date,
+    editedBy?: string,
+    status: boolean,
+    imageUrl?: string,
+    publicId?: string
+}
+
+export interface IIncomeExpenseForm {
+    dateNote: Date,
+    nominal: number,
+    note?: string,
+    imageUrl?: string,
+    status: boolean
+}

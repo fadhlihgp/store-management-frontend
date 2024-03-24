@@ -14,7 +14,7 @@ import moment from "moment";
 interface PageHeadingProps {
     breadcrumbsData?: IBreadcrumbData[],
     titlePage: string,
-    editOnClick: () => void,
+    editOnClick?: () => void,
     showManipulation?: boolean,
     createdBy?: string,
     createdAt?: Date,
@@ -70,7 +70,9 @@ export const PageHeading = ({titlePage, editOnClick, breadcrumbsData, showManipu
                 )}
 
             </div>
-            <div className="mt-5 flex lg:ml-4 lg:mt-0">
+
+            {editOnClick && (
+                <div className="mt-5 flex lg:ml-4 lg:mt-0">
                 <span className="">
                   <button
                       type="button"
@@ -81,7 +83,9 @@ export const PageHeading = ({titlePage, editOnClick, breadcrumbsData, showManipu
                     Edit
                   </button>
                 </span>
-            </div>
+                </div>
+            )}
+
         </div>
     )
 }

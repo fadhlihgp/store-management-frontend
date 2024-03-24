@@ -5,7 +5,7 @@ interface InputTextProps {
     labelStyle?: string,
     type?: string,
     containerStyle?: string,
-    defaultValue: string,
+    defaultValue: string | number,
     placeholder?: string,
     updateFormValue: (e: any) => void,
     updateType?: any
@@ -13,7 +13,7 @@ interface InputTextProps {
 
 function InputText({labelTitle, labelStyle, type, containerStyle, defaultValue, placeholder, updateFormValue, updateType}: InputTextProps){
 
-    const [value, setValue] = useState<string>(defaultValue)
+    const [value, setValue] = useState<string | number>(defaultValue)
 
     const updateInputValue = (val: string): void => {
         setValue(val)
