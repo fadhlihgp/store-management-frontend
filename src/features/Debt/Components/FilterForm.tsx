@@ -2,7 +2,7 @@ import {useState} from "react";
 import SelectBox from "../../../components/Input/SelectBox.tsx";
 
 interface FilterFormProps {
-    updateFormValue: (e:any) => void,
+    updateFormValue?: (e:any) => void,
     handleAdd: () => void
 }
 export const FilterForm = ({updateFormValue, handleAdd}:FilterFormProps) => {

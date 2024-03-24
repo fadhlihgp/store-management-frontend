@@ -64,12 +64,12 @@ const routes: Route[] = [
       {
         path: '/transaction-payment',
         icon: IconData.MoneyIcon,
-        name: 'Pembelian'
+        name: 'Penjualan'
       },
       {
         path: '/transaction-history',
         icon: IconData.HistoryIcon,
-        name: 'Riwayat Transaksi'
+        name: 'Riwayat Penjualan'
       }
     ]
   },

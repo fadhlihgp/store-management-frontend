@@ -72,6 +72,11 @@ export const DebtListContainer = () => {
                         }
                         </tbody>
                     </table>
+                    {!DebtsDummy && (
+                        <div className={'w-full flex justify-center items-center'}>
+                            Data tidak ditemukan
+                        </div>
+                    )}
                 </div>
             </TitleCard>
         </>

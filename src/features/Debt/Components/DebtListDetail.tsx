@@ -225,16 +225,16 @@ export const DebtListDetail = ({debtDetails, showEdited = false, handleAddOrEdit
                         Tidak ada data hutang
                     </div>
                 )}
-                {debtDetails && (
-                    <div className={'w-full flex justify-between mt-3'}>
-                        <div className={'font-semibold'}>Total Hutang: Rp 2000000</div>
-                        <div className={'font-semibold'}>
-                            <p>Total dipilih: - </p>
-                            <button className={'btn btn-success text-slate-100 btn-sm'} onClick={() => document.getElementById("pay-debt").showModal()}>Bayar Hutang</button>
-                        </div>
-                    </div>
-                )}
             </div>
+            {debtDetails && (
+                <div className={'w-full flex justify-between mt-3'}>
+                    <div className={'font-semibold'}>Total Hutang: Rp 2000000</div>
+                    <div className={'font-semibold'}>
+                        <p>Total dipilih: - </p>
+                        <button className={'btn btn-success text-slate-100 btn-sm'} onClick={() => document.getElementById("pay-debt").showModal()}>Bayar Hutang</button>
+                    </div>
+                </div>
+            )}
         </TitleCard>
     )
 }

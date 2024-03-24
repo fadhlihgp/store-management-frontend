@@ -115,9 +115,24 @@ export interface IIncomeExpense {
 }
 
 export interface IIncomeExpenseForm {
-    dateNote: Date,
+    dateNote: string,
     nominal: number,
     note?: string,
     imageUrl?: string,
     status: boolean
+}
+
+export interface INote {
+    id: string,
+    title: string,
+    description: string,
+    createdAt: Date,
+    createdBy: string,
+    editedAt?: Date,
+    editedBy?: string
+}
+
+export interface INoteForm {
+    title: string,
+    description: string,
 }

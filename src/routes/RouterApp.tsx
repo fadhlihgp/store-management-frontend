@@ -22,6 +22,8 @@ import {ProductDetail} from "../pages/protected/ProductDetail.tsx";
 import {ProductForm} from "../pages/protected/ProductForm.tsx";
 import {DebtList} from "../pages/protected/DebtList.tsx";
 import {DebtDetail} from "../pages/protected/DebtDetail.tsx";
+import {IncomeExpense} from "../pages/protected/IncomeExpense";
+import {Note} from "../pages/protected/Note";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -136,6 +138,18 @@ export const RouterApp = () => {
                     <Route
                         path={"/note-debt/detail/:id"}
                         element={<PrivateRoute><DebtDetail /></PrivateRoute>}
+                    />
+
+                    {/*Income Expense*/}
+                    <Route
+                        path="/note-incomeExpense"
+                        element={<PrivateRoute><IncomeExpense /></PrivateRoute>}
+                    />
+
+                    {/*Note*/}
+                    <Route
+                        path="/note-other"
+                        element={<PrivateRoute><Note /></PrivateRoute>}
                     />
                     {/* CLIENT */}
                     <Route

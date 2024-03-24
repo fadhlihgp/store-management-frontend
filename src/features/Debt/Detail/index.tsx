@@ -54,7 +54,7 @@ export const DebtDetailContainer = () => {
                 id={"pay-debt"}
                 onClickYes={() => document.getElementById("pay-debt").close()}
                 onClickCancel={() => document.getElementById("pay-debt").close()}
-                formComponent={<PayDebt />}
+                children={<PayDebt />}
                 title={"Konfirmasi Pembayaran Hutang"}
             />
             <FormComponentDebt />
