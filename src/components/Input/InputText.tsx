@@ -5,13 +5,14 @@ interface InputTextProps {
     labelStyle?: string,
     type?: string,
     containerStyle?: string,
-    defaultValue: string | number,
+    defaultValue?: any,
     placeholder?: string,
     updateFormValue: (e: any) => void,
-    updateType?: any
+    updateType?: any,
+    isRequired?: boolean
 }
 
-function InputText({labelTitle, labelStyle, type, containerStyle, defaultValue, placeholder, updateFormValue, updateType}: InputTextProps){
+function InputText({labelTitle, isRequired = false, labelStyle, type, containerStyle, defaultValue, placeholder, updateFormValue, updateType}: InputTextProps){
 
     const [value, setValue] = useState<string | number>(defaultValue)
 
@@ -25,7 +26,7 @@ function InputText({labelTitle, labelStyle, type, containerStyle, defaultValue, 
             <label className="label">
                 <span className={"label-text text-base-content " + labelStyle}>{labelTitle}</span>
             </label>
-            <input type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="input  input-bordered w-full " />
+            <input required={isRequired} type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="input  input-bordered w-full " />
         </div>
     )
 }

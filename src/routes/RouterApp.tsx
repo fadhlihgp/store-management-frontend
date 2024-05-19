@@ -24,6 +24,8 @@ import {DebtList} from "../pages/protected/DebtList.tsx";
 import {DebtDetail} from "../pages/protected/DebtDetail.tsx";
 import {IncomeExpense} from "../pages/protected/IncomeExpense";
 import {Note} from "../pages/protected/Note";
+import {TransactionPurchase} from "../pages/protected/TransactionPurchase";
+import {Profile} from "../pages/protected/Profile";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -129,6 +131,11 @@ export const RouterApp = () => {
                         element={<PrivateRoute><ProductDetail /></PrivateRoute>}
                     />
 
+                    <Route
+                        path={"/profile"}
+                        element={<PrivateRoute><Profile /></PrivateRoute>}
+                    />
+
                     {/* DEBT */}
                     <Route
                         path={"/note-debt"}
@@ -151,6 +158,13 @@ export const RouterApp = () => {
                         path="/note-other"
                         element={<PrivateRoute><Note /></PrivateRoute>}
                     />
+
+                    {/*Transaction Purchase*/}
+                    <Route
+                        path="/transaction-purchase"
+                        element={<PrivateRoute><TransactionPurchase /></PrivateRoute>}
+                    />
+
                     {/* CLIENT */}
                     <Route
                         path="/login"

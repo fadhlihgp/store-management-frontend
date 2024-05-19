@@ -7,8 +7,11 @@ import MoonIcon from '@heroicons/react/24/outline/MoonIcon'
 import SunIcon from '@heroicons/react/24/outline/SunIcon'
 import { openRightDrawer } from '../features/common/rightDrawerSlice';
 import { RIGHT_DRAWER_TYPES } from '../utils/globalConstantUtil'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ConfirmationModal} from "../components/Modals/ConfirmationModal.tsx";
+import Cookies from "js-cookie";
+import {AppDispatch} from "../apps/store";
+import {logoutSuccess} from "../apps/slice/profileSlice";
 
 // import { NavLink,  Routes, Link , useLocation} from 'react-router-dom'
 
@@ -16,11 +19,10 @@ interface HeaderProps {
     title: string
 }
 function Header({title}: HeaderProps){
-
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     // const {noOfNotifications} = useSelector(state => state.header)
-    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"))
-
+    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"));
+    const navigate = useNavigate();
     useEffect(() => {
         themeChange(false)
         if(currentTheme === null){
@@ -41,8 +43,10 @@ function Header({title}: HeaderProps){
 
 
     function logoutUser(){
-        localStorage.clear();
-        window.location.href = '/'
+        Cookies.remove("token");
+        Cookies.remove("user");
+        dispatch(logoutSuccess());
+        navigate("/login");
     }
 
     return(
@@ -89,7 +93,7 @@ function Header({title}: HeaderProps){
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <li className="justify-between">
-                        <Link to={'/app/profile'}>
+                        <Link to={'/profile'}>
                             Profile
                             </Link>
                         </li>

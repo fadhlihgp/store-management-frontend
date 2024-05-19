@@ -62,7 +62,7 @@ const routes: Route[] = [
     name: 'Transaksi',
     submenu: [
       {
-        path: '/transaction-payment',
+        path: '/transaction-purchase',
         icon: IconData.MoneyIcon,
         name: 'Penjualan'
       },
@@ -92,6 +92,176 @@ const routes: Route[] = [
   }
 ];
 
+export const routeSuperAdmin: Route[] = [
+  {
+    path: '/dashboard',
+    icon: IconData.DashboardIcon,
+    name: 'Dashboard',
+  },
+  {
+    path: '/user-management',
+    icon: IconData.UserIcon,
+    name: 'User Management',
+  },
+  {
+    path: '/store-management',
+    icon: IconData.StoreIcon,
+    name: 'Store Management',
+  }
+];
+
+export const routeOwner: Route[] = [
+  {
+    path: '/dashboard',
+    icon: IconData.DashboardIcon,
+    name: 'Dashboard',
+  },
+  {
+    path: '/user-management',
+    icon: IconData.UserIcon,
+    name: 'User Management',
+  },
+  {
+    path: '/customer',
+    icon: IconData.CustomerIcon,
+    name: 'Data Pelanggan',
+  },
+  {
+    path: '/product',
+    icon: IconData.ProductIcon,
+    name: 'Data Produk',
+  },
+  {
+    path: '',
+    icon: IconData.NoteIcon,
+    name: 'Catatan',
+    submenu: [
+      {
+        path: '/note-debt',
+        icon: IconData.DebtIcon,
+        name: 'Hutang'
+      },
+      {
+        path: '/note-incomeExpense',
+        icon: IconData.DebtIcon,
+        name: 'Pemasukkan & Pengeluaran'
+      },
+      {
+        path: '/note-other',
+        name: 'Lainya',
+        icon: IconData.BlankIcon
+      }
+    ]
+  },
+  {
+    path: '',
+    icon: IconData.TransactionIcon,
+    name: 'Transaksi',
+    submenu: [
+      {
+        path: '/transaction-purchase',
+        icon: IconData.MoneyIcon,
+        name: 'Penjualan'
+      },
+      {
+        path: '/transaction-history',
+        icon: IconData.HistoryIcon,
+        name: 'Riwayat Penjualan'
+      }
+    ]
+  },
+  {
+    path: '',
+    icon: IconData.AdjustmentIcon,
+    name: 'Master Data',
+    submenu: [
+      {
+        path: '/master-category',
+        icon: IconData.DebtIcon,
+        name: 'Category'
+      },
+      {
+        path: '/master-unit',
+        icon: IconData.HistoryIcon,
+        name: 'ProductList Unit'
+      }
+    ]
+  }
+];
+
+export const routeAdmin: Route[] = [
+  {
+    path: '/dashboard',
+    icon: IconData.DashboardIcon,
+    name: 'Dashboard',
+  },
+  {
+    path: '/customer',
+    icon: IconData.CustomerIcon,
+    name: 'Data Pelanggan',
+  },
+  {
+    path: '/product',
+    icon: IconData.ProductIcon,
+    name: 'Data Produk',
+  },
+  {
+    path: '',
+    icon: IconData.NoteIcon,
+    name: 'Catatan',
+    submenu: [
+      {
+        path: '/note-debt',
+        icon: IconData.DebtIcon,
+        name: 'Hutang'
+      },
+      {
+        path: '/note-incomeExpense',
+        icon: IconData.DebtIcon,
+        name: 'Pemasukkan & Pengeluaran'
+      },
+      {
+        path: '/note-other',
+        name: 'Lainya',
+        icon: IconData.BlankIcon
+      }
+    ]
+  },
+  {
+    path: '',
+    icon: IconData.TransactionIcon,
+    name: 'Transaksi',
+    submenu: [
+      {
+        path: '/transaction-purchase',
+        icon: IconData.MoneyIcon,
+        name: 'Penjualan'
+      },
+      {
+        path: '/transaction-history',
+        icon: IconData.HistoryIcon,
+        name: 'Riwayat Penjualan'
+      }
+    ]
+  },
+  {
+    path: '',
+    icon: IconData.AdjustmentIcon,
+    name: 'Master Data',
+    submenu: [
+      {
+        path: '/master-category',
+        icon: IconData.DebtIcon,
+        name: 'Category'
+      },
+      {
+        path: '/master-unit',
+        icon: IconData.HistoryIcon,
+        name: 'ProductList Unit'
+      }
+    ]
+  }
+];
 export default routes
 
 

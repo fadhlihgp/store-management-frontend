@@ -4,30 +4,37 @@ import {Link} from "react-router-dom";
 import {LandingIntro} from "./components/LandingIntro";
 import Cookies from "js-cookie";
 import ErrorText from "../../components/Typography/ErrorText";
+import {useLoginMutation} from "../../apps/services/authApi";
 
 function LoginContainer(){
-
     const INITIAL_LOGIN_OBJ = {
         password : "",
-        emailId : ""
+        email : ""
     }
-
     const [loading, setLoading] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>("")
     const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ)
+    const [login] = useLoginMutation();
 
-    const submitForm = (e:any) =>{
+    const submitForm = async (e:any) =>{
         e.preventDefault()
         setErrorMessage("")
 
-        if(loginObj.emailId.trim() === "")return setErrorMessage("Email is required!")
-        if(loginObj.password.trim() === "")return setErrorMessage("Password is required! ")
+        if(loginObj.email.trim() === "")return setErrorMessage("Email/Username tidak boleh kosong!")
+        if(loginObj.password.trim() === "")return setErrorMessage("Password tidak boleh kosong! ")
         else{
-            setLoading(true)
-            // Call API to check user credentials and save token in localstorage
-            Cookies.set("token", "DumyTokenHere")
-            setLoading(false)
-            window.location.href = '/app/welcome'
+            try {
+                setLoading(true);
+                const user = await login(loginObj).unwrap();
+                Cookies.set("token", user.data.token);
+                Cookies.set("user", JSON.stringify(user.data.user));
+                window.location.href = "/dashboard";
+            } catch (e: any) {
+                console.log(e);
+                setErrorMessage(e.data.message);
+            } finally {
+                setLoading(false);
+            }
         }
     }
 
@@ -49,8 +56,7 @@ function LoginContainer(){
 
                         <div className="mb-4">
 
-                            <InputText type="emailId" defaultValue={loginObj.emailId} updateType="emailId" containerStyle="mt-4" labelTitle="Email" updateFormValue={updateFormValue}/>
-
+                            <InputText type="text" defaultValue={loginObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email atau Username" updateFormValue={updateFormValue}/>
                             <InputText defaultValue={loginObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue}/>
 
                         </div>
@@ -60,11 +66,20 @@ function LoginContainer(){
                         </div>
 
                         <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-                        <button type="submit" className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Login</button>
+                        <button type="submit" className={"btn mt-2 w-full btn-primary"} disabled={loading}>
+                            {loading ?
+                                <>
+                                    <span className="loading loading-spinner"></span>
+                                    loading
+                                </> :
+                                "Login"
+                            }
+                            {/*Login*/}
+                        </button>
 
-                        <div className='text-center mt-4'>Belum punya akun?
-                          <Link to="/register"><span className=" inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200 text-primary"> Request disini</span></Link>
-                        </div>
+                        {/*<div className='text-center mt-4'>Belum punya akun?*/}
+                        {/*  <Link to="/register"><span className=" inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200 text-primary"> Request disini</span></Link>*/}
+                        {/*</div>*/}
                     </form>
                 </div>
             </div>

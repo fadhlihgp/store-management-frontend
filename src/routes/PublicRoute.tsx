@@ -6,10 +6,10 @@ interface PublicRouteProps {
     children: ReactNode
 }
 export const PublicRoute = ({children}: PublicRouteProps) => {
-    // if (!cekToken()) {
-    //     return children;
-    // } else {
-    //     return <Dashboard />
-    // }
+    if (!cekToken()) {
+        return children;
+    } else {
+        return <Dashboard />
+    }
     return children;
 }

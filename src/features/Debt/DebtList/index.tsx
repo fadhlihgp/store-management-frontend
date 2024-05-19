@@ -5,11 +5,7 @@ import {DebtsDummy} from "../DebtDummy.ts";
 import {TopSideButtons} from "../../../components/Input/TopSideButtons.tsx";
 import {convertCurrency} from "../../../utils/convertCurrency.ts";
 import {FilterForm} from "../Components/FilterForm.tsx";
-import {FormModal} from "../../../components/Modals/FormModal.tsx";
-import toast from "react-hot-toast";
 import {FormComponentDebt} from "../Components/FormComponentDebt.tsx";
-import {useState} from "react";
-import {IDebtForm} from "../../../utils/TableDataType.ts";
 
 export const DebtListContainer = () => {
     const navigate = useNavigate();

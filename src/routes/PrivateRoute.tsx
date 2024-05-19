@@ -7,11 +7,11 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute = ({children}: PrivateRouteProps) => {
-    // const isToken = cekToken();
-    // if (isToken) {
-    //     return children;
-    // } else {
-    //     return <LoginContainer />
-    // }
+    const isToken = cekToken();
+    if (isToken) {
+        return children;
+    } else {
+        return <LoginContainer />
+    }
     return children;
 }

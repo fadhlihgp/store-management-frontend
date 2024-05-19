@@ -1,8 +1,8 @@
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
 
 interface TopSideButtonsProps {
     onClick: () => void,
-    onChangeInput?: () => void,
+    onChangeInput?: (e: React.ChangeEvent<HTMLInputElement>) => void,
     placeHolder?: string,
     showInput?: boolean
     componentChildren?: ReactNode

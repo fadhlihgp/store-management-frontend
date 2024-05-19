@@ -1,10 +1,34 @@
-import routes from '../routes/sidebar'
+import {Route, routeAdmin, routeOwner, routeSuperAdmin} from '../routes/sidebar'
 import { NavLink, Link , useLocation} from 'react-router-dom'
 import SidebarSubmenu from './SidebarSubmenu';
 import XMarkIcon  from '@heroicons/react/24/outline/XMarkIcon'
+import {useEffect, useState} from "react";
+import Cookies from "js-cookie";
 
 function LeftSidebar(){
     const location = useLocation();
+    const [routesData, setRoutesData] = useState<Route[]>([{
+        name: '',
+        path: '',
+        icon: '',
+    }]);
+
+    useEffect(() => {
+        const userString = Cookies.get("user");
+        let userJson = null;
+        if (userString) {
+            userJson = JSON.parse(userString);
+        }
+
+        switch (userJson.roleId) {
+            case "1": setRoutesData(routeSuperAdmin); break;
+            case "2": setRoutesData(routeOwner); break;
+            case "3": setRoutesData(routeAdmin); break;
+            default:
+                break;
+
+        }
+    }, [setRoutesData])
 
     // const dispatch = useDispatch()
 
@@ -28,7 +52,7 @@ function LeftSidebar(){
                     <Link to={'/app/welcome'}><img className="mask mask-squircle w-10" src="/logo192.png" alt="DashWind Logo"/>StoreManagement</Link> </li>
 
                 {
-                    routes.map((route, k) => {
+                    routesData.map((route, k) => {
                         return(
                             <li className="" key={k}>
                                 {
