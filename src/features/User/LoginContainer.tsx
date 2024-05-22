@@ -31,7 +31,7 @@ function LoginContainer(){
                 window.location.href = "/dashboard";
             } catch (e: any) {
                 console.log(e);
-                setErrorMessage(e.data.message);
+                setErrorMessage(e.data.message ?? "Terjadi kesalahan");
             } finally {
                 setLoading(false);
             }

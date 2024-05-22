@@ -53,7 +53,7 @@ export const PageHeading = ({titlePage, editOnClick, breadcrumbsData, showManipu
                             </div>
                             <div className="mt-2 flex items-center text-sm text-gray-500">
                                 <CalendarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                Dibuat pada: {moment(createdAt).format("DD MMM YYYY hh:mm") ?? "-"}
+                                Dibuat pada: {moment(createdAt).format("DD MMM YYYY HH:mm:ss") ?? "-"}
                             </div>
                         </div>
                         <div>
@@ -63,7 +63,7 @@ export const PageHeading = ({titlePage, editOnClick, breadcrumbsData, showManipu
                             </div>
                             <div className="mt-2 flex items-center text-sm text-gray-500">
                                 <CalendarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                Diedit pada: {moment(editedAt).format("DD MMM YYYY hh:mm") ?? "-"}
+                                Diedit pada: {moment(editedAt).format("DD MMM YYYY HH:mm:ss") ?? "-"}
                             </div>
                         </div>
                     </div>

@@ -66,3 +66,56 @@ export interface IStoreRequest {
     businessType?: string,
     establishDate?: Date
 }
+
+export interface IProductListResponse {
+    id: string,
+    name: string,
+    description: string,
+    stock: number,
+    price: number,
+    unit: string,
+    barcode?: string,
+    imageId?: string,
+    imageUrl?: string,
+    createdAt: Date,
+    createdBy: string,
+    editedAt: Date,
+    editedBy: string
+}
+
+export interface IProductDetailResponse {
+    id: string,
+    name: string,
+    description: string,
+    stock: number,
+    barcode?: string,
+    imageUrl?: string,
+    createdAt: Date,
+    createdBy: string,
+    editedAt: Date,
+    editedBy: string,
+    productPrices: IProductPriceResponse[]
+}
+
+export interface IProductRequest {
+    name: string,
+    description: string,
+    stock: number,
+    barcode?: string,
+    imageId?: string,
+    deleteProductPriceId?: string[],
+    productPrices: IProductPriceRequest[]
+}
+export interface IProductPriceRequest {
+    price: number,
+    unitPrice: string,
+    unitPriceId: string,
+    qtyPcs: number
+}
+export interface IProductPriceResponse {
+    id: string,
+    price: number,
+    unitPriceId: string,
+    unitPrice: string,
+    qtyPcs: number
+}

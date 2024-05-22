@@ -1,23 +1,27 @@
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import React, {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import {ConfirmationModal} from "../../../components/Modals/ConfirmationModal.tsx";
 import TitleCard from "../../../components/Cards/TitleCard.tsx";
 import {TopSideButtons} from "../../../components/Input/TopSideButtons.tsx";
-import {ProductsDummy} from "../ProductDummy.ts";
 import {ProductCard} from "../components/ProductCard.tsx";
 import SelectBox from "../../../components/Input/SelectBox.tsx";
+import { useDeleteProductMutation, useGetProductsQuery } from "../../../apps/services/productApi.ts";
+import { IProductListResponse } from "../../../utils/interfaces.ts";
+import FailedLoad from "../../../components/OtherDisplay/FailedLoad.tsx";
+import { LoadingProcess } from "../../../components/Loading/LoadingProcess.tsx";
 
 interface TopSideSortProps {
     updateFormValue: (e:any) => void
 }
+
 const TopSideSort = ({updateFormValue}: TopSideSortProps) => {
     const navigate = useNavigate();
     const [arrange, setArrange] = useState<string>('none');
 
-    const updateArrangeValue = (e: HTMLInputElement) => {
-        const {value} = e;
-        setArrange(value);
+    const updateArrangeValue = ({e}: any) => {
+        // const {value} = e.target;
+        setArrange(e);
         updateFormValue(e);
     }
 
@@ -61,6 +65,22 @@ const TopSideSort = ({updateFormValue}: TopSideSortProps) => {
 export const ProductContainer = () => {
     const navigate = useNavigate();
     const [productId, setProductId] = useState<string>("-1");
+    const [productList, setProductList] = useState<IProductListResponse[] | undefined>([]);
+    const { data: products, isLoading, isError, isSuccess } = useGetProductsQuery();
+    const [deleteProduct] = useDeleteProductMutation();
+
+    useEffect(() => {
+        if (isSuccess) {
+            setProductList(products.data);
+            console.log(products)
+        }
+    }, [products]);
+
+    const handleOnChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {value} = event.target;
+        const filters = products?.data.filter(p => p.name.toLowerCase().includes(value.toLowerCase()));
+        setProductList(filters);
+    }
 
     const handleAddOrEdit = (id:string = "-1") => {
         window.scrollTo(0, 0);
@@ -73,18 +93,47 @@ export const ProductContainer = () => {
 
     const handleDelete = (id: string) => {
         setProductId(id);
-        document.getElementById('modal-delete')?.showModal();
+        showOrCloseModal('show');
     }
 
     const deleteCurrentProduct = () => {
-        console.log(productId);
-        document.getElementById('modal-delete')?.close();
-        toast.success("Berhasil mengahapus data")
+        deleteProduct(productId).unwrap()
+            .then((res) => {
+                toast.success(res.message)
+            })
+            .catch((res) => {
+                toast.error(res.message ?? "Gagal menghapus data produk")
+            })
+        showOrCloseModal('close');
     }
 
-    const updateFormValue = ({updateType}: any) => {
-        console.log(updateType)
+    const showOrCloseModal = (type: string ) => {
+        const modal = document.getElementById("modal-delete");
+            if (modal) {
+                if (type === "show") {
+                    (modal as HTMLDialogElement).showModal();
+                } else if (type === "close") {
+                    (modal as HTMLDialogElement).close();
+                }
+            }
     }
+
+    const MainContent = isError ? (<FailedLoad />) : ( productList && productList?.length < 1 ? <p className="text-lg text-slate-700 text-center font-semibold">Data Tidak Ditemukan</p> : 
+    <div className={'grid grid-cols-1 md:grid-cols-3 gap-5'}>
+        {productList?.map((data, index) => (
+            <ProductCard
+                imageUrl={data.imageUrl}
+                name={data.name}
+                price={data.price}
+                unit={data.unit}
+                key={index}
+                onClickDetail={() => {
+                    window.scrollTo(0, 0);
+                    navigate("/product/detail/" + data.id)
+                }}
+                onClickDelete={() => handleDelete(data.id)} />
+        ))}
+    </div> );
 
     return(
         <>
@@ -92,23 +141,11 @@ export const ProductContainer = () => {
             <TitleCard
                 title="Produk"
                 topMargin="mt-2"
-                topSideButtons={<TopSideButtons onClick={() => handleAddOrEdit()} componentChildren={<TopSideSort updateFormValue={updateFormValue} />}/>}>
-
+                topSideButtons={<TopSideButtons onChangeInput={handleOnChangeSearch} onClick={() => handleAddOrEdit()}/>}
+                >
+                    {isLoading ? <LoadingProcess loadingName="Mengambil data produk" key={"1"} /> : MainContent}
                 {/* Leads List in table format loaded from slice after api call */}
-                <div className={'grid grid-cols-1 md:grid-cols-3 gap-5'}>
-                    {ProductsDummy.map((data, index) => (
-                        <ProductCard
-                            imageUrl={data.imageUrl}
-                            name={data.name}
-                            price={data.productPrices[0].price}
-                            key={index}
-                            onClickDetail={() => {
-                                window.scrollTo(0, 0);
-                                navigate("/product/detail/" + data.id)
-                            }}
-                            onClickDelete={() => handleDelete(data.id)} />
-                    ))}
-                </div>
+                
             </TitleCard>
         </>
     )

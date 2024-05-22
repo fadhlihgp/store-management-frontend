@@ -10,7 +10,7 @@ export const DetailProduct = ({barcode, description, stock, imageUrl}:DetailProd
     return(
         <div className={'flex flex-col md:flex-col gap-5'}>
 
-            <div className={'w-80 h-60'}>
+            <div className={'w-80 h-55'}>
                 <img src={imageUrl ?? "./noimage.jpg"} alt={'image'}/>
             </div>
 

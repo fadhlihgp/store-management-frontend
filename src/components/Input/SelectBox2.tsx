@@ -3,34 +3,26 @@ import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircle
 
 interface IOption {
     name: string | number,
-    value?: string | number
+    value?: string | number,
+    id?: string | number
 }
 
 interface SelectBox2Props {
     labelTitle: string,
     labelDescription?: string,
-    defaultValue?: string,
+    // defaultValue?: string,
+    value: any,
+    name: string,
     containerStyle?: string,
     placeholder?: string,
     labelStyle?: string,
     options: IOption[],
     updateType?:any,
-    updateFormValue: (e:any) => void,
+    handleOnChange: (e:any) => void,
     selectStyle?: string
 }
 
-function SelectBox2({labelTitle, selectStyle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue}: SelectBox2Props){
-
-    // const {labelTitle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue} = props
-
-    const [value, setValue] = useState(defaultValue || "")
-
-
-    const updateValue = (newValue: any) =>{
-        updateFormValue({updateType, value : newValue})
-        setValue(newValue)
-    }
-
+function SelectBox2({labelTitle, selectStyle, handleOnChange, labelDescription, value, name, containerStyle, placeholder, labelStyle, options}: SelectBox2Props){
 
     return (
         <div className={`inline-block ${containerStyle}`}>
@@ -40,11 +32,11 @@ function SelectBox2({labelTitle, selectStyle, labelDescription, defaultValue, co
                 </div>
             </label>
 
-            <select className={`select select-bordered w-full ${selectStyle}`} value={value} onChange={(e) => updateValue(e.target.value)}>
+            <select className={`select select-bordered w-full ${selectStyle}`} value={value} name={name} onChange={handleOnChange}>
                 <option disabled value="">{placeholder}</option>
                 {
                     options.map((o, k) => {
-                        return <option value={o.value || o.name} key={k}>{o.name}</option>
+                        return <option value={o.id || o.value} key={k}>{o.name}</option>
                     })
                 }
             </select>

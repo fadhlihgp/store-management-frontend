@@ -44,7 +44,6 @@ export interface ICustomer {
 }
 
 export interface IProductPrice {
-    id: string,
     price: number,
     unit: string,
     type: string,
