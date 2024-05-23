@@ -107,6 +107,23 @@ export const routeSuperAdmin: Route[] = [
     path: '/store-management',
     icon: IconData.StoreIcon,
     name: 'Store Management',
+  },
+  {
+    path: '',
+    icon: IconData.AdjustmentIcon,
+    name: 'Master Data',
+    submenu: [
+      {
+        path: '/master-category',
+        icon: IconData.DebtIcon,
+        name: 'Category'
+      },
+      {
+        path: '/master-unit',
+        icon: IconData.HistoryIcon,
+        name: 'ProductList Unit'
+      }
+    ]
   }
 ];
 
@@ -167,23 +184,6 @@ export const routeOwner: Route[] = [
         path: '/transaction-history',
         icon: IconData.HistoryIcon,
         name: 'Riwayat Penjualan'
-      }
-    ]
-  },
-  {
-    path: '',
-    icon: IconData.AdjustmentIcon,
-    name: 'Master Data',
-    submenu: [
-      {
-        path: '/master-category',
-        icon: IconData.DebtIcon,
-        name: 'Category'
-      },
-      {
-        path: '/master-unit',
-        icon: IconData.HistoryIcon,
-        name: 'ProductList Unit'
       }
     ]
   }

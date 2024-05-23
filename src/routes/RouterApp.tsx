@@ -26,6 +26,7 @@ import {IncomeExpense} from "../pages/protected/IncomeExpense";
 import {Note} from "../pages/protected/Note";
 import {TransactionPurchase} from "../pages/protected/TransactionPurchase";
 import {Profile} from "../pages/protected/Profile";
+import {ChangePassword} from "../pages/protected/ChangePassword";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -134,6 +135,11 @@ export const RouterApp = () => {
                     <Route
                         path={"/profile"}
                         element={<PrivateRoute><Profile /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path={"/change-password"}
+                        element={<PrivateRoute><ChangePassword /></PrivateRoute>}
                     />
 
                     {/* DEBT */}

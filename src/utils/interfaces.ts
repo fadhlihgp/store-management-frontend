@@ -119,3 +119,22 @@ export interface IProductPriceResponse {
     unitPrice: string,
     qtyPcs: number
 }
+
+export interface ICustomerResponse {
+    id: string,
+    fullName: string,
+    phoneNumber?: string,
+    address?: string,
+    email?: string,
+    createdAt: Date,
+    createdBy: string,
+    editedAt: Date,
+    editedBy: string
+}
+
+export interface ICustomerRequest {
+    fullName: string,
+    address?: string,
+    phoneNumber?: string,
+    email?: string
+}

@@ -12,6 +12,7 @@ import {ConfirmationModal} from "../components/Modals/ConfirmationModal.tsx";
 import Cookies from "js-cookie";
 import {AppDispatch} from "../apps/store";
 import {logoutSuccess} from "../apps/slice/profileSlice";
+import {showOrCloseModal} from "../utils/showModalHelper";
 
 // import { NavLink,  Routes, Link , useLocation} from 'react-router-dom'
 
@@ -97,10 +98,10 @@ function Header({title}: HeaderProps){
                             Profile
                             </Link>
                         </li>
-                        <li className=''><Link to={'/app/change-password'}>Ganti Password</Link></li>
-                        <li className=''><Link to={'/app/report-problem'}>Laporkan Masalah</Link></li>
+                        <li className=''><Link to={'/change-password'}>Ganti Password</Link></li>
+                        <li className=''><Link to={'/report-problem'}>Laporkan Masalah</Link></li>
                         <div className="divider mt-0 mb-0"></div>
-                        <li><a onClick={() => document.getElementById("modal-confirmation").showModal()}>Logout</a></li>
+                        <li><a onClick={() => showOrCloseModal("modal-confirmation", "show")}>Logout</a></li>
                     </ul>
                 </div>
             </div>

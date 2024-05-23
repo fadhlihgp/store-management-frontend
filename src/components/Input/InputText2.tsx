@@ -8,10 +8,11 @@ interface InputTextProps {
     placeholder?: string,
     handleOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
     updateType?: any,
-    isDisabled?: boolean
+    isDisabled?: boolean,
+    isRequired?: boolean,
 }
 
-function InputText2({labelTitle, labelStyle, type, containerStyle, value , name, placeholder, handleOnChange, isDisabled}: InputTextProps){
+function InputText2({labelTitle, labelStyle, type, containerStyle, isRequired = false, value , name, placeholder, handleOnChange, isDisabled}: InputTextProps){
 
 
     return(
@@ -25,6 +26,7 @@ function InputText2({labelTitle, labelStyle, type, containerStyle, value , name,
                 placeholder={placeholder || ""}
                 onChange={handleOnChange}
                 name={name}
+                required={isRequired}
                 disabled={isDisabled ?? false}
                 className="input  input-bordered w-full " />
         </div>
