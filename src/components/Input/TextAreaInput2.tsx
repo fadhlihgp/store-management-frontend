@@ -8,10 +8,11 @@ interface TextAreaInput2Props {
     name: string,
     placeholder?: string,
     handleOnChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
-    textAreaStyle?: string
+    textAreaStyle?: string,
+    isRequired?: boolean,
 }
 
-function TextAreaInput2({labelTitle, labelStyle, containerStyle, value , textAreaStyle, name, placeholder, handleOnChange}:TextAreaInput2Props){
+function TextAreaInput2({labelTitle, labelStyle, containerStyle, value , textAreaStyle, name, placeholder, handleOnChange, isRequired = false}:TextAreaInput2Props){
     return(
         <div className={`form-control w-full ${containerStyle}`}>
             <label className="label">
@@ -22,6 +23,7 @@ function TextAreaInput2({labelTitle, labelStyle, containerStyle, value , textAre
                 className={`textarea textarea-bordered w-full ${textAreaStyle}`}
                 placeholder={placeholder || ""}
                 onChange={handleOnChange}
+                required={isRequired}
                 name={name}
             >
 

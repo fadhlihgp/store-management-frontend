@@ -12,6 +12,7 @@ import {useDeleteAccountMutation, useGetAccountListQuery} from "../../../apps/se
 import {LoadingProcess} from "../../../components/Loading/LoadingProcess";
 import FailedLoad from "../../../components/OtherDisplay/FailedLoad";
 import {IAccountResponse} from "../../../utils/interfaces";
+import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
 
 export const UserContainer = () => {
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ export const UserContainer = () => {
 
     const handleDelete = (id: string) => {
         setUserId(id);
-        document.getElementById('modal-delete').showModal();
+        showOrCloseModal("modal-delete", "show");
     }
 
     const deleteCurrentUser = () => {
@@ -51,7 +52,7 @@ export const UserContainer = () => {
                 toast.error(err.message)
             })
             .finally(() => {
-                document.getElementById('modal-delete').close();
+                showOrCloseModal("modal-delete", "close");
             })
 
     }

@@ -138,3 +138,18 @@ export interface ICustomerRequest {
     phoneNumber?: string,
     email?: string
 }
+
+export interface INoteOtherRequest {
+    title: string,
+    content: string
+}
+
+export interface INoteOtherResponse {
+    id: string,
+    title: string,
+    content: string,
+    createdBy: string,
+    createdAt: Date,
+    editedBy: string,
+    editedAt: Date
+}

@@ -1,4 +1,4 @@
-export const showOrCloseModal = (modalId: string, type: string) => {
+export const showOrCloseModal = (modalId: string, type: "close" | "show") => {
     const modal = document.getElementById(modalId);
     if (modal) {
         switch (type) {

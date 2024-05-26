@@ -27,6 +27,7 @@ import {Note} from "../pages/protected/Note";
 import {TransactionPurchase} from "../pages/protected/TransactionPurchase";
 import {Profile} from "../pages/protected/Profile";
 import {ChangePassword} from "../pages/protected/ChangePassword";
+import { TransactionHistory } from "../pages/protected/TransactionHistory.tsx";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -169,6 +170,10 @@ export const RouterApp = () => {
                     <Route
                         path="/transaction-purchase"
                         element={<PrivateRoute><TransactionPurchase /></PrivateRoute>}
+                    />
+                    <Route
+                        path="/transaction-history"
+                        element={<PrivateRoute><TransactionHistory /></PrivateRoute>} 
                     />
 
                     {/* CLIENT */}
