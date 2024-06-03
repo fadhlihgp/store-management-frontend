@@ -4,6 +4,7 @@ export const showOrCloseModal = (modalId: string, type: "close" | "show") => {
         switch (type) {
             case 'show':
                 (modal as HTMLFormElement).showModal();
+                modal.scrollTop = 0;
                 break;
             case 'close':
                 (modal as HTMLFormElement).close();

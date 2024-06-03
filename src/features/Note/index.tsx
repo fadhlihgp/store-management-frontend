@@ -44,34 +44,46 @@ export const NoteContainer = () => {
     }
 
     const MainContent = isError ? <FailedLoad key={"1"} /> : (
-        <tbody>
+        <table className="table w-full table-pin-rows">
+            <thead>
+                <tr className={'text-center'}>
+                    <th>No</th>
+                    <th>Judul</th>
+                    <th>Isi</th>
+                    <th>Dibuat</th>
+                    <th>Diperbarui</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
             {
                 noteOtherFilters?.map((u, k) => {
                     return(
                         <tr key={k} className={'text-center'}>
                             <td>{k + 1}</td>
-                                <td>
-                                    {u.title}
-                                </td>
-                                <td>{MaximumWordLength(u.content, 50)}</td>
-                                <td>{moment(u.createdAt).format("DD MMM YYYY HH:mm")}</td>
-                                <td>{moment(u.editedAt).format("DD MMM YYYY HH:mm") ?? "-"}</td>
-                                <td className={'flex items-center justify-center'}>
-                                    <button className="btn btn-square btn-ghost" onClick={() => {
-                                        setId(u.id)
-                                        showOrCloseModal("form-note", "show");
-                                    }}><PencilSquareIcon className="w-5"/></button>
-                                    <button className="btn btn-square btn-ghost" onClick={() => {
-                                        setId(u.id);
-                                        showOrCloseModal("modal-delete", "show");
-                                    }}><TrashIcon className="w-5"/>
-                                    </button>
-                                </td>
-                            </tr>
-                        )
+                            <td>
+                                {u.title}
+                            </td>
+                            <td>{MaximumWordLength(u.content, 50)}</td>
+                            <td>{moment(u.createdAt).format("DD MMM YYYY HH:mm")}</td>
+                            <td>{moment(u.editedAt).format("DD MMM YYYY HH:mm") ?? "-"}</td>
+                            <td className={'flex items-center justify-center'}>
+                                <button className="btn btn-square btn-ghost" onClick={() => {
+                                    setId(u.id)
+                                    showOrCloseModal("form-note", "show");
+                                }}><PencilSquareIcon className="w-5"/></button>
+                                <button className="btn btn-square btn-ghost" onClick={() => {
+                                    setId(u.id);
+                                    showOrCloseModal("modal-delete", "show");
+                                }}><TrashIcon className="w-5"/>
+                                </button>
+                            </td>
+                        </tr>
+                    )
                 })
             }
-        </tbody>
+            </tbody>
+        </table>
     )
     return(
         <>
@@ -91,19 +103,7 @@ export const NoteContainer = () => {
                 onChangeInput={handleFilter} />}
             >
                 <div className="overflow-x-auto w-full">
-                    <table className="table w-full table-pin-rows">
-                        <thead>
-                        <tr className={'text-center'}>
-                            <th>No</th>
-                            <th>Judul</th>
-                            <th>Isi</th>
-                            <th>Dibuat</th>
-                            <th>Diperbarui</th>
-                            <th>Aksi</th>
-                        </tr>
-                        </thead>
-                        {isLoading ? <LoadingProcess loadingName="Memproses data catatan" /> : MainContent}
-                    </table>
+                    {isLoading ? <LoadingProcess loadingName="Memproses data catatan" /> : MainContent}
                     {noteOtherFilters && noteOtherFilters?.length < 1 && (
                         <div className={'w-full flex justify-center items-center'}>
                             Data catatan tidak ditemukan

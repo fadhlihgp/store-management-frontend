@@ -18,7 +18,7 @@ interface CustomerEditRequest {
 
 export const customerApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getCustomer: builder.query<CustomerListResponse, any>({
+        getCustomer: builder.query<CustomerListResponse, void>({
             query: () => `api/customer`,
             providesTags: ["CustomerList"]
         }),

@@ -28,6 +28,8 @@ import {TransactionPurchase} from "../pages/protected/TransactionPurchase";
 import {Profile} from "../pages/protected/Profile";
 import {ChangePassword} from "../pages/protected/ChangePassword";
 import { TransactionHistory } from "../pages/protected/TransactionHistory.tsx";
+import MadalineOr from "../pages/MadalineOr.tsx";
+import { DebtForm } from "../pages/protected/DebtForm.tsx";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -148,6 +150,10 @@ export const RouterApp = () => {
                         path={"/note-debt"}
                         element={<PrivateRoute><DebtList /></PrivateRoute>}
                     />
+                    <Route 
+                        path="/note-debt/add"
+                        element={<PrivateRoute><DebtForm /></PrivateRoute>}
+                    />    
 
                     <Route
                         path={"/note-debt/detail/:id"}
@@ -198,6 +204,9 @@ export const RouterApp = () => {
                     <Route path={"/*"}
                            element={<NotFound />}
                     />
+
+                    <Route path={"/madaline-or"}
+                            element={<PublicRoute><MadalineOr /></PublicRoute>} />
                 </Routes>
             </React.Fragment>
         </BrowserRouter>

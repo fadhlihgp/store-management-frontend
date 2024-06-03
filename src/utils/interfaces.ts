@@ -73,6 +73,7 @@ export interface IProductListResponse {
     description: string,
     stock: number,
     price: number,
+    unitProductId: string,
     unit: string,
     barcode?: string,
     imageId?: string,
@@ -80,7 +81,8 @@ export interface IProductListResponse {
     createdAt: Date,
     createdBy: string,
     editedAt: Date,
-    editedBy: string
+    editedBy: string,
+    productPrices: IProductPriceResponse[]
 }
 
 export interface IProductDetailResponse {
@@ -152,4 +154,73 @@ export interface INoteOtherResponse {
     createdAt: Date,
     editedBy: string,
     editedAt: Date
+}
+
+export interface IIncomeExpenseResponse {
+    id: string,
+    type: boolean,
+    date: Date,
+    amount: number,
+    note?: string,
+    imageUrl?: string,
+    createdBy: string,
+    createdAt: Date,
+    editedBy: string,
+    editedAt: Date
+}
+
+export interface IIncomeExpenseRequest {
+    type: boolean,
+    date: Date,
+    amount: number,
+    note?: string,
+    image?: File,
+}
+
+export interface IDebtResponseList {
+    id: string,
+    customerName: string,
+    isPaidOff: boolean,
+    debtAmount: number
+}
+
+export interface IDebtRequest {
+    customerId: string,
+    debtDetails: IDebtDetailRequest[]
+}
+
+export interface IDebtDetailRequest {
+    customerId?: string,
+    date: Date,
+    productId: string,
+    count: number,
+    unitProductId: string,
+    price: number,
+    note: string
+}
+
+export interface IDebtResponse {
+    id: string,
+    priceTotal: number,
+    customer: ICustomerResponse,
+    debtDetails: IDebtDetailResponse[]
+}
+
+export interface IDebtDetailResponse {
+    id: string,
+    date: Date,
+    productId: string,
+    productName: string,
+    count: number,
+    unitProductId: string,
+    unitProductName: string,
+    price: number,
+    priceTotal: number,
+    note: string,
+    isPaid: boolean,
+    createdAt: Date,
+    createdBy: string,
+    editedAt: Date,
+    editedBy: string,
+    debtId: string
 }

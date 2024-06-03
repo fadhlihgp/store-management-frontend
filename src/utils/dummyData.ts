@@ -91,3 +91,22 @@ export const months = [
         value: "12"
     }
 ]
+
+export const satuans = [
+    {
+        name: "Pcs",
+        id: "1"
+    },
+    {
+        name: "Renceng",
+        id: "2"
+    },
+    {
+        name: "Pack",
+        id: "3"
+    },
+    {
+        name: "Dus/Box",
+        id: "4"
+    }
+]

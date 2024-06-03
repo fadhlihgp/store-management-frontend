@@ -1,95 +1,280 @@
-import SelectBox from "../../../components/Input/SelectBox.tsx";
-import {satuans} from "../../Product/components/ProductFormPriceModal.tsx";
-import {IDebtForm} from "../../../utils/TableDataType.ts";
-import TextAreaInput from "../../../components/Input/TextAreaInput.tsx";
 import {ComboBox, IOption} from "../../../components/Input/ComboBox.tsx";
-import {ProductsDummy} from "../../Product/ProductDummy.ts";
-import {CustomersDummy} from "../../Customer/CustomerDummy.ts";
-import React, {useEffect, useState} from "react";
-import toast from "react-hot-toast";
+import React, {SetStateAction, useEffect, useState} from "react";
 import InputText2 from "../../../components/Input/InputText2.tsx";
+import { useGetProductsQuery } from "../../../apps/services/productApi.ts";
+import { IDebtDetailRequest, IDebtRequest, IProductListResponse } from "../../../utils/interfaces.ts";
+import { formatDateString } from "../../../utils/formDateString.ts";
+import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
+import TextAreaInput2 from "../../../components/Input/TextAreaInput2.tsx";
+import FailedLoad from "../../../components/OtherDisplay/FailedLoad.tsx";
+import SelectBox2 from "../../../components/Input/SelectBox2.tsx";
+import { DebtDetail } from "../../../pages/protected/DebtDetail.tsx";
 
-export const FormComponentDebt = () => {
-    const [optionCustomers, setOptionCustomers] = useState<IOption[]>([]);
-    const [debtForm, setDebtForm] = useState<IDebtForm>({
-        note: "",
-        price: 0,
-        count: 0,
-        debtDate: "",
-        customerId: "",
-        unit: "",
-        productId: ""
-    })
+interface FormComponentDebt {
+    // debtForm: IDebtRequest,
+    // setDebtForm: React.Dispatch<React.SetStateAction<IDebtRequest>>,
+    debtDetailForm: IDebtDetailRequest,
+    setDebtDetailForm: React.Dispatch<React.SetStateAction<IDebtDetailRequest>>,
+    indexDebtDetail?: number | string,
+    setIndexDebtDetail?: React.Dispatch<SetStateAction<number>>,
+    idDebtDetail?: string,
+    setIdDebtDetail?: React.Dispatch<SetStateAction<string>>,
+    handleSubmit: () => void
+}
+
+interface ErrorValidation{
+    productError?: string,
+    unitError?: string,
+    amountError?: string 
+}
+
+export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubmit, indexDebtDetail = -1, setIndexDebtDetail, idDebtDetail = "-1", setIdDebtDetail}: FormComponentDebt) => {
+    // const [indexDebtDetail, setIndexDebtDetail] = useState<number>(-1);
+    const {data: products, isSuccess: isSuccessProduct, isLoading, isError} = useGetProductsQuery();
+    // const [debtDetailForm, setDebtDetailForm] = useState<IDebtDetailRequest>({
+    //     count: 0,
+    //     date: new Date(),
+    //     note: "",
+    //     price: 0,
+    //     productId: "",
+    //     unitProductId: ""
+    // });
+
+    const [dataProducts, setDataProducts] = useState<IProductListResponse[]>([]);
+    const [productOptions, setProductOptions] = useState<IOption[]>([]);
+    const [defaultValueProduct, setDefaultValueProduct] = useState<IOption | null>(null);
+    const [units, setUnits] = useState<IOption[]>([]);
+    const [error, setError] = useState<ErrorValidation>();
 
     useEffect(() => {
-        const options = CustomersDummy.map(p => ({
-            name: p.fullName,
-            id: p.id
-        }));
-        setOptionCustomers(options);
-    }, [CustomersDummy]);
+        if (isSuccessProduct) {
+            const options = products?.data.map(p => ({
+                id: p.id,
+                name: p.name
+            }))
+            setProductOptions(options);
+            setDataProducts(products.data);
+        }
+    }, [dataProducts, isSuccessProduct]);
 
-    const updateFormValue = (field: string, value: string | number) => {
-        setDebtForm({ ...debtForm, [field]: value });
-    };
+    useEffect(() => {
+        if (indexDebtDetail != -1) {
+            const debtDetail = debtDetailForm;
+                if (debtDetail) {
+                    const defaultProduct = productOptions.find(p => p.id === debtDetail.productId);
+                    if (defaultProduct) {
+                        setDefaultValueProduct(defaultProduct);
+                        handleOnChangeSelect(defaultProduct);
+                    }
+                    setDebtDetailForm(debtDetail);
+                }
+        }
+    }, [indexDebtDetail, setIndexDebtDetail]);
 
-    const submitForm = () => {
-        console.log(debtForm)
-        setDebtForm({...debtForm,
+    useEffect(() => {
+        if (idDebtDetail !== "-1") {
+            const debtDetail = debtDetailForm;
+                if (debtDetail) {
+                    const defaultProduct = productOptions.find(p => p.id === debtDetail.productId);
+                    if (defaultProduct) {
+                        setDefaultValueProduct(defaultProduct);
+                        handleOnChangeSelect(defaultProduct);
+                    }
+                    setDebtDetailForm(debtDetail);
+                }
+        }
+    }, [idDebtDetail, setIdDebtDetail]);
+    
+    const reset = () => {
+        setDebtDetailForm({
+            count: 0,
+            date: new Date(),
             note: "",
             price: 0,
-            count: 0,
-            debtDate: "",
-            customerId: "",
-            unit: "",
-            productId: ""
+            productId: "",
+            unitProductId: ""
         });
+        setUnits([]);
+        // setIndexDebtDetail(-1);
+        setDefaultValueProduct(null);
+        setError(undefined);
+    };
 
-        toast.success("Berhasil menambah daftar hutang");
-        document.getElementById('form-debt').close();
+    const isValidateInput = () => {
+        let isValid = true;
+
+        const error:ErrorValidation = {
+            amountError: undefined,
+            productError: undefined,
+            unitError: undefined
+        }
+
+        if (debtDetailForm.productId.length < 1) {
+            error.productError = "Mohon untuk memilih produk terlebih dahulu";
+            isValid = false;
+        }
+        if (debtDetailForm.unitProductId.length < 1) {
+            error.unitError = "Mohon untuk memilih satuan terlebih dahulu";
+            isValid = false;
+        }
+        if (debtDetailForm.count === 0) {
+            error.amountError = "Mohon untuk mengisi jumlah";
+            isValid = false;
+        }
+        setError(error);
+        return isValid;
+    }
+
+    const submitForm = () => {
+        // console.log(debtDetailForm)
+        if (!isValidateInput()) {
+            return;
+        }
+        handleSubmit();
+        reset();
+        showOrCloseModal("form-debt", "close");
     }
 
     const onClickCancel = () => {
-        setDebtForm({
-            note: "",
-            price: 0,
-            count: 0,
-            debtDate: (""),
-            customerId: "",
-            unit: "",
-            productId: ""
-        });
-        document.getElementById('form-debt').close();
+        reset();
+        showOrCloseModal("form-debt", "close");
     }
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
-        setDebtForm({...debtForm, [name]: value})
+        if (name === "date") {
+            setDebtDetailForm({...debtDetailForm, 
+                date: new Date(value + 'T00:00:00')
+            });
+            return;
+        }
+        setDebtDetailForm({...debtDetailForm, [name]: value})
     }
 
-    return(
+    const handleOnChangeSelect = (value: IOption | null) => {
+        // Find the selected product details
+        const debtDetails = dataProducts?.find(p => p.id === value?.id.toString());
+        
+        if (debtDetails) {
+            // Map product prices to unit options
+            const unitOptions = debtDetails.productPrices.map(pp => ({
+                id: pp.unitPriceId,
+                name: pp.unitPrice
+            }));
+            
+            // Update unit options and reset the unitProductId
+            setUnits(unitOptions);
+            
+            // If unitProductId exists, find the corresponding product price
+            if (debtDetailForm.unitProductId && debtDetailForm.unitProductId.length > 0) {
+                let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === debtDetailForm.unitProductId);
+                if (!productPrice) {
+                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
+                }
+                // Update the form with the found price
+                setDebtDetailForm(prevForm => ({
+                    ...prevForm,
+                    price: productPrice?.price ?? 0
+                }));
+                // console.log("Harga " + productPrice?.price);
+            } else {
+                let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
+                if (!productPrice) {
+                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
+                }
+                // Update the form with the found price
+                setDebtDetailForm(prevForm => ({
+                    ...prevForm,
+                    price: productPrice?.price ?? 0,
+                    unitProductId: "1"
+                }));
+                // console.log("Harga " + productPrice?.price);
+            }
+            
+            // Update the form with the productId and reset the unitProductId
+            setDebtDetailForm(prevForm => ({
+                ...prevForm,
+                productId: value?.id.toString() ?? "",
+                unitProductId: "1"
+            }));
+            setDefaultValueProduct(value);
+            setError(undefined);
+        }
+        
+        // console.log(debtDetailForm);
+    }
+
+    const handleOnChangeSelectUnit = (e: any) => {
+        const { value } = e.target;
+        console.log("Ini value " + value);
+        setDebtDetailForm({...debtDetailForm, unitProductId: value});
+        const debtDetails = dataProducts?.find(p => p.id === debtDetailForm.productId);
+        if (debtDetails) {
+            const productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === value);
+            setDebtDetailForm({...debtDetailForm, unitProductId: value, price: productPrice?.price ?? 0});
+        }
+        console.log(debtDetails);
+        console.log(debtDetailForm);
+    }
+
+    const MainContent = isError ? <FailedLoad /> : (
         <>
-            <dialog id={"form-debt"} className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Tambah Hutang</h3>
-                    <div className={'grid grid-cols-1 gap-4'}>
-                        <ComboBox options={optionCustomers} labelTitle={"Pelanggan"} />
-                        <ComboBox options={ProductsDummy} labelTitle={"Produk"} />
+                    <div className={'grid grid-cols-1 mb-4'}>
+                        <ComboBox
+                            defaultValue={defaultValueProduct}
+                            options={productOptions} 
+                            labelTitle={"Produk"}
+                            onChange={handleOnChangeSelect} />
+                        {error?.productError && (
+                            <span className="text-sm text-red-500">{error.productError}</span>
+                        )}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <InputText2 labelTitle="Jumlah" type={"number"} updateType={debtForm} value={debtForm.count} name={"count"} handleOnChange={handleOnChange}/>
-                        <SelectBox labelTitle="Satuan" placeholder={"Pilih Satuan"} options={satuans} defaultValue={""} updateFormValue={handleOnChange}/>
-                        <InputText2 name={"price"} labelTitle="Harga" type={"number"} value={debtForm.price} handleOnChange={handleOnChange}/>
-                        <InputText2 name={"debtDate"} labelTitle={"Tanggal"} type={"date"} value={debtForm.debtDate} handleOnChange={handleOnChange} />
+                        <div>
+                            <InputText2 labelTitle="Jumlah" type={"number"} value={debtDetailForm.count} name={"count"} handleOnChange={handleOnChange}/>
+                            {error?.amountError && (
+                                <span className="text-sm text-red-500">{error.amountError}</span>
+                            )}
+                        </div>
+                        <div className="flex flex-col">
+                            <SelectBox2 
+                                labelTitle="Satuan" 
+                                placeholder={"Pilih Satuan"} 
+                                options={units} 
+                                name="unitProductId"
+                                value={debtDetailForm.unitProductId} 
+                                handleOnChange={handleOnChangeSelectUnit}
+                            />
+                            {error?.unitError && (
+                            <span className="text-sm text-red-500">{error.unitError}</span>
+                        )}
+                        </div>
+                        <InputText2 name={"price"} labelTitle="Harga" type={"number"} value={debtDetailForm.price} handleOnChange={handleOnChange}/>
+                        <InputText2 
+                            name={"date"} 
+                            labelTitle={"Tanggal"} 
+                            type={"date"} 
+                            value={formatDateString(debtDetailForm.date)} 
+                            handleOnChange={handleOnChange} 
+                        />
+
                     </div>
                     <div className={'grid grid-cols-1 gap-4'}>
                         <div className={`form-control w-ful`}>
-                            <label className="label">
+                            <label className="label" >
                                 <span className={"label-text text-base-content "}>Total Harga</span>
                             </label>
-                            <input type={"number"} value={debtForm.count * debtForm.price} className="input input-bordered w-full " disabled />
+                            <input type={"number"} value={debtDetailForm.count * debtDetailForm.price} className="input input-bordered w-full " disabled />
                         </div>
-                        <TextAreaInput labelTitle={"Catatan"} defaultValue={debtForm.note} updateFormValue={(val: any) => updateFormValue("note", val)} />
+                        <TextAreaInput2 
+                            labelTitle="Catatan" 
+                            name="note" 
+                            value={debtDetailForm.note}
+                            handleOnChange={(e) => setDebtDetailForm({...debtDetailForm, note: e.target.value})}
+                         />
+                        {/* <TextAreaInput labelTitle={"Catatan"} defaultValue={debtDetailForm.note} updateFormValue={({value}: any) => updateFormValue("note", value)} /> */}
                     </div>
                     <div className="modal-action">
                         <form method="dialog">
@@ -101,9 +286,13 @@ export const FormComponentDebt = () => {
                         </form>
                     </div>
                 </div>
-            </dialog>
+            </>
+    );
 
-        </>
+    return(
+        <dialog id={"form-debt"} className="modal modal-bottom sm:modal-middle">
+            {isLoading ? <FailedLoad /> : MainContent}
+        </dialog>
 
     )
 }

@@ -1,55 +1,51 @@
 export const months = [
     {
-        name: "Semua",
-        value: "none"
-    },
-    {
         name: "Januari",
-        value: "1"
+        value: 1
     },
     {
         name: "Februari",
-        value: "2"
+        value: 2
     },
     {
         name: "Maret",
-        value: "3"
+        value: 3
     },
     {
         name: "April",
-        value: "4"
+        value: 4
     },
     {
         name: "Mei",
-        value: "5"
+        value: 5
     },
     {
         name: "Juni",
-        value: "6"
+        value: 6
     },
     {
         name: "Juli",
-        value: "7"
+        value: 7
     },
     {
         name: "Agustus",
-        value: "8"
+        value: 8
     },
     {
         name: "September",
-        value: "9"
+        value: 9
     },
     {
         name: "Oktober",
-        value: "10"
+        value: 10
     },
     {
         name: "November",
-        value: "11"
+        value: 11
     },
     {
         name: "Desember",
-        value: "12"
+        value: 12
     }
 ]
 

@@ -1,11 +1,10 @@
 import {PageHeading} from "../../components/Cards/PageHeading.tsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {IBreadcrumbData, ICustomer} from "../../utils/TableDataType.ts";
-import {CustomersDummy} from "./CustomerDummy.ts";
-import {CollapseComponent} from "../../components/Cards/CollapseComponent.tsx";
-import {CustomerContainer} from "./CustomerContainer.tsx";
+import {IBreadcrumbData} from "../../utils/TableDataType.ts";
 import {CustomerDetail} from "./Components/CustomerDetail.tsx";
+import { useGetCustomerByIdQuery } from "../../apps/services/customerApi.ts";
+import FailedLoad from "../../components/OtherDisplay/FailedLoad.tsx";
+import { LoadingProcess } from "../../components/Loading/LoadingProcess.tsx";
 
 const breadcrumbsData: IBreadcrumbData[] = [
     {
@@ -21,29 +20,28 @@ const breadcrumbsData: IBreadcrumbData[] = [
 export const CustomerDetailContainer = () => {
     const {id} = useParams();
     const navigate = useNavigate();
-    const [customerDetail, setCustomerDetail] = useState<ICustomer | undefined>();
+    const {data: customerDetail, isLoading, isError} = useGetCustomerByIdQuery(id ?? "");
 
-    useEffect(() => {
-        const detail = CustomersDummy.find(c => c.id === id);
-        setCustomerDetail(detail);
-    }, [id])
-
-    return(
-        <div className={'bg-base-100 p-5 shadow-xl rounded-xl'}>
+    const MainContent = isError ? <FailedLoad /> : (
+        <>
             <PageHeading
-                titlePage={customerDetail?.fullName ?? "-"}
+                titlePage={customerDetail?.data.fullName ?? "-"}
                 editOnClick={() => navigate(`/customer/edit/${id}`)}
                 breadcrumbsData={breadcrumbsData}
                 showManipulation={true}
-                createdAt={customerDetail?.createdAt}
-                createdBy={customerDetail?.createdBy}
-                editedAt={customerDetail?.editedAt}
-                editedBy={customerDetail?.editedBy}
+                createdAt={customerDetail?.data.createdAt}
+                createdBy={customerDetail?.data.createdBy}
+                editedAt={customerDetail?.data.editedAt}
+                editedBy={customerDetail?.data.editedBy}
             />
 
-            <CustomerDetail customerDetail={customerDetail} />
-
-            <div className={'mt-2 flex flex-col gap-3'}>
+            <CustomerDetail customerDetail={customerDetail?.data} />
+        </>
+    )
+    return(
+        <div className={'bg-base-100 p-5 shadow-xl rounded-xl'}>
+            {isLoading ? <LoadingProcess key={"1"} loadingName="Mengambil data pelanggan detail"/> : MainContent}
+            {/* <div className={'mt-2 flex flex-col gap-3'}>
 
                 <CollapseComponent title={"Riwayat Transaksi"} content={<CustomerContainer />} />
 
@@ -56,7 +54,7 @@ export const CustomerDetailContainer = () => {
                         <p>hello</p>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

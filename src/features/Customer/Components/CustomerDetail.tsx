@@ -1,7 +1,7 @@
-import {ICustomer} from "../../../utils/TableDataType.ts";
+import { ICustomerResponse } from "../../../utils/interfaces.ts";
 
 interface CustomerDetailProps {
-    customerDetail?: ICustomer
+    customerDetail?: ICustomerResponse
 }
 
 export const CustomerDetail = ({customerDetail}: CustomerDetailProps) => {
@@ -20,7 +20,7 @@ export const CustomerDetail = ({customerDetail}: CustomerDetailProps) => {
                     </div>
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6">Phone</dt>
-                        <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">{customerDetail?.phone ?? "-"}</dd>
+                        <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">{customerDetail?.phoneNumber ?? "-"}</dd>
                     </div>
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6">Email</dt>

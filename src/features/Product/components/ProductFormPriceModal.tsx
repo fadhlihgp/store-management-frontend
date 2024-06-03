@@ -21,8 +21,12 @@ export const satuans = [
         value: "2"
     },
     {
-        name: "Dus/Box",
+        name: "Pack",
         value: "3"
+    },
+    {
+        name: "Dus/Box",
+        value: "4"
     },
 ]
 export const ProductFormPriceModal = ({onClickYes, productPriceId, onClickCancel}: ProductFormPriceModalProps) => {
