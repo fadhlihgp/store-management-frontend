@@ -13,6 +13,7 @@ import { LoadingProcess } from "../../components/Loading/LoadingProcess";
 import { showOrCloseModal } from "../../utils/showModalHelper";
 import { ConfirmationModal } from "../../components/Modals/ConfirmationModal";
 import toast from "react-hot-toast";
+import { PaginationComponent } from "../../components/Pagination";
 
 export const NoteContainer = () => {
     const [id, setId] = useState<string>("-1");
@@ -24,7 +25,7 @@ export const NoteContainer = () => {
         if (isSuccess) {
             setNoteOtherFilters(noteOthers.data)
         }
-    }, [noteOthers]);
+    }, [isSuccess, noteOthers]);
 
     const handleFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = event.target;
@@ -44,47 +45,40 @@ export const NoteContainer = () => {
     }
 
     const MainContent = isError ? <FailedLoad key={"1"} /> : (
-        <table className="table w-full table-pin-rows">
-            <thead>
-                <tr className={'text-center'}>
-                    <th>No</th>
-                    <th>Judul</th>
-                    <th>Isi</th>
-                    <th>Dibuat</th>
-                    <th>Diperbarui</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-            {
-                noteOtherFilters?.map((u, k) => {
-                    return(
-                        <tr key={k} className={'text-center'}>
-                            <td>{k + 1}</td>
-                            <td>
+        noteOtherFilters && (
+            <PaginationComponent
+                data={noteOtherFilters}
+                itemsPerPage={15}
+                titleTables={["No", "Judul", "Isi", "Dibuat", "Diperbarui", "Aksi"]}
+                renderTitle={(item, index) => (
+                    <th key={index} className="text-center">{item}</th>
+                )} 
+                renderItem={(u, index) => (
+                    <tr key={index} className={'text-center'}>
+                        <td>{index + 1}</td>
+                        <td>
                                 {u.title}
-                            </td>
-                            <td>{MaximumWordLength(u.content, 50)}</td>
-                            <td>{moment(u.createdAt).format("DD MMM YYYY HH:mm")}</td>
-                            <td>{moment(u.editedAt).format("DD MMM YYYY HH:mm") ?? "-"}</td>
-                            <td className={'flex items-center justify-center'}>
-                                <button className="btn btn-square btn-ghost" onClick={() => {
-                                    setId(u.id)
-                                    showOrCloseModal("form-note", "show");
-                                }}><PencilSquareIcon className="w-5"/></button>
-                                <button className="btn btn-square btn-ghost" onClick={() => {
-                                    setId(u.id);
-                                    showOrCloseModal("modal-delete", "show");
-                                }}><TrashIcon className="w-5"/>
-                                </button>
-                            </td>
-                        </tr>
-                    )
-                })
-            }
-            </tbody>
-        </table>
-    )
+                        </td>
+                        <td>{MaximumWordLength(u.content, 50)}</td>
+                        <td>{moment(u.createdAt).format("DD MMM YYYY HH:mm")}</td>
+                        <td>{moment(u.editedAt).format("DD MMM YYYY HH:mm") ?? "-"}</td>
+                        <td className={'flex items-center justify-center'}>
+                            <button className="btn btn-square btn-ghost" onClick={() => {
+                                setId(u.id)
+                                showOrCloseModal("form-note", "show");
+                            }}><PencilSquareIcon className="w-5"/></button>
+                            <button className="btn btn-square btn-ghost" onClick={() => {
+                                setId(u.id);
+                                showOrCloseModal("modal-delete", "show");
+                            }}><TrashIcon className="w-5"/>
+                            </button>
+                        </td>
+                    </tr>
+                )}
+            />
+        )
+    );
+
     return(
         <>
             <ConfirmationModal 
@@ -104,11 +98,6 @@ export const NoteContainer = () => {
             >
                 <div className="overflow-x-auto w-full">
                     {isLoading ? <LoadingProcess loadingName="Memproses data catatan" /> : MainContent}
-                    {noteOtherFilters && noteOtherFilters?.length < 1 && (
-                        <div className={'w-full flex justify-center items-center'}>
-                            Data catatan tidak ditemukan
-                        </div>
-                    )}
                 </div>
             </TitleCard>
         </>

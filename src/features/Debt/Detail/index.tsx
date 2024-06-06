@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {IBreadcrumbData} from "../../../utils/TableDataType.ts";
 import {CustomerDetail} from "../../Customer/Components/CustomerDetail.tsx";
 import TitleCard from "../../../components/Cards/TitleCard.tsx";
@@ -14,6 +14,7 @@ import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
 import { IDebtDetailRequest, IDebtDetailResponse } from "../../../utils/interfaces.ts";
 import { formatStringToDate } from "../../../utils/formDateString.ts";
 import moment from "moment";
+import FailedLoad from "../../../components/OtherDisplay/FailedLoad.tsx";
 
 const breadcrumbs: IBreadcrumbData[] = [
     {
@@ -26,6 +27,12 @@ const breadcrumbs: IBreadcrumbData[] = [
     }
 ]
 
+export interface FilterDebtDetail {
+    month: number,
+    year: number,
+    type: string
+}
+
 const PayDebt = () => {
     const [money, setMoney] = useState<number>(0);
     return(
@@ -37,9 +44,10 @@ const PayDebt = () => {
 export const DebtDetailContainer = () => {
     const {id} = useParams();
     // const [debtDetail, setDebtDetail] = useState<IDebt>();
-    const {data: debtDetail, isLoading: isLoadingGet, isError: isErrorGet} = useGetNoteDebtByIdQuery(id ?? "");
+    const {data: debtDetail, isLoading: isLoadingGet, isError: isErrorGet, isSuccess} = useGetNoteDebtByIdQuery(id ?? "");
     const [addDebtDetail] = useAddNoteDebtDetailMutation();
     const [updateDebtDetail] = useUpdateNoteDebtDetailMutation();
+    const [debtDetailList, setDebtDetailList] = useState<IDebtDetailResponse[]>();
     const [debtDetailForm, setDebtDetailForm] = useState<IDebtDetailRequest>({
         count: 0,
         date: new Date(),
@@ -48,7 +56,49 @@ export const DebtDetailContainer = () => {
         productId: "",
         unitProductId: ""
     });
+    const [filter, setFilter] = useState<FilterDebtDetail>({
+        month: 99,
+        type: "none",
+        year:99
+    });
+
     const [idDebtDetail, setIdDebtDetail] = useState<string>("-1");
+
+    const handleOnChangeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const {name, value} = e.target;
+        console.log(value);
+        setFilter({...filter, [name]: value});
+    }
+
+    useEffect(() => {
+        if (isSuccess) {
+            setDebtDetailList(debtDetail.data.debtDetails)
+        }
+    }, [debtDetail, isSuccess])
+
+    useEffect(() => {
+        if (filter.month === 99 && filter.year === 99 && filter.type === "none") {
+            setDebtDetailList(debtDetail?.data.debtDetails);
+            return;
+        }
+
+        filterFunc();
+    }, [filter, setFilter])
+    
+    const filterFunc = () => {
+        const filters = debtDetail?.data.debtDetails.filter((item) => {
+                const itemDate = new Date(item.date);
+                const itemMonth = itemDate.getMonth();
+                const itemYear = itemDate.getFullYear();
+                const itemType = item.isPaid;
+    
+                const isMonthMatch = filter.month === '99' || itemMonth === parseInt(filter.month - 1, 10);
+                const isYearMatch = filter.year === '99' || itemYear === parseInt(filter.year, 10);
+                const isTypeMatch = filter.type === 'none' || itemType === (filter.type === "true");
+                return isMonthMatch && isYearMatch && isTypeMatch;
+            });
+        setDebtDetailList(filters)
+    }
 
     const showAddForm = () => {
         setIdDebtDetail("-1");
@@ -109,6 +159,24 @@ export const DebtDetailContainer = () => {
         }
     }
 
+    const MainContent = isErrorGet ? <FailedLoad /> : (
+        <TitleCard
+            showButtonBack={true}
+            breadcrumbsData={breadcrumbs}
+            title={debtDetail?.data.customer.fullName ?? "-"}
+        >
+            <CustomerDetail customerDetail={debtDetail?.data.customer} />
+            <DebtListDetail 
+                handleAddOrEdit={showAddForm}
+                priceTotal={debtDetail?.data.priceTotal} 
+                showEdited={true}
+                handleShowEdit={showEditForm}
+                onChangeFilter={handleOnChangeFilter} 
+                debtDetails={debtDetailList} 
+            />
+        </TitleCard>
+    );
+
     return(
         <>
             <FormModal
@@ -128,19 +196,7 @@ export const DebtDetailContainer = () => {
                 // setIndexDebtDetail={} 
             />
             {isLoadingGet ? <LoadingProcess /> : 
-                <TitleCard
-                showButtonBack={true}
-                breadcrumbsData={breadcrumbs}
-                title={debtDetail?.data.customer.fullName ?? "-"}
-                >
-                    <CustomerDetail customerDetail={debtDetail?.data.customer} />
-                    <DebtListDetail 
-                        handleAddOrEdit={showAddForm}
-                        priceTotal={debtDetail?.data.priceTotal} 
-                        showEdited={true}
-                        handleShowEdit={showEditForm} 
-                        debtDetails={debtDetail?.data.debtDetails} />
-                </TitleCard>
+                MainContent
             }
         </>
     )

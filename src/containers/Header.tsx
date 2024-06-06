@@ -99,7 +99,7 @@ function Header({title}: HeaderProps){
                             </Link>
                         </li>
                         <li className=''><Link to={'/change-password'}>Ganti Password</Link></li>
-                        <li className=''><Link to={'/report-problem'}>Laporkan Masalah</Link></li>
+                        {/* <li className=''><Link to={'/report-problem'}>Laporkan Masalah</Link></li> */}
                         <div className="divider mt-0 mb-0"></div>
                         <li><a onClick={() => showOrCloseModal("modal-confirmation", "show")}>Logout</a></li>
                     </ul>

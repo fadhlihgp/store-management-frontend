@@ -55,7 +55,7 @@ export const ProductFormContainer = () => {
         const formData = new FormData();
 
         if (fileImage) {
-            console.log("Masuk File Image");
+            // console.log("Masuk File Image");
             formData.append("image", fileImage);
             uploadImage(formData).unwrap()
                 .then((res) => {
@@ -68,18 +68,18 @@ export const ProductFormContainer = () => {
                             navigate("/product")
                         })
                         .catch((res) => {
-                            console.log(res)
+                            // console.log(res)
                             toast.error(res.message ?? "Terjadi kesalahan saat menambah produk");
                             return;
                         })
                 })
                 .catch((res) => {
-                    console.log(res)
+                    // console.log(res)
                     toast.error(res.message ?? "Terjadi kesalahan saat menngunggah gambar");
                     return;
                 })
         } else {
-            console.log("Tidak Masuk File Image");
+            // console.log("Tidak Masuk File Image");
             addProduct(productForm).unwrap()
                 .then((res) => {
                     toast.success(res.message ?? "Berhasil menambah produk");
@@ -123,9 +123,9 @@ export const ProductFormContainer = () => {
                                 return;
                             })
                     })
-                    .catch((res) => {
-                        console.log(res)
-                        toast.error(res.message ?? "Terjadi kesalahan saat menngunggah gambar");
+                    .catch((err) => {
+                        console.log(err)
+                        toast.error(err.message ?? "Terjadi kesalahan saat menngunggah gambar");
                         return;
                     })
             } else {
@@ -154,10 +154,10 @@ export const ProductFormContainer = () => {
         let isValid = true;
         const newErrorInput = {...errorInput};
     
-        console.log("validation");
+        // console.log("validation");
     
         if (!productForm.productPrices || productForm.productPrices.length < 1) {
-            console.log("error price");
+            // console.log("error price");
             newErrorInput.errorProductPrice = "Produk setidaknya harus memiliki satu harga";
             isValid = false;
         }
@@ -180,7 +180,7 @@ export const ProductFormContainer = () => {
         const isValid = validationInput();
 
         if (!isValid) {
-            console.log("Validation failed");
+            // console.log("Validation failed");
             return;
         }
 
@@ -190,13 +190,13 @@ export const ProductFormContainer = () => {
             handleEditProduct();
         }
         setErrorInput(undefined);
-        console.log(productForm)
+        // console.log(productForm)
     }
 
     const handleOnChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             setFileImage(event.target.files[0]);
-            console.log("ada file")
+            // console.log("ada file")
         }
     }
 

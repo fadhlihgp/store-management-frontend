@@ -65,7 +65,7 @@ function LoginContainer(){
                              <Link to="/forgot-password"><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Lupa Password?</span></Link>
                         </div>
 
-                        <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
+                        <ErrorText styleClass="mt-8 font-semibold">{errorMessage}</ErrorText>
                         <button type="submit" className={"btn mt-2 w-full btn-primary"} disabled={loading}>
                             {loading ?
                                 <>

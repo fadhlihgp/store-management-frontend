@@ -11,6 +11,8 @@ import { useAddNoteDebtMutation } from "../../../apps/services/noteDebtApi"
 import toast from "react-hot-toast"
 import { ConfirmationModal } from "../../../components/Modals/ConfirmationModal"
 import { showOrCloseModal } from "../../../utils/showModalHelper"
+import { formatStringToDate } from "../../../utils/formDateString"
+import moment from "moment"
 
 const breadcrumbsData = [
     {
@@ -104,12 +106,13 @@ export const AddDebtForm = () => {
     }
 
     const submitForm = () => {
+        const debtDetail = {...debtDetailForm, date: formatStringToDate(moment(debtDetailForm.date).format("YYYY-MM-DD"))};
         if (indexDebtDetail === -1) {
-            setDebtForm({...debtForm, debtDetails: [...debtForm.debtDetails, debtDetailForm]});
+            setDebtForm({...debtForm, debtDetails: [...debtForm.debtDetails, debtDetail]});
         } else {
             setDebtForm(prevForm => {
                 const newDebtDetail = [...prevForm.debtDetails];
-                newDebtDetail[indexDebtDetail] = debtDetailForm;
+                newDebtDetail[indexDebtDetail] = debtDetail;
                 return {
                     ...prevForm,
                     debtDetails: newDebtDetail

@@ -13,6 +13,7 @@ import {LoadingProcess} from "../../../components/Loading/LoadingProcess";
 import FailedLoad from "../../../components/OtherDisplay/FailedLoad";
 import {IAccountResponse} from "../../../utils/interfaces";
 import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
+import { PaginationComponent } from "../../../components/Pagination.tsx";
 
 export const UserContainer = () => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ export const UserContainer = () => {
         if (isSuccess) {
             setAccountFilters(accountList.data)
         }
-    }, [accountList])
+    }, [accountList, isSuccess])
 
     const handleAddOrEdit = (id:string = "-1") => {
         window.scrollTo(0, 0);
@@ -64,52 +65,44 @@ export const UserContainer = () => {
     }
 
     const MainContent = isError ? (<FailedLoad />)
-        : (<div className="overflow-x-auto w-full">
-            <table className="table w-full">
-                <thead>
-                <tr className={'text-center'}>
-                    <th>No</th>
-                    <th>Username</th>
-                    <th>Nama Lengkap</th>
-                    <th>Role</th>
-                    <th>Toko</th>
-                    <th>Status</th>
-                    <th>Terakhir Login</th>
-                    <th>Aksi</th>
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    accountFilters?.map((u, k) => {
-                        return(
-                            <tr key={k} className={'text-center'}>
-                                <td>{k + 1}</td>
-                                <td>
-                                    {u.username}
-                                </td>
-                                <td>{u.fullName}</td>
-                                <td>{u.roleName}</td>
-                                <td>{u.storeName ?? "-"}</td>
-                                <td>{u.isActive ?
-                                    <div className="badge badge-success text-white">
-                                        Aktif
-                                    </div> :
-                                    <div className="badge badge-error text-white">
-                                        Tidak Aktif
-                                    </div>}
-                                </td>
-                                <td>{u.lastLogin ? moment(u.lastLogin).format("DD-MMM-YY HH:mm:ss") : "-"}</td>
-                                <td className={'flex'}>
-                                    <button className="btn btn-square btn-ghost" onClick={() => handleAddOrEdit(u.id)}><PencilSquareIcon className="w-5"/></button>
-                                    <button className="btn btn-square btn-ghost" onClick={() => handleDelete(u.id)}><TrashIcon className="w-5"/></button>
-                                </td>
-                            </tr>
-                        )
-                    })
-                }
-                </tbody>
-            </table>
-        </div>)
+        : (
+            accountFilters && (
+                <PaginationComponent 
+                    data={accountFilters}
+                    itemsPerPage={15}
+                    titleTables={["No", "Username", "Nama Lengkap", "Role", "Toko", "Status", "Terakhir Login", "Aksi"]}
+                    renderTitle={(item, index) => (
+                        <th className="text-center" key={index}>
+                            {item}
+                        </th>
+                    )}
+                    renderItem={(item, index) => (
+                        <tr key={index} className={'text-center'}>
+                            <td>{index + 1}</td>
+                             <td>
+                                 {item.username}
+                             </td>
+                             <td>{item.fullName}</td>
+                             <td>{item.roleName}</td>
+                             <td>{item.storeName ?? "-"}</td>
+                             <td>{item.isActive ?
+                                 <div className="badge badge-success text-white">
+                                     Aktif
+                                 </div> :
+                                 <div className="badge badge-error text-white">
+                                     Tidak Aktif
+                                 </div>}
+                             </td>
+                             <td>{item.lastLogin ? moment(item.lastLogin).format("DD-MMM-YY HH:mm:ss") : "-"}</td>
+                             <td className={'flex'}>
+                                 <button className="btn btn-square btn-ghost" onClick={() => handleAddOrEdit(item.id)}><PencilSquareIcon className="w-5"/></button>
+                                 <button className="btn btn-square btn-ghost" onClick={() => handleDelete(item.id)}><TrashIcon className="w-5"/></button>
+                             </td>
+                         </tr>
+                    )}
+                />
+            )
+        )
 
     return(
         <>
