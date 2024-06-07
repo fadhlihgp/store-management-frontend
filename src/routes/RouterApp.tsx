@@ -30,6 +30,7 @@ import {ChangePassword} from "../pages/protected/ChangePassword";
 import { TransactionHistory } from "../pages/protected/TransactionHistory.tsx";
 import MadalineOr from "../pages/MadalineOr.tsx";
 import { DebtForm } from "../pages/protected/DebtForm.tsx";
+import { ResetPassword } from "../pages/ResetPassword.tsx";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -201,6 +202,10 @@ export const RouterApp = () => {
                            element={<PublicRoute><ForgotPassword /></PublicRoute>}
                     />
 
+                    <Route path="/reset-password/:token"
+                        element={<PublicRoute><ResetPassword /></PublicRoute>}
+                    />
+                    
                     <Route path={"/*"}
                            element={<NotFound />}
                     />
