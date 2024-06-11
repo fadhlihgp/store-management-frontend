@@ -135,26 +135,28 @@ export const ProductContainer = () => {
         ) : (
           MainContent
         )}
-        <div className="flex mt-4 float-end">
-          <div className="flex flex-col gap-2">
-            <div className="join">
-              <button
-                className="join-item btn"
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}>
-                «
-              </button>
-              <button className="join-item btn">Halaman {currentPage}</button>
-              <button
-                className="join-item btn"
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}>
-                »
-              </button>
+        {currentItems && currentItems.length > 0 && (
+          <div className="flex mt-4 float-end">
+            <div className="flex flex-col gap-2">
+              <div className="join">
+                <button
+                  className="join-item btn"
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}>
+                  «
+                </button>
+                <button className="join-item btn">Halaman {currentPage}</button>
+                <button
+                  className="join-item btn"
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}>
+                  »
+                </button>
+              </div>
+              <p>Total Data: {productList?.length ?? 0}</p>
             </div>
-            <p>Total Data: {productList?.length ?? 0}</p>
           </div>
-        </div>
+        )}
         {/* Leads List in table format loaded from slice after api call */}
       </TitleCard>
     </>

@@ -224,3 +224,11 @@ export interface IDebtDetailResponse {
     editedBy: string,
     debtId: string
 }
+export interface ISendLinkOtp{
+    email: string
+}
+
+export interface IResetPasswordRequest {
+    token: string,
+    newPassword: string
+}

@@ -247,7 +247,7 @@ export const ProductFormContainer = () => {
                     <div className={'flex gap-2 justify-end'}>
                         <div className="mt-16"><button className="btn float-right" onClick={() => navigate(-1)}>Batal</button></div>
                         <div className="mt-16">
-                            <button className="btn btn-primary float-right" onClick={handleSaveStore} disabled={isLoadingAddProduct || isLoadingUploadImage}>
+                            <button className="btn btn-primary float-right" onClick={handleSaveStore} disabled={isLoadingAddProduct || isLoadingUploadImage || isLoadingEditProduct}>
                                 {isLoadingAddProduct || isLoadingUploadImage || isLoadingEditProduct ? <>
                                     <span className="loading loading-spinner"></span>
                                     Menyimpan data

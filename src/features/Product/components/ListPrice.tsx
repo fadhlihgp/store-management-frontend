@@ -36,6 +36,12 @@ interface ListPriceProps {
     handleDelete?: () => void
 }
 
+interface ErrorInputValidation {
+    errorCount?: string,
+    errorPrice?: string,
+    errorUnitPriceId?: string
+}
+
 export const ListPrice = ({productForm, setProductForm, showEdited = false}: ListPriceProps) => {
     const [productPriceId, setProductPriceId] = useState<number>(-1);
     const [productPriceForm, setProductPriceForm] = useState<IProductPriceRequest>({
@@ -45,6 +51,8 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
         unitPrice: ""
     });
     const [errorProductPrice, setErrorProductPrice] = useState<string | null>(null);
+    const [errorInput, setErrorInput] = useState<ErrorInputValidation>();
+
     const handleShowEdit = (id: number) => {
         setProductPriceId(id);
         const productFormDet = productForm?.productPrices[id];
@@ -59,12 +67,14 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {value, name} = e.target;
         setProductPriceForm({...productPriceForm, [name]: value});
+        setErrorInput(undefined);
     }
 
     const handleOnChangeSelectBox = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const {value} = e.target;
         const findUnit = satuans.find(p => p.id === value)?.name ?? "";
-        setProductPriceForm({...productPriceForm, unitPriceId: value, unitPrice: findUnit})
+        setProductPriceForm({...productPriceForm, unitPriceId: value, unitPrice: findUnit});
+        setErrorInput(undefined);
     }
 
     // Reset state
@@ -76,10 +86,34 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
             unitPrice: ""
         });
         setErrorProductPrice(null);
+        setErrorInput(undefined);
+    }
+
+    const validationInputForm = (): boolean => {
+        let isValid = true;
+        if (productPriceForm.price < 1) {
+            setErrorInput({...errorInput, errorPrice: "Harga tidak boleh 0"});
+            isValid = false;
+        }
+        if (productPriceForm.qtyPcs < 1) {
+            setErrorInput({...errorInput, errorCount: "Jumlah tidak boleh 0"});
+            isValid = false;
+        }
+        if (productPriceForm.unitPriceId === "") {
+            setErrorInput({...errorInput, errorUnitPriceId: "Satuan tidak boleh kosong"});
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     // Function for adding or editing product price
     const addOrEditProductPrice = () => {
+        
+        if (!validationInputForm()) {
+            return;
+        }
+
         if (productPriceId === -1 && setProductForm && productForm) {
 
             const findByUnitId = productForm.productPrices.find(
@@ -197,9 +231,26 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
                     <p className="text-md text-red-600">{errorProductPrice}</p>
                 )}
                 <div className="grid grid-cols-1 gap-4">
-                    <InputText2 labelTitle="Harga" type={"number"} name="price" value={productPriceForm.price} handleOnChange={handleOnChange}/>
-                    <InputText2 labelTitle="Jumlah per pcs" type={"number"} name="qtyPcs" value={productPriceForm.qtyPcs} handleOnChange={handleOnChange}/>
-                    <SelectBox2 labelTitle="Satuan" placeholder={"Pilih Satuan"} options={satuans} handleOnChange={handleOnChangeSelectBox} name="unitPriceId" value={productPriceForm.unitPriceId}/>
+                    <div>
+                        <InputText2 labelTitle="Harga" type={"number"} name="price" value={productPriceForm.price} handleOnChange={handleOnChange}/>
+                        {errorInput && errorInput.errorPrice && (
+                            <p className="text-md text-red-600">{errorInput.errorPrice}</p>
+                        )}
+                    </div>
+                    <div className="flex gap-2 w-full">
+                        <div className="w-1/2">
+                            <InputText2 labelTitle="Jumlah per pcs" type={"number"} name="qtyPcs" value={productPriceForm.qtyPcs} handleOnChange={handleOnChange}/>
+                            {errorInput && errorInput.errorCount && (
+                                <p className="text-md text-red-600">{errorInput.errorCount}</p>
+                            )}
+                        </div>
+                        <div className="w-1/2">
+                            <SelectBox2 containerStyle="w-full" labelTitle="Satuan" placeholder={"Pilih Satuan"} options={satuans} handleOnChange={handleOnChangeSelectBox} name="unitPriceId" value={productPriceForm.unitPriceId}/>
+                            {errorInput && errorInput.errorUnitPriceId && (
+                                <p className="text-md text-red-600">{errorInput.errorUnitPriceId}</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
                 <div className="modal-action">
                     <>

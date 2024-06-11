@@ -46,28 +46,30 @@ export function PaginationComponent<T>({ data, itemsPerPage, titleTables, render
         Data tidak ditemukan
       </p>
       }
-      <div className="flex mt-2 float-end">
-        <div className='flex flex-col gap-2'>
-          <div className="join">
-            <button
-              className="join-item btn"
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-            >
-              «
-            </button>
-            <button className="join-item btn">Halaman {currentPage}</button>
-            <button
-              className="join-item btn"
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              »
-            </button>
+      {currentItems && currentItems.length > 0 && (
+        <div className="flex mt-2 float-end">
+          <div className='flex flex-col gap-2'>
+            <div className="join">
+              <button
+                className="join-item btn"
+                onClick={handlePreviousPage}
+                disabled={currentPage === 1}
+              >
+                «
+              </button>
+              <button className="join-item btn">Halaman {currentPage}</button>
+              <button
+                className="join-item btn"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+              >
+                »
+              </button>
+            </div>
+            <p>Total Data: {currentItems.length}</p>
           </div>
-          <p>Total Data: {currentItems.length}</p>
         </div>
-      </div>
+      )}
     </>
   );
 }

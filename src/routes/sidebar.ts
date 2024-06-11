@@ -178,12 +178,12 @@ export const routeOwner: Route[] = [
       {
         path: '/transaction-purchase',
         icon: IconData.MoneyIcon,
-        name: 'Penjualan'
+        name: 'Pembelian'
       },
       {
         path: '/transaction-history',
         icon: IconData.HistoryIcon,
-        name: 'Riwayat Penjualan'
+        name: 'Riwayat Pembelian'
       }
     ]
   }
@@ -235,32 +235,32 @@ export const routeAdmin: Route[] = [
       {
         path: '/transaction-purchase',
         icon: IconData.MoneyIcon,
-        name: 'Penjualan'
+        name: 'Pembelian'
       },
       {
         path: '/transaction-history',
         icon: IconData.HistoryIcon,
-        name: 'Riwayat Penjualan'
+        name: 'Riwayat Pembelian'
       }
     ]
   },
-  {
-    path: '',
-    icon: IconData.AdjustmentIcon,
-    name: 'Master Data',
-    submenu: [
-      {
-        path: '/master-category',
-        icon: IconData.DebtIcon,
-        name: 'Category'
-      },
-      {
-        path: '/master-unit',
-        icon: IconData.HistoryIcon,
-        name: 'ProductList Unit'
-      }
-    ]
-  }
+  // {
+  //   path: '',
+  //   icon: IconData.AdjustmentIcon,
+  //   name: 'Master Data',
+  //   submenu: [
+  //     {
+  //       path: '/master-category',
+  //       icon: IconData.DebtIcon,
+  //       name: 'Category'
+  //     },
+  //     {
+  //       path: '/master-unit',
+  //       icon: IconData.HistoryIcon,
+  //       name: 'ProductList Unit'
+  //     }
+  //   ]
+  // }
 ];
 export default routes
 
