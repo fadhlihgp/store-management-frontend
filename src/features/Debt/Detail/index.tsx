@@ -6,8 +6,6 @@ import TitleCard from "../../../components/Cards/TitleCard.tsx";
 import {DebtListDetail} from "../Components/DebtListDetail.tsx";
 import {FormComponentDebt} from "../Components/FormComponentDebt.tsx";
 import toast from "react-hot-toast";
-import {FormModal} from "../../../components/Modals/FormModal.tsx";
-import InputText2 from "../../../components/Input/InputText2.tsx";
 import { useAddNoteDebtDetailMutation, useGetNoteDebtByIdQuery, useUpdateNoteDebtDetailMutation } from "../../../apps/services/noteDebtApi.ts";
 import { LoadingProcess } from "../../../components/Loading/LoadingProcess.tsx";
 import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
@@ -33,14 +31,6 @@ export interface FilterDebtDetail {
     type: string
 }
 
-const PayDebt = () => {
-    const [money, setMoney] = useState<number>(0);
-    return(
-        <div>
-            <InputText2 labelStyle={'text-lg'} labelTitle={"Masukkan uang dibayar"} value={money} name={"money"} handleOnChange={(e) => setMoney(e.target.value)} />
-        </div>
-    )
-}
 export const DebtDetailContainer = () => {
     const {id} = useParams();
     // const [debtDetail, setDebtDetail] = useState<IDebt>();
@@ -54,7 +44,8 @@ export const DebtDetailContainer = () => {
         note: "",
         price: 0,
         productId: "",
-        unitProductId: ""
+        unitProductId: "",
+        isPaid: false
     });
     const [filter, setFilter] = useState<FilterDebtDetail>({
         month: 99,
@@ -113,7 +104,8 @@ export const DebtDetailContainer = () => {
             note: data.note,
             price: data.price,
             productId: data.productId,
-            unitProductId: data.unitProductId
+            unitProductId: data.unitProductId,
+            isPaid: data.isPaid
         })
         console.log(debtDetailForm);
         showOrCloseModal("form-debt", "show");
@@ -159,7 +151,7 @@ export const DebtDetailContainer = () => {
         }
     }
 
-    const MainContent = isErrorGet ? <FailedLoad /> : (
+    const MainContent = isErrorGet || !debtDetail?.data ? <FailedLoad /> : (
         <TitleCard
             showButtonBack={true}
             breadcrumbsData={breadcrumbs}
@@ -167,6 +159,7 @@ export const DebtDetailContainer = () => {
         >
             <CustomerDetail customerDetail={debtDetail?.data.customer} />
             <DebtListDetail 
+                customerId={debtDetail?.data.customer.id}
                 handleAddOrEdit={showAddForm}
                 priceTotal={debtDetail?.data.priceTotal} 
                 showEdited={true}
@@ -179,13 +172,6 @@ export const DebtDetailContainer = () => {
 
     return(
         <>
-            <FormModal
-                id={"pay-debt"}
-                onClickYes={() => showOrCloseModal("pay-debt", "close")}
-                onClickCancel={() => showOrCloseModal("pay-debt", "close")}
-                children={<PayDebt />}
-                title={"Konfirmasi Pembayaran Hutang"}
-            />
             <FormComponentDebt 
                 debtDetailForm={debtDetailForm} 
                 setDebtDetailForm={setDebtDetailForm} 

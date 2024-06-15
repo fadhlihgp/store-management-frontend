@@ -2,13 +2,15 @@ import {ComboBox, IOption} from "../../../components/Input/ComboBox.tsx";
 import React, {SetStateAction, useEffect, useState} from "react";
 import InputText2 from "../../../components/Input/InputText2.tsx";
 import { useGetProductsQuery } from "../../../apps/services/productApi.ts";
-import { IDebtDetailRequest, IDebtRequest, IProductListResponse } from "../../../utils/interfaces.ts";
+import { IDebtDetailRequest, IProductListResponse } from "../../../utils/interfaces.ts";
 import { formatDateString } from "../../../utils/formDateString.ts";
 import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
 import TextAreaInput2 from "../../../components/Input/TextAreaInput2.tsx";
 import FailedLoad from "../../../components/OtherDisplay/FailedLoad.tsx";
 import SelectBox2 from "../../../components/Input/SelectBox2.tsx";
-import { DebtDetail } from "../../../pages/protected/DebtDetail.tsx";
+import { LoadingProcess } from "../../../components/Loading/LoadingProcess.tsx";
+import { convertCurrency } from "../../../utils/convertCurrency.ts";
+import moment from "moment";
 
 interface FormComponentDebt {
     // debtForm: IDebtRequest,
@@ -45,6 +47,9 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
     const [defaultValueProduct, setDefaultValueProduct] = useState<IOption | null>(null);
     const [units, setUnits] = useState<IOption[]>([]);
     const [error, setError] = useState<ErrorValidation>();
+    // const [customerIsPaid, setCustomerIsPaid] = useState<boolean>(false);
+
+    const titleName = idDebtDetail === "-1" ? "Tambah" : (!debtDetailForm.isPaid ? "Perbarui Data" : "Hutang Detail");
 
     useEffect(() => {
         if (isSuccessProduct) {
@@ -92,7 +97,8 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
             note: "",
             price: 0,
             productId: "",
-            unitProductId: ""
+            unitProductId: "",
+            isPaid: false
         });
         setUnits([]);
         // setIndexDebtDetail(-1);
@@ -206,21 +212,69 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
 
     const handleOnChangeSelectUnit = (e: any) => {
         const { value } = e.target;
-        console.log("Ini value " + value);
+        // console.log("Ini value " + value);
         setDebtDetailForm({...debtDetailForm, unitProductId: value});
         const debtDetails = dataProducts?.find(p => p.id === debtDetailForm.productId);
         if (debtDetails) {
             const productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === value);
             setDebtDetailForm({...debtDetailForm, unitProductId: value, price: productPrice?.price ?? 0});
         }
-        console.log(debtDetails);
-        console.log(debtDetailForm);
+        // console.log(debtDetails);
+        // console.log(debtDetailForm);
     }
 
-    const MainContent = isError ? <FailedLoad /> : (
+    const ReadOnlyContent = <>
+        <div className="modal-box">
+                    <h3 className="font-bold text-3xl text-center mb-3">{titleName}</h3>
+                    <div className={'grid grid-cols-1 mb-4 gap-1'}>
+                        <div>Produk</div>
+                        <div className="font-semibold text-xl">{defaultValueProduct?.name}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <div>Jumlah</div>
+                            <div className="font-semibold text-xl">{debtDetailForm.count}</div>
+                        </div>
+                        <div className="flex flex-col">
+                            <div>Satuan</div>
+                            <div className="font-semibold text-xl">{units.find(u => u.id === debtDetailForm.unitProductId)?.name}</div>
+                        </div>
+                        <div>
+                            <div>Harga</div>
+                            <div className="font-semibold text-xl">{convertCurrency("Rp", debtDetailForm.price)}</div>
+                        </div>
+                        <div>
+                            <div>Tanggal</div>
+                            <div className="font-semibold text-xl">{moment(debtDetailForm.date).format("DD MMMM yyyy")}</div>
+                        </div>
+                        <div>
+                            <div>Total</div>
+                            <div className="font-semibold text-xl">{convertCurrency("Rp", debtDetailForm.count * debtDetailForm.price)}</div>
+                        </div>
+                    </div>
+                    <div className={'grid grid-cols-1 gap-4 mt-4'}>
+                        <div>
+                            <div>Catatan</div>
+                            <div className="font-semibold text-md">{debtDetailForm.note}</div>
+                        </div>
+                        {/* <TextAreaInput labelTitle={"Catatan"} defaultValue={debtDetailForm.note} updateFormValue={({value}: any) => updateFormValue("note", value)} /> */}
+                    </div>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <div className={'flex gap-2 justify-end'}>
+                                
+                                <button className="btn" onClick={onClickCancel}>Tutup</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+    </>
+
+    const MainContent = isError ? <FailedLoad /> : debtDetailForm.isPaid ? ReadOnlyContent : (
         <>
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Tambah Hutang</h3>
+                    <h3 className="font-bold text-lg">{titleName}</h3>
                     <div className={'grid grid-cols-1 mb-4'}>
                         <ComboBox
                             defaultValue={defaultValueProduct}
@@ -291,7 +345,7 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
 
     return(
         <dialog id={"form-debt"} className="modal modal-bottom sm:modal-middle">
-            {isLoading ? <FailedLoad /> : MainContent}
+            {isLoading ? <LoadingProcess loadingName="Mengambil data" key={"1"} /> : MainContent}
         </dialog>
 
     )

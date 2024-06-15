@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 interface InputTextProps {
-    labelTitle: string,
+    labelTitle?: string,
     labelStyle?: string,
     type?: string,
     containerStyle?: string,

@@ -110,3 +110,22 @@ export const satuans = [
         id: "4"
     }
 ]
+
+export const payments = [
+    {
+        name: "Cash",
+        value: "Cash"
+    },
+    {
+        name: "Transfer Rekening",
+        value: "Transfer Rekening"
+    },
+    {
+        name: "Qris",
+        value: "Qris"
+    },
+    {
+        name: "Lainya",
+        value: "Lainya"
+    }
+]

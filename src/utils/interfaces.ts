@@ -196,7 +196,8 @@ export interface IDebtDetailRequest {
     count: number,
     unitProductId: string,
     price: number,
-    note: string
+    note: string,
+    isPaid: boolean
 }
 
 export interface IDebtResponse {
@@ -231,4 +232,52 @@ export interface ISendLinkOtp{
 export interface IResetPasswordRequest {
     token: string,
     newPassword: string
+}
+
+export interface IPayDebtRequest {
+  customerId: string,
+  payment: string,
+  note?: string,
+  money: number,
+  debtDetailIds: string[]
+}
+
+export interface IPurchaseListResponse {
+    id: string,
+    status: string,
+    purchaseType: string,
+    invoice: string,
+    customer: string,
+    date: Date,
+    purchaseTotal: number,
+    note?: string
+}
+
+export interface IPurchaseDetailResponse {
+    id: string,
+    productId: string,
+    productName: string,
+    qty: number,
+    unitPriceId: string,
+    unitPriceName: string,
+    price: number,
+    total: number
+}
+
+export interface IPurchaseResponse {
+    id: string,
+    invoice: string,
+    customerId: string,
+    customer: string,
+    date: Date,
+    createdAt: Date,
+    createdBy: string,
+    purchaseType: string,
+    purchaseTypeId: string,
+    note?: string,
+    status: string,
+    purchaseTotal: number,
+    money: number,
+    payment: string,
+    purchaseDetails: IPurchaseDetailResponse[]
 }

@@ -1,4 +1,4 @@
-import { IDebtDetailRequest, IDebtRequest, IDebtResponse, IDebtResponseList } from "../../utils/interfaces";
+import { IDebtDetailRequest, IDebtRequest, IDebtResponse, IDebtResponseList, IPayDebtRequest } from "../../utils/interfaces";
 import { api } from "./api";
 
 interface DebtResponseList {
@@ -56,10 +56,19 @@ export const noteDebtApi = api.injectEndpoints({
                 body: data
             }),
             invalidatesTags: ["NoteDebt", "NoteDebtList"]
+        }),
+        payDebt: builder.mutation<any, IPayDebtRequest>({
+            query: (data) => ({
+                url: `api/purchase/pay-debt`,
+                method: "POST",
+                body: data
+            }),
+            invalidatesTags: ["NoteDebt", "NoteDebtList", "NoteDebtDetailList"]
         })
     })
 })
 
 export const { useGetNoteDebtByIdQuery, useGetNoteDebtListQuery, useAddNoteDebtMutation,
-    useDeleteNoteDebtDetailMutation, useUpdateNoteDebtDetailMutation, useAddNoteDebtDetailMutation
+    useDeleteNoteDebtDetailMutation, useUpdateNoteDebtDetailMutation, useAddNoteDebtDetailMutation,
+    usePayDebtMutation
  } = noteDebtApi

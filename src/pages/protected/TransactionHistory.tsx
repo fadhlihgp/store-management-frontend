@@ -1,10 +1,11 @@
-import DevelopmentDisplay from "../../components/OtherDisplay/DevelopmentDisplay"
+import { PurchaseListContainer } from "../../features/PurchaseTransaction/PurchaseList"
 import Layout from "../../widgets/Layout"
 
 export const TransactionHistory = () => {
     return(
-        <Layout pageTitle="Riwayat Transaksi">
-            <DevelopmentDisplay />
+        <Layout pageTitle="Transaksi">
+            {/* <DevelopmentDisplay /> */}
+            <PurchaseListContainer />
         </Layout>
     )
 }

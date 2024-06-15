@@ -10,11 +10,13 @@ import {
 } from "@heroicons/react/24/outline";
 import {useNavigate} from "react-router-dom";
 import moment from "moment";
+import React from 'react';
 
 interface PageHeadingProps {
     breadcrumbsData?: IBreadcrumbData[],
     titlePage: string,
-    editOnClick?: () => void,
+    buttonSide?: React.ReactNode,
+    // editOnClick?: () => void,
     showManipulation?: boolean,
     createdBy?: string,
     createdAt?: Date,
@@ -22,7 +24,7 @@ interface PageHeadingProps {
     editedAt?: Date
 }
 
-export const PageHeading = ({titlePage, editOnClick, breadcrumbsData, showManipulation = false, editedAt, editedBy, createdAt, createdBy}: PageHeadingProps) => {
+export const PageHeading = ({titlePage, buttonSide, breadcrumbsData, showManipulation = false, editedAt, editedBy, createdAt, createdBy}: PageHeadingProps) => {
     const navigate = useNavigate();
     return (
         <div className="lg:flex lg:flex-row lg:items-center lg:justify-between flex flex-col">
@@ -71,7 +73,11 @@ export const PageHeading = ({titlePage, editOnClick, breadcrumbsData, showManipu
 
             </div>
 
-            {editOnClick && (
+            {buttonSide && (
+                buttonSide
+            )}
+
+            {/* {editOnClick && (
                 <div className="mt-5 flex lg:ml-4 lg:mt-0">
                 <span className="">
                   <button
@@ -84,7 +90,7 @@ export const PageHeading = ({titlePage, editOnClick, breadcrumbsData, showManipu
                   </button>
                 </span>
                 </div>
-            )}
+            )} */}
 
         </div>
     )

@@ -3,7 +3,7 @@ import {PurchaseTransactionContainer} from "../../features/PurchaseTransaction";
 
 export const TransactionPurchase = () => {
     return(
-        <Layout pageTitle={"Transaksi Pembelian"} >
+        <Layout pageTitle={"Transaksi"} >
             <PurchaseTransactionContainer />
         </Layout>
     )

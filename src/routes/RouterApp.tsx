@@ -31,6 +31,7 @@ import { TransactionHistory } from "../pages/protected/TransactionHistory.tsx";
 import MadalineOr from "../pages/MadalineOr.tsx";
 import { DebtForm } from "../pages/protected/DebtForm.tsx";
 import { ResetPassword } from "../pages/ResetPassword.tsx";
+import { PurchaseDetail } from "../pages/protected/PurchaseDetail.tsx";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -183,6 +184,10 @@ export const RouterApp = () => {
                         element={<PrivateRoute><TransactionHistory /></PrivateRoute>} 
                     />
 
+                    <Route
+                        path="/transaction-detail/:id"
+                        element={<PrivateRoute><PurchaseDetail /></PrivateRoute>}
+                    />
                     {/* CLIENT */}
                     <Route
                         path="/login"
