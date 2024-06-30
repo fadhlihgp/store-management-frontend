@@ -1,5 +1,5 @@
 import {api} from "./api";
-import {IPurchaseListResponse, IPurchaseResponse} from "../../utils/interfaces";
+import {IPurchaseListResponse, IPurchaseRequest, IPurchaseResponse} from "../../utils/interfaces";
 
 interface PurchaseListResponse {
     message: string,
@@ -20,8 +20,16 @@ export const purchaseApi = api.injectEndpoints({
         getPurchaseDetail: builder.query<PurchaseResponse, string>({
             query: (id: string) => `api/purchase/${id}`,
             providesTags: ["PurchaseDetail"]
+        }),
+        createPurchase: builder.mutation<PurchaseResponse, IPurchaseRequest>({
+            query: (body: IPurchaseRequest) => ({
+                url: `api/purchase/paid`,
+                method: 'POST',
+                body
+            }),
+            invalidatesTags: ["PurchaseList"]
         })
     })
 })
 
-export const { useGetPurchaseListQuery, useGetPurchaseDetailQuery } = purchaseApi;
+export const { useGetPurchaseListQuery, useGetPurchaseDetailQuery, useCreatePurchaseMutation } = purchaseApi;

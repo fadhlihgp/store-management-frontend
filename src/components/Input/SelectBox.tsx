@@ -4,7 +4,7 @@ import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircle
 interface IOption {
     name: string | number,
     value?: string | number,
-    id? : string
+    id? : string | number | undefined
 }
 
 interface SelectBoxProps {

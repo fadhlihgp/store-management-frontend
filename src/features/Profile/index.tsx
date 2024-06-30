@@ -32,7 +32,7 @@ export const ProfileFormContainer = () => {
                 phoneNumber: phoneNumber ?? ""
             });
         }
-    }, [dataProfile]);
+    }, [dataProfile, isSuccess]);
 
     const handleSaveUser = async () => {
         try {

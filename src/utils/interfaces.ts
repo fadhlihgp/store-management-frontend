@@ -281,3 +281,25 @@ export interface IPurchaseResponse {
     payment: string,
     purchaseDetails: IPurchaseDetailResponse[]
 }
+
+export interface IPurchaseRequest {
+    customerId: string | null | undefined,
+    date: Date,
+    purchaseTypeId: string,
+    note?: string,
+    payment: string,
+    money: number,
+    purchaseDetails: IProductPurchaseRequest[]
+}
+
+export interface IProductPurchaseRequest {
+    productId: string,
+    qty: number,
+    unitPriceId: string,
+    price: number,
+}
+
+export interface IParameterizeResponse {
+    id: string,
+    name: string
+}

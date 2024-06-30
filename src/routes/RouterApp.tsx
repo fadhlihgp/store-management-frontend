@@ -28,7 +28,6 @@ import {TransactionPurchase} from "../pages/protected/TransactionPurchase";
 import {Profile} from "../pages/protected/Profile";
 import {ChangePassword} from "../pages/protected/ChangePassword";
 import { TransactionHistory } from "../pages/protected/TransactionHistory.tsx";
-import MadalineOr from "../pages/MadalineOr.tsx";
 import { DebtForm } from "../pages/protected/DebtForm.tsx";
 import { ResetPassword } from "../pages/ResetPassword.tsx";
 import { PurchaseDetail } from "../pages/protected/PurchaseDetail.tsx";
@@ -214,9 +213,6 @@ export const RouterApp = () => {
                     <Route path={"/*"}
                            element={<NotFound />}
                     />
-
-                    <Route path={"/madaline-or"}
-                            element={<PublicRoute><MadalineOr /></PublicRoute>} />
                 </Routes>
             </React.Fragment>
         </BrowserRouter>

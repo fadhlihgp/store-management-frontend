@@ -42,7 +42,8 @@ export const AddDebtForm = () => {
         note: "",
         price: 0,
         productId: "",
-        unitProductId: ""
+        unitProductId: "",
+        isPaid: false
     });
     const [indexDebtDetail, setIndexDebtDetail] = useState<number>(-1);
     const [errorCustomer, setErrorCustomer] = useState<string>();
