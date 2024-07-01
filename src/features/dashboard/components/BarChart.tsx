@@ -14,14 +14,14 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 function BarChart(){
 
-    const options = {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          }
-        },
-      };
+    // const options = {
+    //     responsive: true,
+    //     plugins: {
+    //       legend: {
+    //         position: 'top',
+    //       }
+    //     },
+    //   };
 
       const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -43,7 +43,8 @@ function BarChart(){
 
     return(
       <TitleCard title={"Pemasukkan/Pengeluaran"}>
-            <Bar options={options} data={data} />
+            {/* <Bar data={data} options={options} /> */}\
+            <Bar data={data} />
       </TitleCard>
 
     )

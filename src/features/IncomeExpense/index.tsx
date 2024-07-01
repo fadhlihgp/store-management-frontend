@@ -61,8 +61,8 @@ export const IncomeExpenseContainer = () => {
             const itemYear = itemDate.getFullYear();
             const itemType = item.type;
 
-            const isMonthMatch = filter.month === '99' || itemMonth === parseInt(filter.month - 1, 10);
-            const isYearMatch = filter.year === '99' || itemYear === parseInt(filter.year, 10);
+            const isMonthMatch = filter.month == 99 || itemMonth == filter.month - 1;
+            const isYearMatch = filter.year == 99 || itemYear == filter.year;
             const isTypeMatch = filter.type === 'none' || itemType === (filter.type === "true");
             return isMonthMatch && isYearMatch && isTypeMatch;
         });

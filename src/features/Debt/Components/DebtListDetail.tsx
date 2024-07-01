@@ -11,13 +11,14 @@ import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
 import { ConfirmationModal } from "../../../components/Modals/ConfirmationModal.tsx";
 import { useDeleteNoteDebtDetailMutation, usePayDebtMutation } from "../../../apps/services/noteDebtApi.ts";
 import toast from "react-hot-toast";
-import { FilterFormDebtDetail } from "./FilterFormDebtDetail.tsx";
 import { PaginationComponent } from "../../../components/Pagination.tsx";
 import { FormModal } from "../../../components/Modals/FormModal.tsx";
 import InputText2 from "../../../components/Input/InputText2.tsx";
 import SelectBox2 from "../../../components/Input/SelectBox2.tsx";
 import TextAreaInput2 from "../../../components/Input/TextAreaInput2.tsx";
 import { payments } from "../../../utils/dummyData.ts";
+import { AdjustmentsHorizontalIcon, ChevronDownIcon, PrinterIcon } from "@heroicons/react/24/solid";
+import { PlusIcon } from "@heroicons/react/16/solid";
 
 interface PayDobtProps {
     payDebtForm: IPayDebtRequest,
@@ -133,7 +134,7 @@ interface DebtListDetailProps {
     customerId: string
 }
 
-export const DebtListDetail = ({debtDetails, priceTotal = 0, showEdited = false, handleAddOrEdit, handleShowEdit, onChangeFilter, customerId}: DebtListDetailProps) => {
+export const DebtListDetail = ({debtDetails, priceTotal = 0, showEdited = false, handleAddOrEdit, handleShowEdit, customerId}: DebtListDetailProps) => {
     const [deleteDetailDebt] = useDeleteNoteDebtDetailMutation();
     const [idDelete, setIdDelete] = useState<string>("-1");
     const [selectedItems, setSelectedItems] = useState<IDebtDetailResponse[]>([]);
@@ -273,7 +274,33 @@ export const DebtListDetail = ({debtDetails, priceTotal = 0, showEdited = false,
                 title="Daftar Hutang"
                 topMargin="mt-2"
                 topSideButtons={(showEdited && handleAddOrEdit) && (
-                    <FilterFormDebtDetail handleAdd={handleAddOrEdit} handleOnChangeSelect={onChangeFilter} key={"0"}  />
+                    // <FilterFormDebtDetail handleAdd={handleAddOrEdit} handleOnChangeSelect={onChangeFilter} key={"0"}  />
+                    <div className="flex flex-row gap-2 items-end">
+
+                        {/* <label className="inline-block sm">
+                            <div className="label">
+                                <span className="label-text">Filter Status</span>
+                            </div>
+                            <select className="select select-bordered select-sm" name="type" onChange={handleAddOrEdit}>
+                                <option disabled selected>Pilih Status</option>
+                                <option value={"none"}>Semua</option>
+                                <option value={"true"}>Sudah Lunas</option>
+                                <option value={"false"}>Belum Lunas</option>
+                            </select>
+                        </label> */}
+                        <button className="btn btn-sm" onClick={() => showOrCloseModal("filter-debt-modal", "show")}>
+                            <AdjustmentsHorizontalIcon className="h-5 w-5 ml-2" /> Filter
+                        </button>
+                        <div className="dropdown">
+                            <div tabIndex={0} role="button" className="btn btn-sm w-28 btn-primary text-slate-100 flex justify-between">
+                                Aksi <ChevronDownIcon className={'h-5 w-5 ml-2'} />
+                            </div>
+                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box z-10 ">
+                                <li onClick={handleAddOrEdit}><button><PlusIcon className={'h-5 w-5'} /> Tambah</button></li>
+                                <li><button><PrinterIcon className={'h-5 w-5'} /> Cetak</button></li>
+                            </ul>
+                        </div>
+                    </div>
                 )}
             >
 

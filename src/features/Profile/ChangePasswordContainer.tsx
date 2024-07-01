@@ -25,7 +25,7 @@ export const ChangePasswordContainer = () => {
         newPassword: "",
         oldPassword: ""
     });
-    const [errorValidation, setErrorValidation] = useState<ErrorValidationInputState | undefined>(undefined);
+    const [errorValidation, setErrorValidation] = useState<ErrorValidationInputState | undefined | any>(undefined);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
@@ -36,7 +36,7 @@ export const ChangePasswordContainer = () => {
     const validationInput = (): boolean => {
         let valid = true;
         if (changePasswordForm.newPassword !== changePasswordForm.confirmPassword) {
-            setErrorValidation({...errorValidation, errorConfirmPassword: "Password baru dan konfirmasi password harus sama"});
+            setErrorValidation({errorConfirmPassword: "Password baru dan konfirmasi password harus sama"});
             valid = false;
         }
          if ((changePasswordForm.newPassword.length < 7 )) {

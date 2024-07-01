@@ -18,7 +18,7 @@ export const rightDrawerSlice = createSlice({
             state.extraObject = extraObject
         },
 
-        closeRightDrawer: (state, action) => {
+        closeRightDrawer: (state) => {
             state.isOpen = false
             state.bodyType = ""
             state.header = ""

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { CheckCircleIcon } from "@heroicons/react/24/outline"
 import InputText from "../../components/Input/InputText"
 import ErrorText from "../../components/Typography/ErrorText"
@@ -26,7 +26,7 @@ export const ResetPasswordContainer = () => {
     useEffect(() => {
         if (isErrorVerify) {
             if (error) {
-                setErrorMessage(error.data.message);
+                setErrorMessage("Link tidak valid atau kadaluarsa");
             } else {
                 setErrorMessage("An error occurred while verifying the OTP.");
             }
