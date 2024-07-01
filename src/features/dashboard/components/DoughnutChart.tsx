@@ -2,13 +2,11 @@ import {
   Chart as ChartJS,
   Filler,
   ArcElement,
-  Title,
   Tooltip,
   Legend,
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import TitleCard from '../../../components/Cards/TitleCard';
-import Subtitle from '../../../components/Typography/Subtitle';
 
 ChartJS.register(ArcElement, Tooltip, Legend,
     Tooltip,
@@ -17,14 +15,14 @@ ChartJS.register(ArcElement, Tooltip, Legend,
 
 function DoughnutChart(){
 
-    const options = {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-        },
-      };
+    // const options = {
+    //     responsive: true,
+    //     plugins: {
+    //       legend: {
+    //         position: 'top',
+    //       },
+    //     },
+    //   };
       
       const labels = ['Electronics', 'Home Applicances', 'Beauty', 'Furniture', 'Watches', 'Apparel'];
       
@@ -57,7 +55,7 @@ function DoughnutChart(){
 
     return(
         <TitleCard title={"Orders by Category"}>
-                <Doughnut options={options} data={data} />
+                <Doughnut data={data} />
         </TitleCard>
     )
 }

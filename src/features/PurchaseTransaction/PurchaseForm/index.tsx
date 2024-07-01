@@ -94,7 +94,7 @@ export const PurchaseTransactionContainer = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            const options = customerList.data.map(c => ({
+            const options:any = customerList.data.map(c => ({
                 id: c.id,
                 name: c.fullName
             }));

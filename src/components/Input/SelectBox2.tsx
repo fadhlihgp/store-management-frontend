@@ -1,4 +1,3 @@
-import{ useState } from 'react'
 import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon'
 
 interface IOption {

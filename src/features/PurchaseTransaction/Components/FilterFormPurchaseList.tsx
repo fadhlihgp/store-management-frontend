@@ -34,33 +34,6 @@ export const FilterFormPurchaseList = ({handleAdd, dateValue, setDateValue, upda
                 />
             </div>
             <div className="flex flex-row gap-2 items-end">
-
-                {/* <label className="inline-block sm">
-                    <div className="label">
-                        <span className="label-text">Filter Bulan</span>
-                    </div>
-                    <select className="select select-bordered select-sm" onChange={handleOnChangeSelect} name="month">
-                        <option disabled selected>Pilih Bulan</option>
-                        <option value={99}>Semua</option>
-                        {months.map(m => (
-                            <option value={m.value}>{m.name}</option>
-                        ))}
-                    </select>
-                </label>
-
-                <label className="inline-block sm">
-                    <div className="label">
-                        <span className="label-text">Filter Tahun</span>
-                    </div>
-                    <select className="select select-bordered select-sm" name="year" onChange={handleOnChangeSelect}>
-                        <option disabled selected>Pilih Tahun</option>
-                        <option value={99}>Semua</option>
-                        {years.map(y => (
-                            <option value={y}>{y}</option>
-                        ))}
-                    </select>
-                </label> */}
-
                 <div className="">
                     <div className="label">
                         <span className="label-text">Filter Tanggal</span>

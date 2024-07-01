@@ -9,6 +9,7 @@ import {ConfirmationModal} from "../../../components/Modals/ConfirmationModal.ts
 import {useState} from "react";
 import toast from "react-hot-toast";
 import {StoresDummy} from "../StoreDummy.ts";
+import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
 
 export const StoreManagementContainer = () => {
     const navigate = useNavigate();
@@ -25,12 +26,13 @@ export const StoreManagementContainer = () => {
 
     const handleDelete = (id: string) => {
         setUserId(id);
-        document.getElementById('modal-delete')?.showModal();
+        // document.getElementById('modal-delete')?.showModal();
+        showOrCloseModal('modal-delete', "show");
     }
 
     const deleteCurrentUser = () => {
         console.log(storeId);
-        document.getElementById('modal-delete')?.close();
+        showOrCloseModal('modal-delete', "show");
         toast.success("Berhasil mengahapus data")
     }
     return(

@@ -25,14 +25,14 @@ ChartJS.register(
 
 function LineChart(){
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    },
-  };
+  // const options = {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: {
+  //       position: 'top',
+  //     },
+  //   },
+  // };
 
   
   const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
@@ -53,7 +53,7 @@ function LineChart(){
 
     return(
       <TitleCard title={"Montly Active Users (in K)"}>
-          <Line data={data} options={options}/>
+          <Line data={data}/>
       </TitleCard>
     )
 }

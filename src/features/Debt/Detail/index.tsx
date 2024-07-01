@@ -13,6 +13,7 @@ import { IDebtDetailRequest, IDebtDetailResponse } from "../../../utils/interfac
 import { formatStringToDate } from "../../../utils/formDateString.ts";
 import moment from "moment";
 import FailedLoad from "../../../components/OtherDisplay/FailedLoad.tsx";
+import { FilterFormDebtDetail } from "../Components/FilterFormDebtDetail.tsx";
 
 const breadcrumbs: IBreadcrumbData[] = [
     {
@@ -67,14 +68,14 @@ export const DebtDetailContainer = () => {
         }
     }, [debtDetail, isSuccess])
 
-    useEffect(() => {
-        if (filter.month === 99 && filter.year === 99 && filter.type === "none") {
-            setDebtDetailList(debtDetail?.data.debtDetails);
-            return;
-        }
+    // useEffect(() => {
+    //     if (filter.month === 99 && filter.year === 99 && filter.type === "none") {
+    //         setDebtDetailList(debtDetail?.data.debtDetails);
+    //         return;
+    //     }
 
-        filterFunc();
-    }, [filter, setFilter])
+    //     filterFunc();
+    // }, [filter, setFilter])
     
     const filterFunc = () => {
         const filters = debtDetail?.data.debtDetails.filter((item) => {
@@ -83,10 +84,10 @@ export const DebtDetailContainer = () => {
                 const itemYear = itemDate.getFullYear();
                 const itemType = item.isPaid;
     
-                const isMonthMatch = filter.month === '99' || itemMonth === parseInt(filter.month - 1, 10);
-                const isYearMatch = filter.year === '99' || itemYear === parseInt(filter.year, 10);
+                const isMonthMatch = filter.month == 99 || itemMonth == filter.month - 1;
+                const isYearMatch = filter.year == 99 || itemYear == filter.year;
                 const isTypeMatch = filter.type === 'none' || itemType === (filter.type === "true");
-                return isMonthMatch && isYearMatch && isTypeMatch;
+                return isMonthMatch && isYearMatch && isTypeMatch ;
             });
         setDebtDetailList(filters)
     }
@@ -151,6 +152,26 @@ export const DebtDetailContainer = () => {
         }
     }
 
+    const handleFiter = () => {
+        console.log(filter);
+        showOrCloseModal("filter-debt-modal", "close");
+        if (filter.month === 99 && filter.year === 99 && filter.type === "none") {
+            setDebtDetailList(debtDetail?.data.debtDetails);
+            return;
+        }
+
+        filterFunc();
+    }
+
+    const handleResetFilter = () => {
+        setFilter({
+            month: 99,
+            type: "none",
+            year:99
+        });
+        setDebtDetailList(debtDetail?.data.debtDetails);
+    }
+
     const MainContent = isErrorGet || !debtDetail?.data ? <FailedLoad /> : (
         <TitleCard
             showButtonBack={true}
@@ -172,6 +193,13 @@ export const DebtDetailContainer = () => {
 
     return(
         <>
+            <FilterFormDebtDetail
+                handleOnChangeSelect={handleOnChangeFilter}
+                handleReset={handleResetFilter}
+                handleFilter={handleFiter}
+                id="filter-debt-modal"
+                title="Filter Data Hutang"
+            />
             <FormComponentDebt 
                 debtDetailForm={debtDetailForm} 
                 setDebtDetailForm={setDebtDetailForm} 

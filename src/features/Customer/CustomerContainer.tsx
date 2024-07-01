@@ -25,22 +25,6 @@ export const CustomerContainer = () => {
   const [deleteCustomer] = useDeleteCustomerMutation();
   const [customerFilter, setCustomerFilter] = useState<ICustomerResponse[]>([]);
 
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(2);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = customerFilter.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  const handlePreviousPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
-
   useEffect(() => {
     if (isGetSuccess) {
       setCustomerFilter(customerList.data);
@@ -84,7 +68,6 @@ export const CustomerContainer = () => {
     }
   };
 
-  const lastPage = Math.ceil(customerFilter.length / itemsPerPage);
 
   const titleTables = ["No", "Nama Lengkap", "Alamat", "Email", "No Hp", "Aksi"];
 
