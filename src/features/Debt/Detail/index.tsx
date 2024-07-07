@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {IBreadcrumbData} from "../../../utils/TableDataType.ts";
 import {CustomerDetail} from "../../Customer/Components/CustomerDetail.tsx";
 import TitleCard from "../../../components/Cards/TitleCard.tsx";
@@ -14,6 +14,8 @@ import { formatStringToDate } from "../../../utils/formDateString.ts";
 import moment from "moment";
 import FailedLoad from "../../../components/OtherDisplay/FailedLoad.tsx";
 import { FilterFormDebtDetail } from "../Components/FilterFormDebtDetail.tsx";
+import { DebtReport } from "../../reports/DebtReport.tsx";
+import { useReactToPrint } from "react-to-print";
 
 const breadcrumbs: IBreadcrumbData[] = [
     {
@@ -34,6 +36,7 @@ export interface FilterDebtDetail {
 
 export const DebtDetailContainer = () => {
     const {id} = useParams();
+    const componentRef = useRef(null);
     // const [debtDetail, setDebtDetail] = useState<IDebt>();
     const {data: debtDetail, isLoading: isLoadingGet, isError: isErrorGet, isSuccess} = useGetNoteDebtByIdQuery(id ?? "");
     const [addDebtDetail] = useAddNoteDebtDetailMutation();
@@ -172,6 +175,10 @@ export const DebtDetailContainer = () => {
         setDebtDetailList(debtDetail?.data.debtDetails);
     }
 
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+      });
+
     const MainContent = isErrorGet || !debtDetail?.data ? <FailedLoad /> : (
         <TitleCard
             showButtonBack={true}
@@ -181,10 +188,10 @@ export const DebtDetailContainer = () => {
             <CustomerDetail customerDetail={debtDetail?.data.customer} />
             <DebtListDetail 
                 customerId={debtDetail?.data.customer.id}
-                handleAddOrEdit={showAddForm}
-                priceTotal={debtDetail?.data.priceTotal} 
+                handleAddOrEdit={showAddForm} 
                 showEdited={true}
                 handleShowEdit={showEditForm}
+                handlePrint={handlePrint}
                 onChangeFilter={handleOnChangeFilter} 
                 debtDetails={debtDetailList} 
             />
@@ -193,6 +200,16 @@ export const DebtDetailContainer = () => {
 
     return(
         <>
+            {debtDetail && (
+                <div style={{ display: 'none' }}>
+                    <div ref={componentRef}>
+                    {/* Komponen atau tampilan yang akan dicetak */}
+                    <pre>
+                        <DebtReport customer={debtDetail?.data.customer} debtDetails={debtDetailList} key={"print"} />
+                    </pre>
+                    </div>
+                </div>
+            )}
             <FilterFormDebtDetail
                 handleOnChangeSelect={handleOnChangeFilter}
                 handleReset={handleResetFilter}

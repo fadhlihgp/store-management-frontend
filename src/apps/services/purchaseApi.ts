@@ -27,7 +27,7 @@ export const purchaseApi = api.injectEndpoints({
                 method: 'POST',
                 body
             }),
-            invalidatesTags: ["PurchaseList"]
+            invalidatesTags: ["PurchaseList", "Dashboard"]
         })
     })
 })

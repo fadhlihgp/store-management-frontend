@@ -303,3 +303,18 @@ export interface IParameterizeResponse {
     id: string,
     name: string
 }
+
+export interface IDashboardResponse {
+    stats: DashboardCard[],
+    transactionTotals: DashboardChart[]
+}
+
+interface DashboardCard {
+    message: string,
+    value: number
+}
+
+interface DashboardChart {
+    month: number,
+    value: number
+}

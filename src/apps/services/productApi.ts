@@ -32,7 +32,7 @@ export const productApi = api.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["Product", "ProductList"]
+            invalidatesTags: ["Product", "ProductList", "Dashboard"]
         }),
         editProduct: builder.mutation<ProductDetailResponse, EditProductPayload>({
             query: ({id, data}) => ({
@@ -47,7 +47,7 @@ export const productApi = api.injectEndpoints({
                 url: `api/product/delete/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ["ProductList"]
+            invalidatesTags: ["ProductList", "Dashboard"]
         })
     })
 })

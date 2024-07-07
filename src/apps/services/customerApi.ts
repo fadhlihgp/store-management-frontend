@@ -32,7 +32,7 @@ export const customerApi = api.injectEndpoints({
                 body: data,
                 method: "POST"
             }),
-            invalidatesTags: ["Customer", "CustomerList"]
+            invalidatesTags: ["Customer", "CustomerList", "Dashboard"]
         }),
         updateCustomer: builder.mutation<CustomerResponse, CustomerEditRequest>({
             query: ({id, data}) => ({
@@ -47,7 +47,7 @@ export const customerApi = api.injectEndpoints({
                 url: `api/customer/delete/${id}`,
                 method: "PUT"
             }),
-            invalidatesTags: ["Customer", "CustomerList"]
+            invalidatesTags: ["Customer", "CustomerList", "Dashboard"]
         })
     })
 })

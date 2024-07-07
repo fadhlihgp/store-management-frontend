@@ -32,7 +32,7 @@ export const noteDebtApi = api.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["NoteDebtList", "NoteDebt"]
+            invalidatesTags: ["NoteDebtList", "NoteDebt", "Dashboard"]
         }),
         addNoteDebtDetail: builder.mutation<any, IDebtDetailRequest>({
             query: (data) => ({
@@ -40,14 +40,14 @@ export const noteDebtApi = api.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["NoteDebtList", "NoteDebt"]
+            invalidatesTags: ["NoteDebtList", "NoteDebt", "Dashboard"]
         }),
         deleteNoteDebtDetail: builder.mutation<any, string>({
             query: (id: string) => ({
                 url: `api/note/debt/detail/${id}`,
                 method: "DELETE"
             }),
-            invalidatesTags: ["NoteDebtDetailList", "NoteDebtList", "NoteDebt"]
+            invalidatesTags: ["NoteDebtDetailList", "NoteDebtList", "NoteDebt", "Dashboard"]
         }),
         updateNoteDebtDetail: builder.mutation<any, UpdateDebtDetail>({
             query: ({id, data}) => ({
@@ -55,7 +55,7 @@ export const noteDebtApi = api.injectEndpoints({
                 method: "PUT",
                 body: data
             }),
-            invalidatesTags: ["NoteDebt", "NoteDebtList"]
+            invalidatesTags: ["NoteDebt", "NoteDebtList", "Dashboard"]
         }),
         payDebt: builder.mutation<any, IPayDebtRequest>({
             query: (data) => ({
@@ -63,7 +63,7 @@ export const noteDebtApi = api.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["NoteDebt", "NoteDebtList", "NoteDebtDetailList"]
+            invalidatesTags: ["NoteDebt", "NoteDebtList", "NoteDebtDetailList", "Dashboard"]
         })
     })
 })

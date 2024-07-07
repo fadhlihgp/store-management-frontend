@@ -1,7 +1,7 @@
 interface DashboardStatProps {
     title: string,
     icon: any,
-    value: string,
+    value: string | number,
     colorIndex: number
 }
 

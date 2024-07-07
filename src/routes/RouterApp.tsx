@@ -31,6 +31,7 @@ import { TransactionHistory } from "../pages/protected/TransactionHistory.tsx";
 import { DebtForm } from "../pages/protected/DebtForm.tsx";
 import { ResetPassword } from "../pages/ResetPassword.tsx";
 import { PurchaseDetail } from "../pages/protected/PurchaseDetail.tsx";
+import PrintComponent from "../pages/testing/PrintComponent.tsx";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -212,6 +213,10 @@ export const RouterApp = () => {
                     
                     <Route path={"/*"}
                            element={<NotFound />}
+                    />
+
+                    <Route path="/test-print"
+                        element={<PrintComponent />} 
                     />
                 </Routes>
             </React.Fragment>

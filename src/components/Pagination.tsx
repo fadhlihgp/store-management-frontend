@@ -66,7 +66,7 @@ export function PaginationComponent<T>({ data, itemsPerPage, titleTables, render
                 »
               </button>
             </div>
-            <p>Total Data: {currentItems.length}</p>
+            <p>Total Data: {data.length}</p>
           </div>
         </div>
       )}

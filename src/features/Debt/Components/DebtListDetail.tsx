@@ -126,15 +126,15 @@ const PayDebt = ({payDebtForm, setPayDebtForm, payDebtDatas, validationErrors, s
 
 interface DebtListDetailProps {
     debtDetails?: IDebtDetailResponse[],
-    priceTotal?: number,
     showEdited?: boolean,
     handleAddOrEdit?:() => void,
     handleShowEdit: (data: IDebtDetailResponse, id: string) => void,
+    handlePrint?: () => void,
     onChangeFilter: (e: React.ChangeEvent<HTMLSelectElement>) => void,
     customerId: string
 }
 
-export const DebtListDetail = ({debtDetails, priceTotal = 0, showEdited = false, handleAddOrEdit, handleShowEdit, customerId}: DebtListDetailProps) => {
+export const DebtListDetail = ({handlePrint, debtDetails, showEdited = false, handleAddOrEdit, handleShowEdit, customerId}: DebtListDetailProps) => {
     const [deleteDetailDebt] = useDeleteNoteDebtDetailMutation();
     const [idDelete, setIdDelete] = useState<string>("-1");
     const [selectedItems, setSelectedItems] = useState<IDebtDetailResponse[]>([]);
@@ -297,7 +297,7 @@ export const DebtListDetail = ({debtDetails, priceTotal = 0, showEdited = false,
                             </div>
                             <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box z-10 ">
                                 <li onClick={handleAddOrEdit}><button><PlusIcon className={'h-5 w-5'} /> Tambah</button></li>
-                                <li><button><PrinterIcon className={'h-5 w-5'} /> Cetak</button></li>
+                                <li onClick={handlePrint}><button><PrinterIcon className={'h-5 w-5'} /> Cetak</button></li>
                             </ul>
                         </div>
                     </div>
@@ -363,10 +363,9 @@ export const DebtListDetail = ({debtDetails, priceTotal = 0, showEdited = false,
                         )}
                     />
                 )}
-               
                 {debtDetails && (
                     <div className={'w-full flex justify-between mt-3'}>
-                        <div className={'font-semibold'}>Total Hutang: {convertCurrency("Rp", priceTotal)}</div>
+                        <div className={'font-semibold'}>Total Hutang: {convertCurrency("Rp", debtDetails?.filter(d => !d.isPaid).reduce((acc, cur) => acc + (cur.count * cur.price), 0))}</div>
                         <div className={'font-semibold flex flex-col items-end'}>
                             <p>Total dipilih: {convertCurrency("Rp", totalPrice)} </p>
                             <button 

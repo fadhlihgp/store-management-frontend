@@ -3,7 +3,7 @@ import {IncomeExpenseContainer} from "../../features/IncomeExpense";
 
 export const IncomeExpense = () => {
     return(
-        <Layout pageTitle={"Catatan Pengeluaran dan Pemasukkan"}>
+        <Layout pageTitle={"Catatan"}>
             <IncomeExpenseContainer />
         </Layout>
     )

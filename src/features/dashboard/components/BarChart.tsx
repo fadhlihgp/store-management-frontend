@@ -12,7 +12,16 @@ import TitleCard from '../../../components/Cards/TitleCard';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function BarChart(){
+interface Trans {
+  month: number,
+  value: number
+}
+
+interface BarChartProp {
+  transactionTotals: Trans[]
+}
+
+function BarChart(trans: BarChartProp){
 
     // const options = {
     //     responsive: true,
@@ -29,20 +38,16 @@ function BarChart(){
         labels,
         datasets: [
           {
-            label: 'Pengeluaran',
-            data: labels.map(() => { return Math.random() * 1000 + 500 }),
-            backgroundColor: 'rgba(255, 99, 132, 1)',
-          },
-          {
             label: 'Pemasukkan',
-            data: labels.map(() => { return Math.random() * 1000 + 500 }),
+            // data: labels.map(() => { return Math.random() * 1000 + 500 }),
+            data: trans.transactionTotals.map((trans) => trans.value),
             backgroundColor: 'rgba(53, 162, 235, 1)',
           },
         ],
       };
 
     return(
-      <TitleCard title={"Pemasukkan/Pengeluaran"}>
+      <TitleCard title={"Pemasukkan"}>
             {/* <Bar data={data} options={options} /> */}\
             <Bar data={data} />
       </TitleCard>
