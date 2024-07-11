@@ -25,7 +25,7 @@ export const FilterFormDebtDetail = ({handleFilter, handleReset, handleOnChangeS
 
     return(
         <dialog id={id} className="modal modal-bottom sm:modal-middle">
-            <div className={'modal-box w-1/2'}>
+            <div className={'modal-box'}>
             <p className="py-2 mt-1 text-center font-bold">{title}</p>
                 <div className="flex flex-col gap-2">
 

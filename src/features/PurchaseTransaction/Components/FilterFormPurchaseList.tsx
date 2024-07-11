@@ -10,9 +10,10 @@ interface FilterFormPurchaseList {
     dateValue: {startDate: Date, endDate: Date},
     setDateValue: React.Dispatch<React.SetStateAction<{startDate: Date, endDate: Date}>>,
     updateSearchValue: (value:string) => void,
+    handlePrint: () => void
 }
 
-export const FilterFormPurchaseList = ({handleAdd, dateValue, setDateValue, updateSearchValue}:FilterFormPurchaseList) => {
+export const FilterFormPurchaseList = ({handleAdd, handlePrint, dateValue, setDateValue, updateSearchValue}:FilterFormPurchaseList) => {
     // const [dateValue, setDateValue] = useState({
     //     startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     //     endDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
@@ -57,7 +58,7 @@ export const FilterFormPurchaseList = ({handleAdd, dateValue, setDateValue, upda
                     </div>
                     <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box z-10 ">
                         <li onClick={handleAdd}><button><PlusIcon className={'h-5 w-5'} /> Buat Transaksi</button></li>
-                        <li><button><PrinterIcon className={'h-5 w-5'} /> Cetak</button></li>
+                        <li onClick={handlePrint}><button><PrinterIcon className={'h-5 w-5'} /> Cetak</button></li>
                     </ul>
                 </div>
             </div>

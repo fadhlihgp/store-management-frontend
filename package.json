@@ -19,6 +19,7 @@
     "chart.js": "^4.0.1",
     "dayjs": "^1.11.7",
     "html2canvas": "^1.4.1",
+    "html2canvas-pro": "^1.5.5",
     "js-cookie": "^3.0.5",
     "jspdf": "^2.5.1",
     "moment": "^2.30.1",

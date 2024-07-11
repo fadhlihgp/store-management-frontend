@@ -1,14 +1,15 @@
 import moment from "moment"
-import { ICustomerResponse, IDebtDetailResponse } from "../../utils/interfaces"
+import { IPurchaseListResponse } from "../../utils/interfaces"
 import { convertCurrency } from "../../utils/convertCurrency"
 
-interface DebtReportProps {
-    customer: ICustomerResponse
-    debtDetails?: IDebtDetailResponse[]
+interface PurchaseReportProps {
+    startDate: Date
+    endDate: Date
+    data: IPurchaseListResponse[]
 }
 
-export const DebtReport = ({customer, debtDetails}: DebtReportProps) => {
-    const total = debtDetails?.filter(d => !d.isPaid).reduce((acc, cur) => acc + (cur.count * cur.price), 0);
+export const PurchaseReport = ({startDate, endDate, data}: PurchaseReportProps) => {
+    const total = data?.filter(d => d.status == "paid").reduce((acc, cur) => acc + cur.purchaseTotal, 0);
 
     return (
         <div>
@@ -54,16 +55,15 @@ export const DebtReport = ({customer, debtDetails}: DebtReportProps) => {
                 </table>
                 </div>
                 <div className="bg-slate-100 px-14 py-6 text-sm">
-                <h1 className='text-2xl text-center font-bold mb-4 uppercase'>Laporan Data Hutang</h1>
+                <h1 className='text-2xl text-center font-bold mb-4 uppercase'>Laporan Transaksi</h1>
                 <table className="w-full border-collapse border-spacing-0">
                     <tbody>
                     <tr>
                         <td className="w-1/2 align-top ">
                         <div className="text-neutral-600">
-                            <p className="font-bold">Data Pelanggan</p>
-                            <p>Nama: {customer.fullName}</p>
-                            <p>Alamat: {customer.address ?? "-"}</p>
-                            <p>No Ponsel: {customer.phoneNumber ?? "-"}</p>
+                            <p className="font-bold">Periode</p>
+                            <p>Dari: {moment(startDate).format("DD MMMM YYYY")}</p>
+                            <p>Hingga: {moment(endDate).format("DD MMMM YYYY")}</p>
                         </div>
                         </td>
                     </tr>
@@ -79,35 +79,31 @@ export const DebtReport = ({customer, debtDetails}: DebtReportProps) => {
                         No
                         </td>
                         <td className="border-b-2 border-main pb-3 pl-2 font-bold text-main">
-                        Produk
+                        Invoice
                         </td>
                         <td className="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">
-                        Status
+                        Nama Pelanggan
                         </td>
                         <td className="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">
-                        Tanggal Hutang
+                        Tanggal
                         </td>
                         <td className="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">
-                        Jumlah
+                        Catatan
                         </td>
                         <td className="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">
-                        Harga
-                        </td>
-                        <td className="border-b-2 border-main pb-3 pl-2 pr-3 text-right font-bold text-main">
                         Total
                         </td>
                     </tr>
                     </thead>
                     <tbody>
-                    {debtDetails?.map((item, index) => (
+                    {data?.map((item, index) => (
                         <tr key={index}>
                             <td className="border-b py-3 pl-3">{index + 1}.</td>
-                            <td className="border-b py-3 pl-2">{item.productName}</td>
-                            <td className="border-b py-3 pl-2 text-right">{item.isPaid ? "Sudah Bayar" : "Belum Bayar"}</td>
+                            <td className="border-b py-3 pl-2">{item.invoice}</td>
+                            <td className="border-b py-3 pl-2 text-center">{item.customer}</td>
                             <td className="border-b py-3 pl-2 text-center">{moment(item.date).format("DD MMM YYYY")}</td>
-                            <td className="border-b py-3 pl-2 text-center">{item.count} {item.unitProductName}</td>
-                            <td className="border-b py-3 pl-2 text-right">{convertCurrency("Rp", item.price)}</td>
-                            <td className="border-b py-3 pl-2 pr-3 text-right">{item.isPaid ? "-" : ""}{convertCurrency("Rp", item.count * item.price)}</td>
+                            <td className="border-b py-3 pl-2 text-center">{item.note}</td>
+                            <td className="border-b py-3 pl-2 text-right">{convertCurrency("Rp", item.purchaseTotal)}</td>
                         </tr>
                     ))}
                     </tbody>
@@ -122,7 +118,7 @@ export const DebtReport = ({customer, debtDetails}: DebtReportProps) => {
                                 <tr>
                                 <td className="p-3">
                                     <div className="whitespace-nowrap text-slate-400">
-                                    Total Sisa Hutang:
+                                    Total Transaksi:
                                     </div>
                                 </td>
                                 <td className="p-3 text-right">

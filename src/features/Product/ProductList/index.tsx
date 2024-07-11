@@ -44,7 +44,7 @@ export const ProductContainer = () => {
   useEffect(() => {
     if (isSuccess) {
       setProductList(products.data);
-      console.log(products);
+      // console.log(products);
     }
   }, [isSuccess, products]);
 
