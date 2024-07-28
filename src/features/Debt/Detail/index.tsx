@@ -109,9 +109,10 @@ export const DebtDetailContainer = () => {
             price: data.price,
             productId: data.productId,
             unitProductId: data.unitProductId,
-            isPaid: data.isPaid
+            isPaid: data.isPaid,
+            payDate: data.payDate
         })
-        console.log(debtDetailForm);
+        // console.log(debtDetailForm);
         showOrCloseModal("form-debt", "show");
     }
 

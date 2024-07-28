@@ -22,7 +22,7 @@ const authApi = api.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation<LoginResponse, LoginInput>({
             query: (dataInput: LoginInput) => ({
-                url: '/api/auth/login',
+                url: 'auth/login',
                 method: 'POST',
                 body: dataInput
             }),

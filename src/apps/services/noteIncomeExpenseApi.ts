@@ -20,11 +20,11 @@ interface EditIncomeExpenseRequest {
 export const noteIncomeExpenseApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getNoteIncomeExpenses: builder.query<IncomeExpenseListResponse, void>({
-            query: () => 'api/note/income-expense',
+            query: () => '/note/income-expense',
             providesTags: ["NoteIncomeExpenseList"]
         }),
         getNoteIncomeExpenseById: builder.query<IncomeExpenseResponse, string>({
-            query: (id: string) => `api/note/income-expense/${id}`,
+            query: (id: string) => `/note/income-expense/${id}`,
             providesTags: ["NoteIncomeExpense"]
         }),
         addNoteIncomeExpense: builder.mutation<IncomeExpenseResponse, IIncomeExpenseRequest>({
@@ -37,7 +37,7 @@ export const noteIncomeExpenseApi = api.injectEndpoints({
                 if (data.image) formData.append('image', data.image);
 
                 return {
-                    url: 'api/note/income-expense',
+                    url: '/note/income-expense',
                     method: "POST",
                     body: formData
                 }
@@ -54,7 +54,7 @@ export const noteIncomeExpenseApi = api.injectEndpoints({
                 if (data.image) formData.append('image', data.image);
 
                 return {
-                    url: `api/note/income-expense/${id}`,
+                    url: `/note/income-expense/${id}`,
                     method: "PUT",
                     body: formData
                 }
@@ -63,7 +63,7 @@ export const noteIncomeExpenseApi = api.injectEndpoints({
         }),
         deleteNoteIncomeExpense: builder.mutation<any, string>({
             query: (id: string) => ({
-                url: `api/note/income-expense/${id}`,
+                url: `/note/income-expense/${id}`,
                 method: "DELETE"
             }),
             invalidatesTags: ["NoteIncomeExpenseList"]

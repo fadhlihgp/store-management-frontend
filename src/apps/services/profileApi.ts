@@ -8,12 +8,12 @@ interface ChangePasswordRequest {
 export const profileApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getProfile: builder.query<any, void>({
-            query: () => "/api/account/current-account",
+            query: () => "account/current-account",
             providesTags: ["Profile"]
         }),
         updateProfile: builder.mutation<any, IProfileRequest>({
             query: (dataInput: IProfileRequest) => ({
-                url: "/api/account/update-profile",
+                url: "account/update-profile",
                 method: "PUT",
                 body: dataInput
             }),
@@ -21,7 +21,7 @@ export const profileApi = api.injectEndpoints({
         }),
         changePassword: builder.mutation<any, ChangePasswordRequest>({
             query: (dataInput) => ({
-                url: "/api/account/change-password",
+                url: "account/change-password",
                 method: "PUT",
                 body: dataInput
             }),

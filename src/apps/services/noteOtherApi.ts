@@ -19,16 +19,16 @@ interface NoteOtherEditRequest {
 export const noteOtherApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getNoteOtherList: builder.query<NoteOtherListResponse, void>({
-            query: () => 'api/note/other',
+            query: () => '/note/other',
             providesTags: ["NoteOtherList"]
         }),
         getNoteOtherById: builder.query<NoteOtherResponse, string>({
-            query: (id: string) => `api/note/other/${id}`,
+            query: (id: string) => `/note/other/${id}`,
             providesTags: ["NoteOther"]
         }),
         createNoteOther: builder.mutation<NoteOtherResponse, INoteOtherRequest>({
             query: (data) => ({
-                url: `api/note/other`,
+                url: `/note/other`,
                 method: "POST",
                 body: data
             }),
@@ -36,7 +36,7 @@ export const noteOtherApi = api.injectEndpoints({
         }),
         updateNoteOther: builder.mutation<NoteOtherResponse, NoteOtherEditRequest>({
             query: ({id, data}) => ({
-                url: `api/note/other/${id}`,
+                url: `/note/other/${id}`,
                 method: "PUT",
                 body: data
             }),
@@ -44,7 +44,7 @@ export const noteOtherApi = api.injectEndpoints({
         }),
         deleteNoteOther: builder.mutation<any, string>({
             query: (id: string) => ({
-                url: `api/note/other/${id}`,
+                url: `/note/other/${id}`,
                 method: "DELETE"
             }),
             invalidatesTags: ["NoteOtherList"]

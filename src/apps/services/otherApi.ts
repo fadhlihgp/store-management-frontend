@@ -14,11 +14,11 @@ interface dashboardApiResponse {
 export const otherApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getParameterize: builder.query<otherApiResponse, string>({
-            query: (type:string) => `api/other/parameterize/${type}`,
+            query: (type:string) => `/other/parameterize/${type}`,
             providesTags: ["Parameterizes"]
         }),
         getDashboard: builder.query<dashboardApiResponse, void>({
-            query: () => `api/other/dashboard`,
+            query: () => `/other/dashboard`,
             providesTags: ["Dashboard"]
         })
     })

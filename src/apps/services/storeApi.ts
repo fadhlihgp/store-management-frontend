@@ -23,12 +23,12 @@ interface AddOrEditStorePayload {
 export const storeApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getStoreList: builder.query<StoreListResponse, void>({
-            query: () => "/api/store",
+            query: () => "store",
             providesTags: ["StoreList"]
         }),
         addStore: builder.mutation<AddOrEditStorePayload, IStoreRequest>({
             query: (data) => ({
-                url: "/api/store",
+                url: "store",
                 method: "POST",
                 body: data
             }),
@@ -36,19 +36,19 @@ export const storeApi = api.injectEndpoints({
         }),
         editStore: builder.mutation<AddOrEditStorePayload, EditStorePayload>({
             query: ({id, data}) => ({
-                url: "/api/store/" + id,
+                url: "store/" + id,
                 method: "PUT",
                 body: data
             }),
             invalidatesTags: ["StoreList", "Store"]
         }),
         getStoreById: builder.query<StoreDetailResponse, string>({
-            query: (id) => `/api/store/${id}`,
+            query: (id) => `store/${id}`,
             providesTags: ["Store"]
         }),
         deleteStore: builder.mutation<any, string>({
             query: (id: string) => ({
-                url: "/api/store/delete/" + id,
+                url: "store/delete/" + id,
                 method: "PUT"
             }),
             invalidatesTags: ["StoreList"]
