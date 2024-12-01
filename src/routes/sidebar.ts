@@ -94,11 +94,6 @@ const routes: Route[] = [
 
 export const routeSuperAdmin: Route[] = [
   {
-    path: '/dashboard',
-    icon: IconData.DashboardIcon,
-    name: 'Dashboard',
-  },
-  {
     path: '/user-management',
     icon: IconData.UserIcon,
     name: 'User Management',

@@ -19,24 +19,24 @@ interface EditProductPayload {
 export const productApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getProducts: builder.query<ProductListResponse, void>({
-            query: () => '/api/product',
+            query: () => '/product',
             providesTags: ["ProductList"]
         }),
         getProductById: builder.query<ProductDetailResponse, string>({
-            query: (id: string) => `/api/product/${id}`,
+            query: (id: string) => `/product/${id}`,
             providesTags: ["Product"]
         }),
         addProduct: builder.mutation<ProductDetailResponse, IProductRequest>({
             query: (data: IProductRequest) => ({
-                url: `api/product`,
+                url: `/product`,
                 method: "POST",
                 body: data
             }),
-            invalidatesTags: ["Product", "ProductList"]
+            invalidatesTags: ["Product", "ProductList", "Dashboard"]
         }),
         editProduct: builder.mutation<ProductDetailResponse, EditProductPayload>({
             query: ({id, data}) => ({
-                url: `api/product/${id}`,
+                url: `/product/${id}`,
                 method: "PUT",
                 body: data
             }),
@@ -44,10 +44,10 @@ export const productApi = api.injectEndpoints({
         }),
         deleteProduct: builder.mutation<any, string>({
             query: (id: string) => ({
-                url: `api/product/delete/${id}`,
+                url: `/product/delete/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ["ProductList"]
+            invalidatesTags: ["ProductList", "Dashboard"]
         })
     })
 })

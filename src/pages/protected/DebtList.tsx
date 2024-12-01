@@ -3,7 +3,7 @@ import {DebtListContainer} from "../../features/Debt/DebtList";
 
 export const DebtList = () => {
     return(
-        <Layout pageTitle={"Catatan Hutang"}>
+        <Layout pageTitle={"Catatan"}>
             <DebtListContainer />
         </Layout>
     )

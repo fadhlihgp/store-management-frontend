@@ -19,24 +19,24 @@ interface CustomerEditRequest {
 export const customerApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getCustomer: builder.query<CustomerListResponse, void>({
-            query: () => `api/customer`,
+            query: () => `customer`,
             providesTags: ["CustomerList"]
         }),
         getCustomerById: builder.query<CustomerResponse, string>({
-            query: (id: string) => `api/customer/${id}`,
+            query: (id: string) => `customer/${id}`,
             providesTags: ["Customer"]
         }),
         addCustomer: builder.mutation<CustomerResponse, ICustomerRequest>({
             query: (data) => ({
-                url: `api/customer`,
+                url: `customer`,
                 body: data,
                 method: "POST"
             }),
-            invalidatesTags: ["Customer", "CustomerList"]
+            invalidatesTags: ["Customer", "CustomerList", "Dashboard"]
         }),
         updateCustomer: builder.mutation<CustomerResponse, CustomerEditRequest>({
             query: ({id, data}) => ({
-                url: `api/customer/${id}`,
+                url: `customer/${id}`,
                 method: "PUT",
                 body: data
             }),
@@ -44,10 +44,10 @@ export const customerApi = api.injectEndpoints({
         }),
         deleteCustomer: builder.mutation<any, string>({
             query: (id: string) => ({
-                url: `api/customer/delete/${id}`,
+                url: `customer/delete/${id}`,
                 method: "PUT"
             }),
-            invalidatesTags: ["Customer", "CustomerList"]
+            invalidatesTags: ["Customer", "CustomerList", "Dashboard"]
         })
     })
 })

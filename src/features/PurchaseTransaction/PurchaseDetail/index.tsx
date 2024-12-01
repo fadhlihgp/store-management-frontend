@@ -9,6 +9,9 @@ import FailedLoad from "../../../components/OtherDisplay/FailedLoad"
 import { LoadingProcess } from "../../../components/Loading/LoadingProcess"
 import { MaximumWordLength } from "../../../utils/MaximumWordLength"
 import { convertCurrency } from "../../../utils/convertCurrency"
+import { useRef } from "react"
+import { Invoice } from "../../reports/Invoice"
+import { useReactToPrint } from "react-to-print"
 
 const breadcrumbsData: IBreadcrumbData[] = [
     {
@@ -24,8 +27,23 @@ const breadcrumbsData: IBreadcrumbData[] = [
 export const PurchaseDetailContainer = () => {
     const {id} = useParams();
     const {data: purchaseDetail, isError, isLoading} = useGetPurchaseDetailQuery(id ?? "-");
+    const componentRef = useRef(null);
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+      });
+
     const MainContent = isError ? <FailedLoad /> : ( purchaseDetail &&
         <>
+            <div style={{ display: 'none' }}>
+                <div ref={componentRef}>
+                {/* Komponen atau tampilan yang akan dicetak */}
+                <pre>
+                    <Invoice id={id ?? "-"} />
+                </pre>
+                </div>
+            </div>
+
             <PageHeading
                 titlePage="Detail Transaksi"
                 breadcrumbsData={breadcrumbsData}
@@ -36,8 +54,8 @@ export const PurchaseDetailContainer = () => {
                             <PrinterIcon className={'h-7 w-7'}/> Cetak
                         </div>
                         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><a>Struk</a></li>
-                            <li><a>Detail</a></li>
+                            <li onClick={handlePrint}><a>Invoice</a></li>
+                            <li><a>Pdf</a></li>
                         </ul>
                         </div>
                 </>}
@@ -69,12 +87,6 @@ export const PurchaseDetailContainer = () => {
                         <th className="text-center">
                             Total
                         </th>
-                        {/* <th className="text-center">
-                            Tanggal
-                        </th> */}
-                        {/* <th className="text-center">
-                            Catatan
-                        </th> */}
                     </thead>
                     <tbody>
                         {purchaseDetail.data.purchaseDetails.map((u, k) => 

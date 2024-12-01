@@ -244,12 +244,16 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
                             <div className="font-semibold text-xl">{convertCurrency("Rp", debtDetailForm.price)}</div>
                         </div>
                         <div>
-                            <div>Tanggal</div>
+                            <div>Tanggal Pengambilan Barang</div>
                             <div className="font-semibold text-xl">{moment(debtDetailForm.date).format("DD MMMM yyyy")}</div>
                         </div>
                         <div>
                             <div>Total</div>
                             <div className="font-semibold text-xl">{convertCurrency("Rp", debtDetailForm.count * debtDetailForm.price)}</div>
+                        </div>
+                        <div>
+                            <div>Tanggal Dibayar</div>
+                            <div className="font-semibold text-xl">{debtDetailForm.payDate ? moment(debtDetailForm.payDate).format("DD MMMM yyyy") : "-" }</div>
                         </div>
                     </div>
                     <div className={'grid grid-cols-1 gap-4 mt-4'}>

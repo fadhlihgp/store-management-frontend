@@ -4,15 +4,18 @@ import FailedLoad from "../../../components/OtherDisplay/FailedLoad"
 import { PaginationComponent } from "../../../components/Pagination"
 import { convertCurrency } from "../../../utils/convertCurrency"
 import { useGetPurchaseListQuery } from "../../../apps/services/purchaseApi"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { IPurchaseListResponse } from "../../../utils/interfaces"
 import { MaximumWordLength } from "../../../utils/MaximumWordLength"
 import moment from "moment"
 import { FilterFormPurchaseList } from "../Components/FilterFormPurchaseList"
 import { Link, useNavigate } from "react-router-dom"
+import { PurchaseReport } from "../../reports/PurchaseReport"
+import { useReactToPrint } from "react-to-print"
 
 export const PurchaseListContainer = () => {
   const navigate = useNavigate();
+  const componentRef = useRef(null);
   const [purchaseListFilter, setPurchaseListFilter] = useState<
     IPurchaseListResponse[]
   >([]);
@@ -63,6 +66,11 @@ export const PurchaseListContainer = () => {
           );
     }
   }
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  
   const MainContent = isError ? (
     <FailedLoad />
   ) : (
@@ -103,10 +111,22 @@ export const PurchaseListContainer = () => {
   return (
     <>
       {/* <FormComponentDebt dataProducts={}/> */}
+      {purchaseListFilter && (
+              <div style={{ display: 'none' }}>
+                  <div ref={componentRef}>
+                  {/* Komponen atau tampilan yang akan dicetak */}
+                  <pre>
+                      <PurchaseReport startDate={dateFilterValue.startDate} endDate={dateFilterValue.endDate} data={purchaseListFilter} key={"print"} />
+                  </pre>
+                  </div>
+              </div>
+      )}
+
       <TitleCard
         title="Daftar Riwayat Transaksi"
         topSideButtons={
           <FilterFormPurchaseList
+            handlePrint={handlePrint}
             updateSearchValue={updateSearchValue}
             handleAdd={() => navigate("/transaction-purchase")}
             dateValue={dateFilterValue}

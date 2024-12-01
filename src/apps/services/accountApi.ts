@@ -18,16 +18,16 @@ interface EditAccountPayload {
 export const accountApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getAccountList: builder.query<AccountListResponse, void>({
-            query: () => "/api/account",
+            query: () => "/account",
             providesTags: ["AccountList"]
         }),
         getAccountById: builder.query<AccountResponse, string>({
-            query: (id: string) => `/api/account/${id}`,
+            query: (id: string) => `/account/${id}`,
             providesTags: ["Account"]
         }),
         addAccount: builder.mutation<any, IAccountRequest>({
            query: (data: IAccountRequest) => ({
-               url: `/api/account/create`,
+               url: `account/create`,
                method: "POST",
                body: data
            }),
@@ -35,7 +35,7 @@ export const accountApi = api.injectEndpoints({
         }),
         editAccount: builder.mutation<any, EditAccountPayload>({
             query: ({id, dataInput}) => ({
-                url: `/api/account/update/${id}`,
+                url: `account/update/${id}`,
                 method: "PUT",
                 body: dataInput
             }),
@@ -43,7 +43,7 @@ export const accountApi = api.injectEndpoints({
         }),
         deleteAccount: builder.mutation<any, string>({
             query: (id: string) => ({
-                url: `/api/account/delete/${id}`,
+                url: `account/delete/${id}`,
                 method: "PUT",
                 // body: {id}
             }),

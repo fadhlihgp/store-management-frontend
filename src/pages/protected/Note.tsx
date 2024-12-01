@@ -3,7 +3,7 @@ import {NoteContainer} from "../../features/Note";
 
 export const Note = () => {
     return(
-        <Layout pageTitle={"Catatan Lainya"} >
+        <Layout pageTitle={"Catatan"} >
             <NoteContainer />
         </Layout>
     )

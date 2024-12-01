@@ -197,7 +197,8 @@ export interface IDebtDetailRequest {
     unitProductId: string,
     price: number,
     note: string,
-    isPaid: boolean
+    isPaid: boolean,
+    payDate?: Date
 }
 
 export interface IDebtResponse {
@@ -223,7 +224,8 @@ export interface IDebtDetailResponse {
     createdBy: string,
     editedAt: Date,
     editedBy: string,
-    debtId: string
+    debtId: string,
+    payDate?: Date
 }
 export interface ISendLinkOtp{
     email: string
@@ -302,4 +304,19 @@ export interface IProductPurchaseRequest {
 export interface IParameterizeResponse {
     id: string,
     name: string
+}
+
+export interface IDashboardResponse {
+    stats: DashboardCard[],
+    transactionTotals: DashboardChart[]
+}
+
+interface DashboardCard {
+    message: string,
+    value: number
+}
+
+interface DashboardChart {
+    month: number,
+    value: number
 }

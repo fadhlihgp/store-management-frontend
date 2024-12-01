@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { IDebtRequest, IProductPurchaseRequest, IPurchaseRequest } from "../../../utils/interfaces"
 import { useGetProductsQuery } from "../../../apps/services/productApi"
@@ -21,6 +21,8 @@ import { useCreatePurchaseMutation } from "../../../apps/services/purchaseApi"
 import { InformationModalChoice } from "../../../components/Modals/InformationModalChoice"
 import { formatStringToDate } from "../../../utils/formDateString"
 import moment from "moment"
+import { Invoice } from "../../reports/Invoice"
+import { useReactToPrint } from "react-to-print"
 
 const breadcrumbsData = [
     {
@@ -45,6 +47,7 @@ const paymentMethodOptions = [
 ]
 export const PurchaseTransactionContainer = () => {
     const navigate = useNavigate();
+    const componentRef = useRef(null);
     const [idIndex, setIdIndex] = useState<number>(-1);
     const [customerOptions, setCustomerOptions] = useState<IOption[]>([]);
     const [productOptions, setProductOptions] = useState<IOption[]>([]);
@@ -82,7 +85,8 @@ export const PurchaseTransactionContainer = () => {
     const [errorMoney, setErrorMoney] = useState<string>();
     const [addPurchase, {isLoading}] = useCreatePurchaseMutation();
     const totalPrice = purchaseRequestForm.purchaseDetails.reduce((acc, curr) => acc + curr.price * curr.qty, 0);
-    
+
+    const [transId, setTransId] = useState<string>("");
     // Use effect for get admin name
     useEffect(() => {
         if(isSuccessCurrentAccount) {
@@ -160,6 +164,7 @@ export const PurchaseTransactionContainer = () => {
 
         addPurchase(purchaseRequestForm).unwrap()
         .then((res) => {
+            setTransId(res.data.id);
             toast.success(res.message);
             showOrCloseModal("info-modal", "show");
             // navigate('/transaction-history')
@@ -225,12 +230,30 @@ export const PurchaseTransactionContainer = () => {
 		setShowDate(state)
 	}
 
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        onAfterPrint: () => {
+            navigate('/transaction-purchase');
+        }
+    });
+
     return(
         <>
+            {transId.length > 0 && (
+                <div style={{ display: 'none' }}>
+                    <div ref={componentRef}>
+                    {/* Komponen atau tampilan yang akan dicetak */}
+                    <pre>
+                        <Invoice id={transId} />
+                    </pre>
+                    </div>
+                </div>
+            )}
+            
             <InformationModalChoice 
                 id="info-modal" 
                 type="success" 
-                handleOnClick={() => showOrCloseModal("info-modal", "close")} 
+                handleOnClick={handlePrint} 
                 handleClose={() => {
                     showOrCloseModal("info-modal", "close") 
                     navigate('/transaction-history')

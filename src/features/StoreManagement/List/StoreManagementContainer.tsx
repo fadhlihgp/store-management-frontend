@@ -6,14 +6,26 @@ import {EyeIcon, PencilSquareIcon} from "@heroicons/react/24/outline";
 import {TopSideButtons} from "../../../components/Input/TopSideButtons.tsx";
 import {useNavigate} from "react-router-dom";
 import {ConfirmationModal} from "../../../components/Modals/ConfirmationModal.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
-import {StoresDummy} from "../StoreDummy.ts";
 import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
+import { useDeleteStoreMutation, useGetStoreListQuery } from "../../../apps/services/storeApi.ts";
+import { IStoreResponse } from "../../../utils/interfaces.ts";
+import FailedLoad from "../../../components/OtherDisplay/FailedLoad.tsx";
+import { LoadingProcess } from "../../../components/Loading/LoadingProcess.tsx";
 
 export const StoreManagementContainer = () => {
     const navigate = useNavigate();
-    const [storeId, setUserId] = useState<string>("-1");
+    const [storeId, setStoreId] = useState<string>("-1");
+    const [storeList, setStoreList] = useState<IStoreResponse[]>();
+    const {data, isSuccess, isError, isLoading} = useGetStoreListQuery();
+    const [deleteStore] = useDeleteStoreMutation();
+
+    useEffect(() => {
+        if (isSuccess) {
+            setStoreList(data.data)
+        }   
+    }, [data, isSuccess, isError]);
 
     const handleAddOrEdit = (id:string = "-1") => {
         window.scrollTo(0, 0);
@@ -25,16 +37,23 @@ export const StoreManagementContainer = () => {
     }
 
     const handleDelete = (id: string) => {
-        setUserId(id);
+        setStoreId(id);
         // document.getElementById('modal-delete')?.showModal();
         showOrCloseModal('modal-delete', "show");
     }
 
     const deleteCurrentUser = () => {
-        console.log(storeId);
-        showOrCloseModal('modal-delete', "show");
-        toast.success("Berhasil mengahapus data")
+        deleteStore(storeId).unwrap()
+        .then((res) => {
+            showOrCloseModal('modal-delete', "close");
+            toast.success(res.message ?? "Berhasil menghapus data toko");
+        })
+        .catch((err) => {
+            showOrCloseModal('modal-delete', "close");
+            toast.error(err.data.message ?? "Gagal menghapus data toko");
+        })
     }
+
     return(
         <>
             <ConfirmationModal onClickYes={deleteCurrentUser} message={'Anda yakin ingin menghapus data toko ?'}/>
@@ -44,49 +63,51 @@ export const StoreManagementContainer = () => {
                 topSideButtons={<TopSideButtons onClick={() => handleAddOrEdit()} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
-                <div className="overflow-x-auto w-full">
-                    <table className="table w-full">
-                        <thead>
-                        <tr className={'text-center'}>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Phone</th>
-                            <th>Tipe Usaha</th>
-                            <th>Tanggal Daftar</th>
-                            <th>Didirikan</th>
-                            <th>Aksi</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            StoresDummy.map((u, k) => {
-                                return(
-                                    <tr key={k} className={'text-center'}>
-                                        <td>{k + 1}</td>
-                                        <td>
-                                            {u.name}
-                                        </td>
-                                        <td>{u.address}</td>
-                                        <td>{u.phone}</td>
-                                        <td>{u.businessType}</td>
-                                        <td>{moment(u.registerDate).format("DD-MMM-YYYY hh:mm:ss")}</td>
-                                        <td>{u.established ? u.established : "-"}</td>
-                                        <td className={'flex'}>
-                                            <button className="btn btn-square btn-ghost" onClick={() => {
-                                                window.scrollTo(0, 0);
-                                                navigate(`/store-management/detail/${u.id}`)
-                                            }}><EyeIcon className="w-5"/></button>
-                                            <button className="btn btn-square btn-ghost" onClick={() => handleAddOrEdit(u.id)}><PencilSquareIcon className="w-5"/></button>
-                                            <button className="btn btn-square btn-ghost" onClick={() => handleDelete(u.id)}><TrashIcon className="w-5"/></button>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                        </tbody>
-                    </table>
-                </div>
+                {isLoading ? <LoadingProcess /> : (isError ? <FailedLoad /> : (
+                    <div className="overflow-x-auto w-full">
+                        <table className="table w-full">
+                            <thead>
+                            <tr className={'text-center'}>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Phone</th>
+                                <th>Tipe Usaha</th>
+                                <th>Tanggal Daftar</th>
+                                <th>Didirikan</th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                storeList?.map((u, k) => {
+                                    return(
+                                        <tr key={k} className={'text-center'}>
+                                            <td>{k + 1}</td>
+                                            <td>
+                                                {u.name}
+                                            </td>
+                                            <td>{u.address}</td>
+                                            <td>{u.phoneNumber}</td>
+                                            <td>{u.businessType}</td>
+                                            <td>{moment(u.registerDate).format("DD-MMM-YYYY hh:mm:ss")}</td>
+                                            <td>{u.establishDate ? moment(u.establishDate).format("DD-MMM-YYYY") : "-"}</td>
+                                            <td className={'flex'}>
+                                                <button className="btn btn-square btn-ghost" onClick={() => {
+                                                    window.scrollTo(0, 0);
+                                                    navigate(`/store-management/detail/${u.id}`)
+                                                }}><EyeIcon className="w-5"/></button>
+                                                <button className="btn btn-square btn-ghost" onClick={() => handleAddOrEdit(u.id)}><PencilSquareIcon className="w-5"/></button>
+                                                <button className="btn btn-square btn-ghost" onClick={() => handleDelete(u.id)}><TrashIcon className="w-5"/></button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                )) }
             </TitleCard>
         </>
     )
