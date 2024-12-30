@@ -3,7 +3,7 @@ import {IconData} from "../utils/icon";
 
 export interface Route {
   path: string;
-  icon: any; // icon component
+  icon?: any; // icon component
   name: string;
   submenu?: Route[];
 }
@@ -104,21 +104,9 @@ export const routeSuperAdmin: Route[] = [
     name: 'Store Management',
   },
   {
-    path: '',
+    path: '/master-parameter',
     icon: IconData.AdjustmentIcon,
-    name: 'Master Data',
-    submenu: [
-      {
-        path: '/master-category',
-        icon: IconData.DebtIcon,
-        name: 'Category'
-      },
-      {
-        path: '/master-unit',
-        icon: IconData.HistoryIcon,
-        name: 'ProductList Unit'
-      }
-    ]
+    name: 'Master Parameter',
   }
 ];
 
@@ -139,9 +127,28 @@ export const routeOwner: Route[] = [
     name: 'Data Pelanggan',
   },
   {
+    path: '/supplier',
+    icon: IconData.AchieveBox,
+    name: 'Data Suppplier'
+  },
+  {
     path: '/product',
     icon: IconData.ProductIcon,
-    name: 'Data Produk',
+    name: 'Produk',
+    submenu: [
+      {
+        path: '/product',
+        name: 'Data Produk'
+      },
+      {
+        path: '/product/stock-in',
+        name: 'Stok Masuk'
+      },
+      {
+        path: '/product/stock-out',
+        name: 'Stok Keluar'
+      }
+    ]
   },
   {
     path: '',
@@ -150,18 +157,18 @@ export const routeOwner: Route[] = [
     submenu: [
       {
         path: '/note-debt',
-        icon: IconData.DebtIcon,
+        // icon: IconData.BlankIcon,
         name: 'Hutang'
       },
       {
         path: '/note-incomeExpense',
-        icon: IconData.DebtIcon,
+        // icon: IconData.BlankIcon,
         name: 'Pemasukkan & Pengeluaran'
       },
       {
         path: '/note-other',
         name: 'Lainya',
-        icon: IconData.BlankIcon
+        // icon: IconData.BlankIcon
       }
     ]
   },
@@ -172,12 +179,12 @@ export const routeOwner: Route[] = [
     submenu: [
       {
         path: '/transaction-purchase',
-        icon: IconData.MoneyIcon,
+        // icon: IconData.MoneyIcon,
         name: 'Pembelian'
       },
       {
         path: '/transaction-history',
-        icon: IconData.HistoryIcon,
+        // icon: IconData.HistoryIcon,
         name: 'Riwayat Pembelian'
       }
     ]
@@ -196,9 +203,28 @@ export const routeAdmin: Route[] = [
     name: 'Data Pelanggan',
   },
   {
+    path: '/supplier',
+    icon: IconData.AchieveBox,
+    name: 'Data Suppplier'
+  },
+  {
     path: '/product',
     icon: IconData.ProductIcon,
-    name: 'Data Produk',
+    name: 'Produk',
+    submenu: [
+      {
+        path: '/product',
+        name: 'Data Produk'
+      },
+      {
+        path: '/product/stock-in',
+        name: 'Stok Masuk'
+      },
+      {
+        path: '/product/stock-out',
+        name: 'Stok Keluar'
+      }
+    ]
   },
   {
     path: '',
@@ -207,18 +233,18 @@ export const routeAdmin: Route[] = [
     submenu: [
       {
         path: '/note-debt',
-        icon: IconData.DebtIcon,
+        // icon: IconData.DebtIcon,
         name: 'Hutang'
       },
       {
         path: '/note-incomeExpense',
-        icon: IconData.DebtIcon,
+        // icon: IconData.DebtIcon,
         name: 'Pemasukkan & Pengeluaran'
       },
       {
         path: '/note-other',
         name: 'Lainya',
-        icon: IconData.BlankIcon
+        // icon: IconData.BlankIcon
       }
     ]
   },
@@ -229,12 +255,12 @@ export const routeAdmin: Route[] = [
     submenu: [
       {
         path: '/transaction-purchase',
-        icon: IconData.MoneyIcon,
+        // icon: IconData.MoneyIcon,
         name: 'Pembelian'
       },
       {
         path: '/transaction-history',
-        icon: IconData.HistoryIcon,
+        // icon: IconData.HistoryIcon,
         name: 'Riwayat Pembelian'
       }
     ]

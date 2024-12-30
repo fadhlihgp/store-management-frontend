@@ -4,6 +4,8 @@ import {IProductPrice} from "../../../utils/TableDataType.ts";
 import SelectBox from "../../../components/Input/SelectBox.tsx";
 import {ProductsDummy} from "../ProductDummy.ts";
 import {useParams} from "react-router-dom";
+import { IParameterizeResponse } from "../../../utils/interfaces.ts";
+import { useGetParameterizeQuery } from "../../../apps/services/otherApi.ts";
 
 interface ProductFormPriceModalProps {
     onClickYes: () => void
@@ -11,27 +13,11 @@ interface ProductFormPriceModalProps {
     onClickCancel: () => void
 }
 
-export const satuans = [
-    {
-        name: "Pcs",
-        value: "1"
-    },
-    {
-        name: "Renceng",
-        value: "2"
-    },
-    {
-        name: "Pack",
-        value: "3"
-    },
-    {
-        name: "Dus/Box",
-        value: "4"
-    },
-]
 export const ProductFormPriceModal = ({onClickYes, productPriceId, onClickCancel}: ProductFormPriceModalProps) => {
     const [productPriceForm, setProductPriceForm] = useState<IProductPrice>()
     const {id} = useParams();
+    const {data: categories, isSuccess} = useGetParameterizeQuery("product-unit");
+    const [satuanList, setSatuanList] = useState<IParameterizeResponse[]>([]);
 
     useEffect(() => {
         if (id) {
@@ -41,7 +27,13 @@ export const ProductFormPriceModal = ({onClickYes, productPriceId, onClickCancel
                 setProductPriceForm(productPrice);
             }
         }
-    }, [productPriceId])
+    }, [id, productPriceId])
+
+    useEffect(() => {
+        if (isSuccess && categories.data) {
+            setSatuanList(categories?.data)
+        }
+    }, [categories, isSuccess])
 
     const updateFormValue = ({updateType}: any) => {
         console.log(updateType)
@@ -54,7 +46,7 @@ export const ProductFormPriceModal = ({onClickYes, productPriceId, onClickCancel
                 <div className="grid grid-cols-1 gap-4">
                     <InputText labelTitle="Harga" type={"number"} defaultValue={productPriceForm?.price ?? 0} updateFormValue={updateFormValue}/>
                     <InputText labelTitle="Jumlah per pcs" type={"number"} defaultValue={productPriceForm?.qtyPcs ?? 0} updateFormValue={updateFormValue}/>
-                    <SelectBox labelTitle="Satuan" placeholder={"Pilih Satuan"} options={satuans} defaultValue={productPriceForm?.unit} updateFormValue={updateFormValue}/>
+                    <SelectBox labelTitle="Satuan" placeholder={"Pilih Satuan"} options={satuanList} defaultValue={productPriceForm?.unit} updateFormValue={updateFormValue}/>
                 </div>
                 <div className="modal-action">
                     <form method="dialog">

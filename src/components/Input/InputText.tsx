@@ -25,7 +25,7 @@ function InputText({labelTitle, isRequired = false, labelStyle, type, containerS
     return(
         <div className={`${containerStyle}`}>
             <label className={"label " + labelStyle}>
-                <span className={"label-text text-base-content " + labelStyle}>{labelTitle}</span>
+                <span className={"label-text text-base-content " + labelStyle}>{labelTitle} {isRequired ? <span className="text-red-600 text-lg">*</span> : ""}</span>
             </label>
             <input required={isRequired} type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="input  input-bordered w-full " disabled={isDisabled} />
         </div>

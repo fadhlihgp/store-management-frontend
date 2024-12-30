@@ -14,9 +14,7 @@ import { LoadingProcess } from "../../../components/Loading/LoadingProcess.tsx";
 export const ProductContainer = () => {
   const navigate = useNavigate();
   const [productId, setProductId] = useState<string>("-1");
-  const [productList, setProductList] = useState<
-    IProductListResponse[] | undefined
-  >([]);
+  const [productList, setProductList] = useState<IProductListResponse[] | undefined>([]);
   const {
     data: products,
     isLoading,
@@ -100,7 +98,7 @@ export const ProductContainer = () => {
       Data Tidak Ditemukan
     </p>
   ) : (
-    <div className={"grid grid-cols-1 md:grid-cols-3 gap-5"}>
+    <div className={"grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5"}>
       {currentItems.map((data, index) => (
         <ProductCard
           product={data}
@@ -122,12 +120,13 @@ export const ProductContainer = () => {
         message={"Anda yakin ingin menghapus data produk ?"}
       />
       <TitleCard
-        title="Produk"
+        title="Data Produk"
         topMargin="mt-2"
         topSideButtons={
           <TopSideButtons
             onChangeInput={handleOnChangeSearch}
             onClick={() => handleAddOrEdit()}
+            placeHolder="Cari nama produk"
           />
         }>
         {isLoading ? (

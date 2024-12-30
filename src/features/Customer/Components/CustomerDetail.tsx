@@ -15,19 +15,19 @@ export const CustomerDetail = ({customerDetail}: CustomerDetailProps) => {
             <div className="mt-3 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100 grid grid-cols-1 sm:grid-cols-2">
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6">Nama</dt>
+                        <dt className="text-sm leading-6 font-semibold">Nama</dt>
                         <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">{customerDetail?.fullName}</dd>
                     </div>
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6">Phone</dt>
+                        <dt className="text-sm font-semibold leading-6">Phone</dt>
                         <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">{customerDetail?.phoneNumber ?? "-"}</dd>
                     </div>
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6">Email</dt>
+                        <dt className="text-sm font-semibold leading-6">Email</dt>
                         <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">{customerDetail?.email ?? "-"}</dd>
                     </div>
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6">Alamat</dt>
+                        <dt className="text-sm font-semibold leading-6">Alamat</dt>
                         <dd className="mt-1 text-sm leading-6 sm:col-span-2 sm:mt-0">
                             {customerDetail?.address ?? "-"}
                         </dd>

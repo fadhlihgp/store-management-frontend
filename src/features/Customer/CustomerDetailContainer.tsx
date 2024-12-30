@@ -26,7 +26,7 @@ export const CustomerDetailContainer = () => {
     const MainContent = isError ? <FailedLoad /> : (
         <>
             <PageHeading
-                titlePage={customerDetail?.data.fullName ?? "-"}
+                titlePage={"Detail Pelanggan"}
                 buttonSide={
                     <div className="mt-5 flex lg:ml-4 lg:mt-0">
                         <span className="">

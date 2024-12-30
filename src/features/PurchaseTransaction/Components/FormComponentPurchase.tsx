@@ -151,7 +151,7 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
             if (productForm.unitPriceId && productForm.unitPriceId.length > 0) {
                 let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === productForm.unitPriceId);
                 if (!productPrice) {
-                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
+                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "");
                 }
                 // Update the form with the found price
                 setProductForm(prevForm => ({
@@ -160,15 +160,15 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
                 }));
                 // console.log("Harga " + productPrice?.price);
             } else {
-                let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
+                let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "1");
                 if (!productPrice) {
-                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
+                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "1");
                 }
                 // Update the form with the found price
                 setProductForm(prevForm => ({
                     ...prevForm,
                     price: productPrice?.price ?? 0,
-                    unitPriceId: "1"
+                    unitPriceId: productPrice?.unitPriceId ?? ""
                 }));
                 // console.log("Harga " + productPrice?.price);
             }
@@ -177,7 +177,7 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
             setProductForm(prevForm => ({
                 ...prevForm,
                 productId: value?.id.toString() ?? "",
-                unitPriceId: "1"
+                // unitPriceId: "1"
             }));
             setDefaultValueProduct(value);
             setError(undefined);

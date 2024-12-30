@@ -24,6 +24,7 @@ function Header({title}: HeaderProps){
     // const {noOfNotifications} = useSelector(state => state.header)
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"));
     const navigate = useNavigate();
+    const [roleId, setRoleId] = useState<string>("");
     useEffect(() => {
         themeChange(false)
         if(currentTheme === null){
@@ -49,6 +50,15 @@ function Header({title}: HeaderProps){
         dispatch(logoutSuccess());
         navigate("/login");
     }
+
+    useEffect(() => {
+        const userString = Cookies.get("user");
+        let userJson = null;
+        if (userString) {
+            userJson = JSON.parse(userString);
+        }
+        setRoleId(userJson.roleId);
+    }, [roleId, setRoleId]);
 
     return(
         // navbar fixed  flex-none justify-between bg-base-300  z-10 shadow-md
@@ -94,10 +104,13 @@ function Header({title}: HeaderProps){
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <li className="justify-between">
-                        <Link to={'/profile'}>
-                            Profile
+                            <Link to={'/profile'}>
+                                Profile
                             </Link>
                         </li>
+                        {roleId === "2" && (
+                            <li className=''><Link to={'/store-profile'}>Profile Toko</Link></li>
+                        )}
                         <li className=''><Link to={'/change-password'}>Ganti Password</Link></li>
                         {/* <li className=''><Link to={'/report-problem'}>Laporkan Masalah</Link></li> */}
                         <div className="divider mt-0 mb-0"></div>

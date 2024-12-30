@@ -3,30 +3,12 @@ import {convertCurrency} from "../../../utils/convertCurrency.ts";
 import {PencilSquareIcon} from "@heroicons/react/24/outline";
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import {TopSideButtons} from "../../../components/Input/TopSideButtons.tsx";
-import { IProductPriceRequest, IProductRequest } from "../../../utils/interfaces.ts";
-import React, { useState } from "react";
+import { IParameterizeResponse, IProductPriceRequest, IProductRequest } from "../../../utils/interfaces.ts";
+import React, { useEffect, useState } from "react";
 import InputText2 from "../../../components/Input/InputText2.tsx";
 import SelectBox2 from "../../../components/Input/SelectBox2.tsx";
 import { ConfirmationModal } from "../../../components/Modals/ConfirmationModal.tsx";
-
-const satuans = [
-    {
-        name: "Pcs",
-        id: "1"
-    },
-    {
-        name: "Renceng",
-        id: "2"
-    },
-    {
-        name: "Pack",
-        id: "3"
-    },
-    {
-        name: "Dus/Box",
-        id: "4"
-    }
-]
+import { useGetParameterizeQuery } from "../../../apps/services/otherApi.ts";
 
 interface ListPriceProps {
     productForm?: IProductRequest,
@@ -50,8 +32,16 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
         unitPriceId: "",
         unitPrice: ""
     });
+    const {data: categories, isSuccess} = useGetParameterizeQuery("product-unit");
     const [errorProductPrice, setErrorProductPrice] = useState<string | null>(null);
     const [errorInput, setErrorInput] = useState<ErrorInputValidation>();
+    const [satuanList, setSatuanList] = useState<IParameterizeResponse[]>([]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            setSatuanList(categories.data);
+        }
+    }, [categories, isSuccess]);
 
     const handleShowEdit = (id: number) => {
         setProductPriceId(id);
@@ -72,7 +62,7 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
 
     const handleOnChangeSelectBox = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const {value} = e.target;
-        const findUnit = satuans.find(p => p.id === value)?.name ?? "";
+        const findUnit = satuanList.find(p => p.id === value)?.name ?? "";
         setProductPriceForm({...productPriceForm, unitPriceId: value, unitPrice: findUnit});
         setErrorInput(undefined);
     }
@@ -131,7 +121,7 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
             }));
 
             // Reset productPriceForm
-            setProductPriceForm({ price: 0, unitPriceId: '1', qtyPcs: 0, unitPrice: ""});
+            setProductPriceForm({ price: 0, unitPriceId: '', qtyPcs: 0, unitPrice: ""});
             
         } else {
 
@@ -202,6 +192,8 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
 
     const onClickCancel = () => {
         setProductPriceId(-1);
+        // Reset productPriceForm
+        setProductPriceForm({ price: 0, unitPriceId: '', qtyPcs: 0, unitPrice: ""});
         // resetProductPriceForm();
         const modal = document.getElementById("modal-product-price");
         if (modal) {
@@ -245,7 +237,7 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
                             )}
                         </div>
                         <div className="w-1/2">
-                            <SelectBox2 containerStyle="w-full" labelTitle="Satuan" placeholder={"Pilih Satuan"} options={satuans} handleOnChange={handleOnChangeSelectBox} name="unitPriceId" value={productPriceForm.unitPriceId}/>
+                            <SelectBox2 containerStyle="w-full" labelTitle="Satuan" placeholder={"Pilih Satuan"} options={satuanList} handleOnChange={handleOnChangeSelectBox} name="unitPriceId" value={productPriceForm.unitPriceId}/>
                             {errorInput && errorInput.errorUnitPriceId && (
                                 <p className="text-md text-red-600">{errorInput.errorUnitPriceId}</p>
                             )}

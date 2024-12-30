@@ -1,5 +1,5 @@
 import {api} from "./api";
-import {IStoreRequest, IStoreResponse} from "../../utils/interfaces";
+import {IStoreRequest, IStoreResponse, ResponseApi} from "../../utils/interfaces";
 
 interface StoreListResponse {
     message: string,
@@ -8,7 +8,7 @@ interface StoreListResponse {
 
 interface StoreDetailResponse {
     message: string,
-    data: IStoreRequest
+    data: IStoreResponse
 }
 
 interface EditStorePayload {
@@ -46,6 +46,18 @@ export const storeApi = api.injectEndpoints({
             query: (id) => `store/${id}`,
             providesTags: ["Store"]
         }),
+        getCurrentStore: builder.query<ResponseApi<IStoreResponse>, void>({
+            query: () => `store/current-store`,
+            providesTags: ["Store"]
+        }),
+        editCurrentStore: builder.mutation<ResponseApi<IStoreResponse>, IStoreRequest>({
+            query: (data) => ({
+                url: 'store/update-store',
+                body: data,
+                method: 'PUT'
+            }),
+            invalidatesTags: ["StoreList", "Store"]
+        }),
         deleteStore: builder.mutation<any, string>({
             query: (id: string) => ({
                 url: "store/delete/" + id,
@@ -57,5 +69,5 @@ export const storeApi = api.injectEndpoints({
 })
 
 export const { useGetStoreListQuery, useAddStoreMutation, useEditStoreMutation, useGetStoreByIdQuery,
-    useDeleteStoreMutation
+    useDeleteStoreMutation, useGetCurrentStoreQuery, useEditCurrentStoreMutation
  } = storeApi

@@ -117,7 +117,7 @@ export const UserManagementFormContainer = () => {
                     toast.error(err.message ?? "Gagal menyimpan data")
                 })
         }
-        console.log(accountForm);
+        // console.log(accountForm);
     }
 
     const updateFormValue = ({updateType, value}: any) => {
@@ -153,7 +153,7 @@ export const UserManagementFormContainer = () => {
                     <div className={'flex gap-2 justify-end'}>
                         <div className="mt-16"><button className="btn float-right" onClick={() => navigate("/user-management")}>Batal</button></div>
                         <div className="mt-16">
-                            <button className="btn btn-primary float-right" type={"submit"} disabled={isLoadingAddAccount || isLoadingEditAccount} onClick={handleSaveUser}>
+                            <button className="btn btn-primary float-right" type={"submit"} disabled={isLoadingAddAccount || isLoadingEditAccount}>
                                 {isLoadingEditAccount || isLoadingAddAccount ?
                                     <>
                                         <span className="loading loading-spinner"></span> Menyimpan data

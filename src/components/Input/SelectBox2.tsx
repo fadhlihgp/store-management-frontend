@@ -18,15 +18,16 @@ interface SelectBox2Props {
     options: IOption[],
     updateType?:any,
     handleOnChange: (e:any) => void,
-    selectStyle?: string
+    selectStyle?: string,
+    isRequired?: boolean
 }
 
-function SelectBox2({labelTitle, selectStyle, handleOnChange, labelDescription, value, name, containerStyle, placeholder, labelStyle, options}: SelectBox2Props){
+function SelectBox2({labelTitle, isRequired = false, selectStyle, handleOnChange, labelDescription, value, name, containerStyle, placeholder, labelStyle, options}: SelectBox2Props){
 
     return (
         <div className={`inline-block ${containerStyle}`}>
             <label  className={`label  ${labelStyle}`}>
-                <div className="label-text">{labelTitle}
+                <div className="label-text">{labelTitle} {isRequired ? <span className="text-red-600">*</span> : ""}
                     {labelDescription && <div className="tooltip tooltip-right" data-tip={labelDescription}><InformationCircleIcon className='w-4 h-4'/></div>}
                 </div>
             </label>

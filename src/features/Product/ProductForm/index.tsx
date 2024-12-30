@@ -6,10 +6,13 @@ import toast from "react-hot-toast";
 import {ListPrice} from "../components/ListPrice.tsx";
 import React, {useEffect, useState} from "react";
 import { useAddProductMutation, useEditProductMutation, useGetProductByIdQuery } from "../../../apps/services/productApi.ts";
-import { IProductRequest } from "../../../utils/interfaces.ts";
+import { IParameterizeResponse, IProductRequest } from "../../../utils/interfaces.ts";
 import { LoadingProcess } from "../../../components/Loading/LoadingProcess.tsx";
 import FailedLoad from "../../../components/OtherDisplay/FailedLoad.tsx";
-import { useUploadImageMutation } from "../../../apps/services/imageApi.ts";
+import { useDeleteImageMutation, useUploadImageMutation } from "../../../apps/services/imageApi.ts";
+import SelectBox2 from "../../../components/Input/SelectBox2.tsx";
+import { useGetParameterizeQuery } from "../../../apps/services/otherApi.ts";
+import { ValidationLabelError } from "../../../components/Typography/ValidationLabelError.tsx";
 
 const breadcrumbsData = [
     {
@@ -25,7 +28,9 @@ const breadcrumbsData = [
 interface ErrorInputValidation {
     errorProductPrice?: string,
     errorName?: string,
-    errorDescription?: string  
+    errorDescription?: string,
+    errorStock?: string,
+    errorCategory?: string
 }
 
 export const ProductFormContainer = () => {
@@ -33,23 +38,33 @@ export const ProductFormContainer = () => {
     const navigate = useNavigate();
     const { data: productOne, isError: isErrorGetData, isLoading: isLoadingGetData, isSuccess: isSuccessGetData } = useGetProductByIdQuery(id ?? "");
     const [uploadImage, {isLoading: isLoadingUploadImage}] = useUploadImageMutation();
+    const [deleteImage] = useDeleteImageMutation();
     const [addProduct, {isLoading: isLoadingAddProduct}] = useAddProductMutation();
     const [editProduct, {isLoading: isLoadingEditProduct}] = useEditProductMutation();
     const [productForm, setProductForm] = useState<IProductRequest>({
         name: "",
         description: "",
+        categoryId: "",
         productPrices: [],
         stock: 0
     });
     const [fileImage, setFileImage] = useState<File>();
     // const [errorProductPrice, setErrorProductPrice] = useState<string | null>(null);
-    const [errorInput, setErrorInput] = useState<ErrorInputValidation>()
+    const [errorInput, setErrorInput] = useState<ErrorInputValidation>();
+    const [categoryList, setCategoryList] = useState<IParameterizeResponse[]>([]);
+    const {data: categories, isSuccess: isSuccessGetCategories} = useGetParameterizeQuery("category");
 
     useEffect(() => {
-        if (isSuccessGetData && id) {
+        if (isSuccessGetData && id && productOne.data) {
             setProductForm(productOne.data);
         }
-    },[productOne])
+    },[id, isSuccessGetData, productOne])
+
+    useEffect(() => {
+        if (isSuccessGetCategories) {
+            setCategoryList(categories.data);
+        }
+    }, [categories, isSuccessGetCategories]);
 
     const handleAddProduct = () => {
         const formData = new FormData();
@@ -69,6 +84,7 @@ export const ProductFormContainer = () => {
                         })
                         .catch((res) => {
                             // console.log(res)
+                            deleteImage(res.data.id);
                             toast.error(res.message ?? "Terjadi kesalahan saat menambah produk");
                             return;
                         })
@@ -157,7 +173,6 @@ export const ProductFormContainer = () => {
         // console.log("validation");
     
         if (!productForm.productPrices || productForm.productPrices.length < 1) {
-            // console.log("error price");
             newErrorInput.errorProductPrice = "Produk setidaknya harus memiliki satu harga";
             isValid = false;
         }
@@ -167,6 +182,14 @@ export const ProductFormContainer = () => {
         }
         if (!productForm.description || productForm.description.length < 1) { // Mengubah dari < 0 ke < 1
             newErrorInput.errorDescription = "Deskripsi produk tidak boleh kosong";
+            isValid = false;
+        }
+        if (!productForm.stock) {
+            newErrorInput.errorStock = "Stok produk tidak boleh kosong";
+            isValid = false;
+        }
+        if (!productForm.categoryId || productForm.categoryId.length < 1) { // Mengubah dari < 0 ke < 1
+            newErrorInput.errorCategory = "Kategori produk tidak boleh kosong";
             isValid = false;
         }
     
@@ -200,6 +223,13 @@ export const ProductFormContainer = () => {
         }
     }
 
+    const handleOnChangeSelectBox = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const {value} = e.target;
+        // const findUnit = categoryList.find(p => p.id === value)?.name ?? "";
+        setProductForm({...productForm, categoryId: value});
+        setErrorInput(undefined);
+    }
+
     const updateFormValue = ({updateType, value}: any) => {
         setProductForm({...productForm, [updateType]: value})
         setErrorInput(undefined);
@@ -209,23 +239,35 @@ export const ProductFormContainer = () => {
 
             {isLoadingGetData ? <LoadingProcess loadingName="Mengambil data produk" key={"1"} /> : isErrorGetData ? <FailedLoad /> : (
                 <>
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <InputText labelTitle={"nama" } isRequired={true} defaultValue={productOne?.data.name} updateFormValue={updateFormValue} updateType={"name"}/>
+                            <InputText labelTitle={"Nama" } isRequired={true} defaultValue={productOne?.data.name} updateFormValue={updateFormValue} updateType={"name"}/>
                             {errorInput?.errorName && (
-                                <p className="text-red-500 text-lg mt-3">{errorInput.errorName}</p>
+                                <ValidationLabelError message={errorInput.errorName} />
                             )}
                         </div>
                         <div>
-                            <InputText labelTitle="Stok" isRequired={true} type={"number"} defaultValue={productOne?.data.stock} updateFormValue={updateFormValue} updateType={"stock"} />
+                            <InputText labelTitle="Stok" isDisabled={id ? true : false} isRequired={true} type={"number"} defaultValue={productOne?.data.stock} updateFormValue={updateFormValue} updateType={"stock"} />
+                            {errorInput?.errorStock && (
+                                <ValidationLabelError message={errorInput.errorStock} />
+                            )}
                         </div>
                         <div>
                             <InputText labelTitle="Barcode" defaultValue={productOne?.data.barcode} updateFormValue={updateFormValue} updateType={"barcode"}/>
                         </div>
                         <div>
+                            <SelectBox2 labelTitle="Kategori" isRequired={true} name="categoryId" placeholder="Pilih Kategori" containerStyle="w-full" handleOnChange={handleOnChangeSelectBox} options={categoryList} value={productForm.categoryId} />
+                            {errorInput?.errorCategory && (
+                                <ValidationLabelError message={errorInput.errorCategory} />
+                            )}
+                        </div>
+                        
+                    </div>
+                    <div className="grid grid-cols-1 gap-4">
+                        <div>
                             <TextAreaInput  labelTitle="Deskripsi" isRequired={true} defaultValue={productOne?.data.description ?? ""} updateFormValue={updateFormValue} updateType={"description"}/>
                             {errorInput?.errorDescription && (
-                                <p className="text-red-500 text-lg mt-3">{errorInput.errorDescription}</p>
+                                <ValidationLabelError message={errorInput.errorDescription} />
                             )}
                         </div>
                         <label className="form-control w-full max-w-xs">
@@ -235,15 +277,14 @@ export const ProductFormContainer = () => {
                             <input type="file" className="file-input file-input-bordered file-input-primary w-full max-w-xs" onChange={handleOnChangeFile} />
                         </label>
                     </div>
-                    {errorInput?.errorProductPrice && (
-                        <p className="text-red-500 text-lg mt-3">{errorInput.errorProductPrice}</p>
-                    )}
                     <ListPrice
                         // handleAddOrEdit={handleAddProductPrice}
                         showEdited={true}
                         setProductForm={setProductForm}
                         productForm={productForm}/>
-
+                        {errorInput?.errorProductPrice && (
+                        <p className="text-red-500 mt-3">{errorInput.errorProductPrice}</p>
+                    )}
                     <div className={'flex gap-2 justify-end'}>
                         <div className="mt-16"><button className="btn float-right" onClick={() => navigate(-1)}>Batal</button></div>
                         <div className="mt-16">

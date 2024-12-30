@@ -170,38 +170,37 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
             
             // Update unit options and reset the unitProductId
             setUnits(unitOptions);
-            
             // If unitProductId exists, find the corresponding product price
             if (debtDetailForm.unitProductId && debtDetailForm.unitProductId.length > 0) {
                 let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === debtDetailForm.unitProductId);
                 if (!productPrice) {
-                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
-                }
-                // Update the form with the found price
-                setDebtDetailForm(prevForm => ({
-                    ...prevForm,
-                    price: productPrice?.price ?? 0
-                }));
-                // console.log("Harga " + productPrice?.price);
-            } else {
-                let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
-                if (!productPrice) {
-                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
+                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "1");
                 }
                 // Update the form with the found price
                 setDebtDetailForm(prevForm => ({
                     ...prevForm,
                     price: productPrice?.price ?? 0,
-                    unitProductId: "1"
+                    unitProductName: productPrice?.unitPrice ?? ""
                 }));
                 // console.log("Harga " + productPrice?.price);
+            } else {
+                let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "1");
+                if (!productPrice) {
+                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "1");
+                }
+                // Update the form with the found price
+                setDebtDetailForm(prevForm => ({
+                    ...prevForm,
+                    price: productPrice?.price ?? 0,
+                    unitProductId: productPrice?.unitPriceId ?? "",
+                }));
             }
             
             // Update the form with the productId and reset the unitProductId
             setDebtDetailForm(prevForm => ({
                 ...prevForm,
                 productId: value?.id.toString() ?? "",
-                unitProductId: "1"
+                // unitProductId: "1"
             }));
             setDefaultValueProduct(value);
             setError(undefined);
@@ -212,7 +211,7 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
 
     const handleOnChangeSelectUnit = (e: any) => {
         const { value } = e.target;
-        // console.log("Ini value " + value);
+
         setDebtDetailForm({...debtDetailForm, unitProductId: value});
         const debtDetails = dataProducts?.find(p => p.id === debtDetailForm.productId);
         if (debtDetails) {

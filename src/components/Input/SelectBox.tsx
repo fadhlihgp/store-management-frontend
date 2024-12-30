@@ -4,7 +4,7 @@ import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircle
 interface IOption {
     name: string | number,
     value?: string | number,
-    id? : string | number | undefined
+    id? : string | number | undefined | null
 }
 
 interface SelectBoxProps {
@@ -18,10 +18,11 @@ interface SelectBoxProps {
     updateType?:any,
     updateFormValue: (e:any) => void,
     selectStyle?: string,
-    isDisabled?: boolean
+    isDisabled?: boolean,
+    isRequired?: boolean
 }
 
-function SelectBox({labelTitle, selectStyle, isDisabled = false, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue}: SelectBoxProps){
+function SelectBox({labelTitle, selectStyle, isDisabled = false, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue, isRequired = false}: SelectBoxProps){
 
     // const {labelTitle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateType, updateFormValue} = props
 
@@ -39,10 +40,11 @@ function SelectBox({labelTitle, selectStyle, isDisabled = false, labelDescriptio
             <label  className={`label  ${labelStyle}`}>
                 <div className="label-text">{labelTitle}
                 {labelDescription && <div className="tooltip tooltip-right" data-tip={labelDescription}><InformationCircleIcon className='w-4 h-4'/></div>}
+                {isRequired ? <span className="text-red-600 text-bold">*</span> : ""}
                 </div>
             </label>
 
-            <select className={`select select-bordered w-full ${selectStyle}`} disabled={isDisabled} value={value} onChange={(e) => updateValue(e.target.value)}>
+            <select required={isRequired} className={`select select-bordered w-full ${selectStyle}`} disabled={isDisabled} value={value} onChange={(e) => updateValue(e.target.value)}>
                 <option disabled value="">{placeholder}</option>
                 {
                     options?.map((o, k) => {

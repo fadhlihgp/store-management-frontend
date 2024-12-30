@@ -55,7 +55,7 @@ export interface IStoreResponse {
     phoneNumber: string,
     registerDate: Date,
     businessType: string,
-    establishDate: string,
+    establishDate: Date,
     lastEdited: Date
 }
 
@@ -63,8 +63,8 @@ export interface IStoreRequest {
     name: string,
     address: string,
     phoneNumber: string,
-    businessType?: string,
-    establishDate?: Date
+    businessType: string,
+    establishDate: Date
 }
 
 export interface IProductListResponse {
@@ -91,6 +91,8 @@ export interface IProductDetailResponse {
     description: string,
     stock: number,
     barcode?: string,
+    categoryId: string,
+    category: string,
     imageUrl?: string,
     createdAt: Date,
     createdBy: string,
@@ -103,6 +105,7 @@ export interface IProductRequest {
     name: string,
     description: string,
     stock: number,
+    categoryId: string,
     barcode?: string,
     imageId?: string,
     deleteProductPriceId?: string[],
@@ -319,4 +322,86 @@ interface DashboardCard {
 interface DashboardChart {
     month: number,
     value: number
+}
+
+export interface IParameterizeType {
+    id: string,
+    name: string
+}
+
+export interface IMasterParameterResponse {
+    id: string,
+    name: string,
+    type?: string,
+    orderData: number,
+    editedAt: Date,
+    editedBy?: string
+}
+
+export interface IMasterParameterRequest {
+    name: string,
+    type?: string,
+    orderData: number
+}
+
+export interface ISupplierResponse {
+    id: string,
+    name: string,
+    address: string,
+    phoneNumber?: string,
+    description?: string,
+    createdAt: Date,
+    createdBy: string,
+    editedAt: Date,
+    editedBy: string
+}
+
+export interface ISupplierRequest {
+    name: string,
+    address: string,
+    phoneNumber?: string,
+    description?: string
+}
+
+export interface IStockInRequest {
+    productId: string,
+    totalItem: number,
+    totalPrice: number,
+    supplierId?: string | null,
+    note: string,
+    date: Date
+}
+
+export interface IStockOutRequest {
+    productId: string,
+    totalItem: number,
+    note: string,
+    date: Date
+}
+
+export interface IStockInOutResponse {
+    id: string
+    productId: string
+    product: string
+    totalItem: number
+    totalPrice: number
+    isOut: boolean
+    note: string
+    supplierId: string
+    supplier: string
+    date: Date
+    createdAt: Date
+    createdBy: string
+    editedAt: Date
+    editedBy: string
+}
+
+export interface ResponseApi<T> {
+    message: string,
+    data?: T   
+}
+
+export interface RequestApi<T> {
+    id: string,
+    data: T
 }

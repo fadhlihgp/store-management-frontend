@@ -4,11 +4,9 @@ import {
 import {IBreadcrumbData} from "../../utils/TableDataType.ts";
 import {BreadcrumbComponent} from "../Breadcrumbs/BreadcrumbComponent.tsx";
 import {
-    ArrowLeftIcon,
     CalendarIcon,
     UserIcon
 } from "@heroicons/react/24/outline";
-import {useNavigate} from "react-router-dom";
 import moment from "moment";
 import React from 'react';
 
@@ -25,7 +23,6 @@ interface PageHeadingProps {
 }
 
 export const PageHeading = ({titlePage, buttonSide, breadcrumbsData, showManipulation = false, editedAt, editedBy, createdAt, createdBy, editOnClick}: PageHeadingProps) => {
-    const navigate = useNavigate();
     return (
         <div className="lg:flex lg:flex-row lg:items-center lg:justify-between flex flex-col">
 
@@ -34,11 +31,11 @@ export const PageHeading = ({titlePage, buttonSide, breadcrumbsData, showManipul
                     <BreadcrumbComponent breadcrumbsData={breadcrumbsData} />
                 )}
                 <div className={'flex gap-5 items-center'}>
-                    <button onClick={() => navigate(-1)}>
+                    {/* <button onClick={() => navigate(-1)}>
                         <ArrowLeftIcon className={'h-7 w-7'} />
-                    </button>
+                    </button> */}
                     <div className={"min-w-0 flex-1 flex-col"}>
-                        <h2 className="text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight">
+                        <h2 className="text-xl font-bold leading-7 sm:truncate sm:text-xl sm:tracking-tight">
                             {titlePage}
                         </h2>
 

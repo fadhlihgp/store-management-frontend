@@ -3,7 +3,7 @@ import { ProductContainer} from "../../features/Product/ProductList";
 
 export const ProductList = () => {
     return (
-        <Layout pageTitle={"Data Produk"}>
+        <Layout pageTitle={"Produk"}>
             <ProductContainer />
         </Layout>
     )

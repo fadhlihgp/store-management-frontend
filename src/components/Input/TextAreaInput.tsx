@@ -23,7 +23,7 @@ function TextAreaInput({labelTitle, labelStyle, isRequired = false, containerSty
     return(
         <div className={`form-control w-full ${containerStyle}`}>
             <label className="label">
-                <span className={"label-text text-base-content " + labelStyle}>{labelTitle}</span>
+                <span className={"label-text text-base-content " + labelStyle}>{labelTitle}  {isRequired ? <span className="text-red-600 text font-bold">*</span> : ""}</span>
             </label>
             <textarea value={value} required={isRequired} className="textarea textarea-bordered w-full" placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)}></textarea>
         </div>

@@ -114,85 +114,7 @@ export const CustomerContainer = () => {
               );
             }}
       />
-
-  // const MainContent = isGetError ? (
-  //   <FailedLoad key={"1"} />
-  // ) : customerFilter.length > 0 && customerFilter ? (
-  //   <div className="overflow-x-auto w-full">
-  //     <table className="table w-full">
-  //       <thead>
-  //         <tr className={"text-center"}>
-  //           <th>No</th>
-  //           <th>Nama Lengkap</th>
-  //           <th>Alamat</th>
-  //           <th>Email</th>
-  //           <th>No Hp</th>
-  //           <th>Aksi</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //           <PaginationComponent
-  //               data={customerFilter}
-  //               itemsPerPage={15}
-  //               renderItem={(u, k) => {
-  //                   return (
-  //                     <tr key={k} className={"text-center"}>
-  //                       <td>{k + 1}</td>
-  //                       <td>{u.fullName}</td>
-  //                       <td>{u.address ?? "-"}</td>
-  //                       <td>{u.email ?? "-"}</td>
-  //                       <td>{u.phoneNumber ?? "-"}</td>
-  //                       <td className={"flex justify-center"}>
-  //                         <button
-  //                           className="btn btn-square btn-ghost"
-  //                           onClick={() => {
-  //                             window.scrollTo(0, 0);
-  //                             navigate(`/customer/detail/${u.id}`);
-  //                           }}>
-  //                           <EyeIcon className="w-5" />
-  //                         </button>
-  //                         <button
-  //                           className="btn btn-square btn-ghost"
-  //                           onClick={() => handleAddOrEdit(u.id)}>
-  //                           <PencilSquareIcon className="w-5" />
-  //                         </button>
-  //                         <button
-  //                           className="btn btn-square btn-ghost"
-  //                           onClick={() => handleDelete(u.id)}>
-  //                           <TrashIcon className="w-5" />
-  //                         </button>
-  //                       </td>
-  //                     </tr>
-  //                   );
-  //                 }}
-  //           />
-  //         {/* {currentItems.map()} */}
-  //       </tbody>
-  //     </table>
-  //     {/* <div className="flex float-end mt-2">
-  //       <div className="join">
-  //         <button
-  //           className="join-item btn"
-  //           onClick={handlePreviousPage}
-  //           disabled={currentPage === 1}>
-  //           «
-  //         </button>
-  //         <button className="join-item btn">Page {currentPage}</button>
-  //         <button
-  //           className="join-item btn"
-  //           onClick={handleNextPage}
-  //           disabled={currentPage === lastPage}>
-  //           »
-  //         </button>
-  //       </div>
-  //     </div> */}
-  //   </div>
-  // ) : (
-  //   <p className="text-lg text-slate-700 text-center font-semibold">
-  //     Data tidak ditemukan
-  //   </p>
-  // );
-
+      
   return (
     <>
       <ConfirmationModal
@@ -206,6 +128,7 @@ export const CustomerContainer = () => {
           <TopSideButtons
             onClick={() => handleAddOrEdit()}
             onChangeInput={handleOnSearchChange}
+            placeHolder="Cari nama pelanggan"
           />
         }>
         {isGetLoading ? (
