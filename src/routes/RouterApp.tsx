@@ -32,6 +32,17 @@ import { DebtForm } from "../pages/protected/DebtForm.tsx";
 import { ResetPassword } from "../pages/ResetPassword.tsx";
 import { PurchaseDetail } from "../pages/protected/PurchaseDetail.tsx";
 import PrintComponent from "../pages/testing/PrintComponent.tsx";
+import { Supplier } from "../pages/protected/Supplier.tsx";
+import { SupplierForm } from "../pages/protected/SupplierForm.tsx";
+import { MasterParameterList } from "../pages/protected/MasterParameter.tsx";
+import { MasterParameterForm } from "../pages/protected/MasterParameterForm.tsx";
+import { StockInList } from "../pages/protected/StockInList.tsx";
+import { StockInForm } from "../pages/protected/StockInForm.tsx";
+import { StockOutList } from "../pages/protected/StockOutList.tsx";
+import { StockOutForm } from "../pages/protected/StockOutForm.tsx";
+import { StockInDetail } from "../pages/protected/StockInDetail.tsx";
+import { StockOutDetail } from "../pages/protected/StockOutDetail.tsx";
+import { StoreProfile } from "../pages/protected/StoreProfile.tsx";
 
 export const RouterApp = () => {
     const isToken = cekToken();
@@ -96,7 +107,21 @@ export const RouterApp = () => {
                         element={<PrivateRoute><StoreManagementForm /></PrivateRoute>}
                     />
 
+                    <Route
+                        path="/supplier"
+                        element={<PrivateRoute><Supplier /></PrivateRoute>}
+                    />
 
+                    <Route 
+                        path="/supplier/add"
+                        element={<PrivateRoute><SupplierForm /></PrivateRoute>}
+                    />
+
+                    <Route 
+                        path="/supplier/edit/:id"
+                        element={<PrivateRoute><SupplierForm /></PrivateRoute>}
+                    />
+                    
                     <Route
                         path={"/customer"}
                         element={<PrivateRoute><Customer /></PrivateRoute>}
@@ -116,6 +141,8 @@ export const RouterApp = () => {
                         path={"/customer/detail/:id"}
                         element={<PrivateRoute><CustomerDetail /></PrivateRoute>}
                     />
+
+                    {/* PRODUCT */}
 
                     <Route
                         path={"/product"}
@@ -138,8 +165,55 @@ export const RouterApp = () => {
                     />
 
                     <Route
+                        path="/product/stock-in"
+                        element={<PrivateRoute><StockInList /></PrivateRoute>}
+                    />
+
+                    <Route 
+                        path="/product/stock-in/add"
+                        element={<PrivateRoute><StockInForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path="/product/stock-in/edit/:id"
+                        element={<PrivateRoute><StockInForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path="/product/stock-in/detail/:id"
+                        element={<PrivateRoute><StockInDetail /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path="/product/stock-out"
+                        element={<PrivateRoute><StockOutList /></PrivateRoute>}
+                    />
+
+                    <Route 
+                        path="/product/stock-out/add"
+                        element={<PrivateRoute><StockOutForm /></PrivateRoute>}
+                    />
+
+                    <Route 
+                        path="/product/stock-out/edit/:id"
+                        element={<PrivateRoute><StockOutForm /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path="/product/stock-out/detail/:id"
+                        element={<PrivateRoute><StockOutDetail /></PrivateRoute>}
+                    />
+
+
+                    {/* PROFILE */}
+                    <Route
                         path={"/profile"}
                         element={<PrivateRoute><Profile /></PrivateRoute>}
+                    />
+
+                    <Route
+                        path="/store-profile"
+                        element={<PrivateRoute><StoreProfile /></PrivateRoute>}
                     />
 
                     <Route
@@ -187,6 +261,20 @@ export const RouterApp = () => {
                     <Route
                         path="/transaction-detail/:id"
                         element={<PrivateRoute><PurchaseDetail /></PrivateRoute>}
+                    />
+
+                    {/* SuperAdmin */}
+                    <Route
+                        path="/master-parameter"
+                        element={<PrivateRoute><MasterParameterList /></PrivateRoute>}
+                    />
+                    <Route 
+                        path="/master-parameter/add"
+                        element={<PrivateRoute><MasterParameterForm /></PrivateRoute>}
+                    />
+                    <Route
+                        path="/master-parameter/edit/:id"
+                        element={<PrivateRoute><MasterParameterForm /></PrivateRoute>}
                     />
                     {/* CLIENT */}
                     <Route

@@ -24,7 +24,8 @@ export const StoreManagementFormContainer = () => {
         name: "",
         address: "",
         phoneNumber: "",
-        businessType: ""
+        businessType: "",
+        establishDate: new Date()
     });
     const [addStore] = useAddStoreMutation();
     const [editStore] = useEditStoreMutation();

@@ -42,7 +42,8 @@ export const api = createApi({
      */
     tagTypes: ['Profile', 'Account', 'AccountList', 'Store', 'StoreList', "ProductList", "Product", "Customer", "CustomerList", 
         "NoteOtherList", "NoteOther", "NoteIncomeExpenseList", "NoteIncomeExpense", "NoteDebtList", "NoteDebt", "NoteDebtDetailList", "NoteDebtDetail",
-        "PurchaseList", "PurchaseDetail", "Parameterizes", "Dashboard"
+        "PurchaseList", "PurchaseDetail", "Parameterizes", "Dashboard", "MasterParameterList", "MasterParameter", "SupplierList", "SupplierDetail",
+        "StockInList", "StockInDetail", "StockOutList", "StockOutDetail"
     ],
     /**
      * This api has endpoints injected in adjacent files,

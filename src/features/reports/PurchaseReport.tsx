@@ -1,6 +1,7 @@
 import moment from "moment"
 import { IPurchaseListResponse } from "../../utils/interfaces"
 import { convertCurrency } from "../../utils/convertCurrency"
+import { useGetCurrentStoreQuery } from "../../apps/services/storeApi"
 
 interface PurchaseReportProps {
     startDate: Date
@@ -10,6 +11,7 @@ interface PurchaseReportProps {
 
 export const PurchaseReport = ({startDate, endDate, data}: PurchaseReportProps) => {
     const total = data?.filter(d => d.status == "paid").reduce((acc, cur) => acc + cur.purchaseTotal, 0);
+    const {data: currentStore} = useGetCurrentStoreQuery();
 
     return (
         <div>
@@ -19,14 +21,14 @@ export const PurchaseReport = ({startDate, endDate, data}: PurchaseReportProps) 
                     <tbody>
                     <tr className='flex justify-between'>
                         <td className="w-full align-top flex items-center gap-2">
-                            <img src='/roundstore.png' className='h-16' />
+                            <img src='/roundstore.png' className='h-16' alt="logo" />
                             <div className='flex flex-col'>
                             <div className='font-bold text-2xl uppercase'>
-                                Warung Parno
+                                {currentStore?.data?.name}
                             </div>
                             <div className='text-sm text-slate-400'>
-                                Jalan bonjol, Jakasetia, Bekasi Selatan <br/>
-                                0898882233
+                                {currentStore?.data?.address} <br/>
+                                {currentStore?.data?.phoneNumber}
                             </div>
                             </div>
                         </td>
@@ -81,13 +83,13 @@ export const PurchaseReport = ({startDate, endDate, data}: PurchaseReportProps) 
                         <td className="border-b-2 border-main pb-3 pl-2 font-bold text-main">
                         Invoice
                         </td>
-                        <td className="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">
+                        <td className="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main w-1/5">
                         Nama Pelanggan
                         </td>
                         <td className="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">
                         Tanggal
                         </td>
-                        <td className="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">
+                        <td className="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main w-1/5">
                         Catatan
                         </td>
                         <td className="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">
@@ -100,9 +102,9 @@ export const PurchaseReport = ({startDate, endDate, data}: PurchaseReportProps) 
                         <tr key={index}>
                             <td className="border-b py-3 pl-3">{index + 1}.</td>
                             <td className="border-b py-3 pl-2">{item.invoice}</td>
-                            <td className="border-b py-3 pl-2 text-center">{item.customer}</td>
+                            <td className="border-b py-3 pl-2 text-center w-1/5 break-words whitespace-normal">{item.customer}</td>
                             <td className="border-b py-3 pl-2 text-center">{moment(item.date).format("DD MMM YYYY")}</td>
-                            <td className="border-b py-3 pl-2 text-center">{item.note}</td>
+                            <td className="border-b py-3 pl-2 text-center w-1/5 break-words whitespace-normal">{item.note}</td>
                             <td className="border-b py-3 pl-2 text-right">{convertCurrency("Rp", item.purchaseTotal)}</td>
                         </tr>
                     ))}

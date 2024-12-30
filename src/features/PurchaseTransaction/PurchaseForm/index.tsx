@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { IDebtRequest, IProductPurchaseRequest, IPurchaseRequest } from "../../../utils/interfaces"
+import { IParameterizeResponse, IProductPurchaseRequest, IPurchaseRequest } from "../../../utils/interfaces"
 import { useGetProductsQuery } from "../../../apps/services/productApi"
 import toast from "react-hot-toast"
 import { showOrCloseModal } from "../../../utils/showModalHelper"
@@ -31,20 +31,20 @@ const breadcrumbsData = [
     }
 ]
 
-const paymentMethodOptions = [
-    {
-        name: "Tunai"
-    },
-    {
-        name: "QRIS"
-    },
-    {
-        name: "Transfer"
-    },
-    {
-        name: "Lainya"
-    }
-]
+// const paymentMethodOptions = [
+//     {
+//         name: "Tunai"
+//     },
+//     {
+//         name: "QRIS"
+//     },
+//     {
+//         name: "Transfer"
+//     },
+//     {
+//         name: "Lainya"
+//     }
+// ]
 export const PurchaseTransactionContainer = () => {
     const navigate = useNavigate();
     const componentRef = useRef(null);
@@ -56,12 +56,12 @@ export const PurchaseTransactionContainer = () => {
     const {data: customerList, isSuccess} = useGetCustomerQuery();
     const {data: currentAccount, isSuccess: isSuccessCurrentAccount} = useGetProfileQuery();
     const {data: purchaseTypeList, isSuccess: isSuccessPurchaseType} = useGetParameterizeQuery("purchase-type");
-    const [debtForm, setDebtForm] = useState<IDebtRequest>({
-        customerId: "",
-        debtDetails: []
-    });
+    const {data: paymentMethodList, isSuccess: isSuccessPaymentMethod} = useGetParameterizeQuery("payment-method");
+    const [paymentMethodOptions, setPaymentMethodOptions] = useState<IOption[]>([]);
     const [adminName, setAdminName] = useState<string>("");
 
+    const {data: categories, isSuccess: isSuccessCategories} = useGetParameterizeQuery("product-unit");
+    const [satuanList, setSatuanList] = useState<IParameterizeResponse[]>([]);
     const [productForm, setProductForm] = useState<IProductPurchaseRequest>({
         price: 0,
         productId: "",
@@ -108,7 +108,7 @@ export const PurchaseTransactionContainer = () => {
             });
             setCustomerOptions(options);
         }
-        if (isSuccessPurchaseType) {
+        if (isSuccessPurchaseType && purchaseTypeList.data) {
             const options = purchaseTypeList.data.map(c => ({
                 id: c.id,
                 name: c.name
@@ -127,8 +127,24 @@ export const PurchaseTransactionContainer = () => {
         }
     }, [dataProducts, isSuccessProduct]);
 
+    useEffect(() => {
+        if (isSuccessCategories && categories.data) {
+            setSatuanList(categories?.data)
+        }
+    }, [categories, isSuccess, isSuccessCategories])
+
+    useEffect(() => {
+        if (isSuccessPaymentMethod && paymentMethodList.data) {
+            const options = paymentMethodList.data.map(p => ({
+                id: null,
+                name: p.name
+            }))
+            setPaymentMethodOptions(options);
+        }
+    }, [paymentMethodList, isSuccessPaymentMethod])
+
     const handleOnChangeComboBox = (option: IOption | null) => {
-        setPurchaseRequestForm({...purchaseRequestForm, customerId: option?.id.toString() ?? null});
+        setPurchaseRequestForm({...purchaseRequestForm, customerId: option?.id?.toString() ?? null});
         setPurchaseTypeError(undefined);
     }
 
@@ -162,6 +178,7 @@ export const PurchaseTransactionContainer = () => {
             return;
         }
 
+        // console.log(purchaseRequestForm);
         addPurchase(purchaseRequestForm).unwrap()
         .then((res) => {
             setTransId(res.data.id);
@@ -192,13 +209,14 @@ export const PurchaseTransactionContainer = () => {
     }
 
     const handleDelete = () => {
-        if (debtForm.debtDetails) {
-            setDebtForm(prevForm => {
-                const newDebtDetails = [...prevForm.debtDetails];
-                newDebtDetails.splice(idIndex, 1);
+        if (purchaseRequestForm.purchaseDetails) {
+            setPurchaseRequestForm(prevForm => {
+                const newPurchaseDetails = [...purchaseRequestForm.purchaseDetails];
+                newPurchaseDetails.splice(idIndex, 1);
+                console.log(newPurchaseDetails);
                 return {
                     ...prevForm,
-                    debtDetails: newDebtDetails
+                    purchaseDetails: newPurchaseDetails
                 };
             });
         }
@@ -215,6 +233,7 @@ export const PurchaseTransactionContainer = () => {
     }
 
     const showConfirmationDelete = (index: number) => {
+        console.log("Index delete purchase " + index);
         setIdIndex(index);
         showOrCloseModal("delete-purchase", "show");
     }
@@ -301,6 +320,7 @@ export const PurchaseTransactionContainer = () => {
 
                     <div className="w-full">
                         <SelectBox 
+                            isRequired={true}
                             containerStyle="w-full"
                             labelTitle="Tipe Transaksi Pembelian"
                             placeholder="Pilih tipe transaksi pembelian"
@@ -330,6 +350,7 @@ export const PurchaseTransactionContainer = () => {
                     purchaseForm={purchaseRequestForm}
                     handleDelete={showConfirmationDelete}
                     handleShowEdit={showEditForm}
+                    satuans={satuanList}
                 />
                 {errorDetail && (
                     <span className="ml-1 text-red-600">{errorDetail}</span>
@@ -341,6 +362,7 @@ export const PurchaseTransactionContainer = () => {
 
                         <div className="w-full">
                             <SelectBox
+                                isRequired={true}
                                 labelTitle="Metode Pembayaran"
                                 placeholder="Pilih metode pembayaran" 
                                 updateFormValue={(e) => {
@@ -369,6 +391,7 @@ export const PurchaseTransactionContainer = () => {
                                     setPurchaseRequestForm({...purchaseRequestForm, money: Number(e.value)})
                                     setErrorMoney(undefined)
                                 }}
+                                isRequired={true}
                                 labelTitle="Uang Dimasukkan"
                                 labelStyle="disabled w-1/4"
                                 isDisabled={false}

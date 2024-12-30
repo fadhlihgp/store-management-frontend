@@ -4,10 +4,9 @@ import {PencilSquareIcon} from "@heroicons/react/24/outline";
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import {MaximumWordLength} from "../../../utils/MaximumWordLength.ts";
 import {PlusIcon} from "@heroicons/react/16/solid";
-import { IProductPurchaseRequest, IPurchaseRequest } from "../../../utils/interfaces.ts";
+import { IParameterizeResponse, IProductPurchaseRequest, IPurchaseRequest } from "../../../utils/interfaces.ts";
 import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
 import { IOption } from "../../../components/Input/ComboBox.tsx";
-import { satuans } from "../../Product/components/ProductFormPriceModal.tsx";
 
 interface PurchaseListDetailFormProps {
     purchaseForm?: IPurchaseRequest,
@@ -15,10 +14,11 @@ interface PurchaseListDetailFormProps {
     showEdited?: boolean,
     handleAddOrEdit?:() => void,
     handleShowEdit: (debtDetail: IProductPurchaseRequest, id: number) => void,
-    handleDelete: (index: number) => void
+    handleDelete: (index: number) => void,
+    satuans: IParameterizeResponse[]
 }
 
-export const PurchaseListDetailForm = ({purchaseForm, products, showEdited = false, handleShowEdit, handleDelete}: PurchaseListDetailFormProps) => {
+export const PurchaseListDetailForm = ({purchaseForm, satuans, products, showEdited = false, handleShowEdit, handleDelete}: PurchaseListDetailFormProps) => {
 
     const AddButton = <>
         <button
@@ -34,7 +34,7 @@ export const PurchaseListDetailForm = ({purchaseForm, products, showEdited = fal
     } 
 
     const getUnitPriceName = (id: string): string => {
-        const unit = satuans.find(s => s.value === id);
+        const unit = satuans.find(s => s.id === id);
         return unit?.name || ""; 
     }
 

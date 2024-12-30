@@ -55,13 +55,13 @@ export const PurchaseDetailContainer = () => {
                         </div>
                         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                             <li onClick={handlePrint}><a>Invoice</a></li>
-                            <li><a>Pdf</a></li>
+                            <li className="disabled"><a>Pdf</a></li>
                         </ul>
                         </div>
                 </>}
             />
 
-            <div className="flex flex-col md:flex-row justify-between mt-10 w-full">
+            <div className="flex flex-col md:flex-row justify-between mt-2 w-full">
                 <OrderDetail data={purchaseDetail.data} />
                 <div className="divider md:divider-horizontal"></div> 
                 <PaymentDetail data={purchaseDetail.data} />

@@ -20,8 +20,8 @@ export const PurchaseListContainer = () => {
     IPurchaseListResponse[]
   >([]);
   const [dateFilterValue, setDateFilterValue] = useState({
-    startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    endDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+    startDate: new Date(new Date().getFullYear(), 0, 1),
+    endDate: new Date(new Date().getFullYear(), 11, 31),
   });
   const {
     data: purchaseList,

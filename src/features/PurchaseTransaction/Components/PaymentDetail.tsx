@@ -9,7 +9,8 @@ interface PaymentDetailProps {
 export const PaymentDetail = ({data}: PaymentDetailProps) => {
     return(
         <div className="w-full md:w-1/2">
-            <h2 className="font-bold text-xl mb-2">Detail Pembayaran</h2>
+            <div className="divider"></div>
+            <h2 className="font-bold">Detail Pembayaran</h2>
             <div className="divider"></div> 
             <div className="flex justify-between gap-10">
                 <div className="flex flex-col gap-4 w-1/2">

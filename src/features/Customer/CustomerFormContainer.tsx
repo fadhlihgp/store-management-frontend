@@ -11,6 +11,7 @@ import {
     useUpdateCustomerMutation
 } from "../../apps/services/customerApi";
 import {LoadingProcess} from "../../components/Loading/LoadingProcess";
+import FailedLoad from "../../components/OtherDisplay/FailedLoad.tsx";
 
 const breadcrumbsData = [
     {
@@ -25,7 +26,7 @@ const breadcrumbsData = [
 export const CustomerFormContainer = () => {
     const {id} = useParams();
     const navigate = useNavigate();
-    const {data: customerDetail, isLoading: isGetLoading} = useGetCustomerByIdQuery(id ?? "");
+    const {data: customerDetail, isLoading: isGetLoading, isError: isErrorGetData} = useGetCustomerByIdQuery(id ?? "");
     const [addCustomer, {isLoading: isAddLoading}] = useAddCustomerMutation();
     const [editCustomer, {isLoading: isEditLoading}] = useUpdateCustomerMutation();
     const [customerForm, setCustomerForm] = useState<ICustomerRequest>({
@@ -38,7 +39,7 @@ export const CustomerFormContainer = () => {
         if (id && customerDetail) {
             setCustomerForm(customerDetail.data)
         }
-    }, [customerDetail])
+    }, [customerDetail, id])
 
     const handleAdd = () => {
         addCustomer(customerForm).unwrap()
@@ -98,7 +99,7 @@ export const CustomerFormContainer = () => {
                         <InputText labelTitle="Nama" updateType={"fullName"} isRequired={true} defaultValue={customerDetail?.data.fullName} updateFormValue={updateFormValue}/>
                         <InputText labelTitle="No Ponsel" updateType={"phoneNumber"} isRequired={true} type={"number"} defaultValue={customerDetail?.data.phoneNumber} updateFormValue={updateFormValue}/>
                         <InputText labelTitle="email" updateType={"email"} type={"email"} defaultValue={customerDetail?.data.email} updateFormValue={updateFormValue}/>
-                        <TextAreaInput  labelTitle="Alamat" updateType={"address"} defaultValue={customerDetail?.data.address ?? ""} updateFormValue={updateFormValue}/>
+                        <TextAreaInput  labelTitle="Alamat" updateType={"address"} isRequired={true} defaultValue={customerDetail?.data.address ?? ""} updateFormValue={updateFormValue}/>
                     </div>
                     <div className={'flex gap-2 justify-end'}>
                         <div className="mt-16"><button className="btn float-right" type={"button"} onClick={() => navigate(-1)}>Batal</button></div>
@@ -117,6 +118,9 @@ export const CustomerFormContainer = () => {
                         </div>
                     </div>
                 </form>
+            )}
+            {id && isErrorGetData && (
+                <FailedLoad key={"1"}/>
             )}
         </TitleCard>
     )

@@ -18,7 +18,7 @@ export const ProductDetailContainer = () => {
         if (isSuccess) {
             setProductDetail(product.data)
         }
-    }, [product]);
+    }, [isSuccess, product]);
 
     return(
         <div className={'bg-base-100 p-5 shadow-xl rounded-xl'}>
@@ -31,10 +31,21 @@ export const ProductDetailContainer = () => {
                     editedAt={productDetail?.editedAt}
                     createdAt={productDetail?.createdAt}
                     showManipulation={true}
+                    breadcrumbsData={[
+                        {
+                            name: "Produk",
+                            url: "/product"
+                        },
+                        {
+                            name: productDetail?.name ?? "-",
+                            url: ""
+                        }
+                    ]}
                 />
 
                 <DetailProduct
                     stock={productDetail?.stock ?? 0}
+                    category={productDetail?.category ?? ""}
                     imageUrl={productDetail?.imageUrl}
                     barcode={productDetail?.barcode}
                     description={productDetail?.description} />

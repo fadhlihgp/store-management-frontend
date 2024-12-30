@@ -242,6 +242,7 @@ const InvoicePrint = () => {
             <td className="w-full align-top">
               <div>
                 <img
+                  alt='logo'
                   src="https://raw.githubusercontent.com/templid/email-templates/main/templid-dynamic-templates/invoice-02/brand-sample.png"
                   className="h-12"
                 />

@@ -3,10 +3,11 @@ interface DetailProductProps {
     imageUrl?: string,
     stock: number,
     description?: string,
-    barcode?: string
+    barcode?: string,
+    category: string
 }
 
-export const DetailProduct = ({barcode, description, stock, imageUrl}:DetailProductProps) => {
+export const DetailProduct = ({barcode, description, stock, imageUrl, category}:DetailProductProps) => {
     return(
         <div className={'flex flex-col md:flex-col gap-5'}>
 
@@ -17,11 +18,15 @@ export const DetailProduct = ({barcode, description, stock, imageUrl}:DetailProd
             <div className="mt-3">
                 <dl className="divide-y divide-gray-200">
                     <div className="px-4 py-3 sm:grid sm:grid-cols-1 sm:gap-2 sm:px-0">
-                        <p className="font-medium leading-6 text-lg">Stok</p>
+                        <p className="font-semibold leading-6 text-lg">Stok</p>
                         <p className="mt-1 text-lg leading-6 sm:col-span-2 sm:mt-0">{stock}</p>
                     </div>
+                    <div className="px-4 py-3 sm:grid sm:grid-cols-1 sm:gap-2 sm:px-0">
+                        <p className="leading-6 text-lg font-semibold">Kategori</p>
+                        <p className="mt-1 text-lg leading-6 sm:col-span-2 sm:mt-0">{category}</p>
+                    </div>
                     <div className="px-4 py-3 sm:grid sm:grid-cols-1 sm:px-0">
-                        <p className="text-lg font-medium leading-6">Deskripsi </p>
+                        <p className="text-lg font-semibold leading-6">Deskripsi </p>
                         <p className="mt-1 text-lg leading-6 sm:col-span-2 sm:mt-0">{description}</p>
                     </div>
                     <div className={' py-3'}>

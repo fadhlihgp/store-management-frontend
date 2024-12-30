@@ -5,10 +5,11 @@ import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 import {MaximumWordLength} from "../../../utils/MaximumWordLength.ts";
 import {PlusIcon} from "@heroicons/react/16/solid";
 import moment from "moment";
-import { IDebtDetailRequest, IDebtRequest } from "../../../utils/interfaces.ts";
+import { IDebtDetailRequest, IDebtRequest, IParameterizeResponse } from "../../../utils/interfaces.ts";
 import { showOrCloseModal } from "../../../utils/showModalHelper.ts";
 import { IOption } from "../../../components/Input/ComboBox.tsx";
-import { satuans } from "../../Product/components/ProductFormPriceModal.tsx";
+import { useState, useEffect } from "react";
+import { useGetParameterizeQuery } from "../../../apps/services/otherApi.ts";
 
 interface DebtListDetailFormProps {
     debtForm?: IDebtRequest,
@@ -20,6 +21,13 @@ interface DebtListDetailFormProps {
 }
 
 export const DebtListDetailForm = ({debtForm, products, showEdited = false, handleShowEdit, handleDelete}: DebtListDetailFormProps) => {
+    const {data: categories, isSuccess} = useGetParameterizeQuery("product-unit");
+    const [satuanList, setSatuanList] = useState<IParameterizeResponse[]>([]);
+    useEffect(() => {
+        if (isSuccess && categories.data) {
+            setSatuanList(categories?.data)
+        }
+    }, [categories, isSuccess])
 
     const AddButton = <>
         <button
@@ -35,7 +43,9 @@ export const DebtListDetailForm = ({debtForm, products, showEdited = false, hand
     } 
 
     const getUnitPriceName = (id: string): string => {
-        const unit = satuans.find(s => s.value === id);
+        console.log(id)
+        // console.log(debtForm)
+        const unit = satuanList.find(s => s.id === id);
         return unit?.name || ""; 
     }
 
@@ -74,6 +84,7 @@ export const DebtListDetailForm = ({debtForm, products, showEdited = false, hand
                                         <td>{getProductName(u.productId)}</td>
                                         <td>{u.count}</td>
                                         <td>{MaximumWordLength(getUnitPriceName(u.unitProductId), 20)}</td>
+                                        {/* <td>{u.unitProductName}</td> */}
                                         <td>
                                             {convertCurrency("Rp", u.price)}
                                         </td>

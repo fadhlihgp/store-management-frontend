@@ -27,7 +27,7 @@ interface FormComponentDebt {
 interface ErrorValidation{
     productError?: string,
     unitError?: string,
-    amountError?: string 
+    amountError?: string
 }
 
 export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubmit, indexDebtDetail = -1, setIndexDebtDetail, idDebtDetail = "-1", setIdDebtDetail}: FormComponentDebt) => {
@@ -89,7 +89,7 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
                 }
         }
     }, [idDebtDetail, setIdDebtDetail]);
-    
+
     const reset = () => {
         setDebtDetailForm({
             count: 0,
@@ -149,7 +149,7 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
         if (name === "date") {
-            setDebtDetailForm({...debtDetailForm, 
+            setDebtDetailForm({...debtDetailForm,
                 date: new Date(value + 'T00:00:00')
             });
             return;
@@ -159,60 +159,59 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
 
     const handleOnChangeSelect = (value: IOption | null) => {
         // Find the selected product details
-        const debtDetails = dataProducts?.find(p => p.id === value?.id.toString());
-        
+        const debtDetails = dataProducts?.find(p => p.id === value?.id?.toString() ?? "");
+
         if (debtDetails) {
             // Map product prices to unit options
             const unitOptions = debtDetails.productPrices.map(pp => ({
                 id: pp.unitPriceId,
                 name: pp.unitPrice
             }));
-            
+
             // Update unit options and reset the unitProductId
             setUnits(unitOptions);
-            
             // If unitProductId exists, find the corresponding product price
             if (debtDetailForm.unitProductId && debtDetailForm.unitProductId.length > 0) {
                 let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === debtDetailForm.unitProductId);
                 if (!productPrice) {
-                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
-                }
-                // Update the form with the found price
-                setDebtDetailForm(prevForm => ({
-                    ...prevForm,
-                    price: productPrice?.price ?? 0
-                }));
-                // console.log("Harga " + productPrice?.price);
-            } else {
-                let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
-                if (!productPrice) {
-                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === "1");
+                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "1");
                 }
                 // Update the form with the found price
                 setDebtDetailForm(prevForm => ({
                     ...prevForm,
                     price: productPrice?.price ?? 0,
-                    unitProductId: "1"
+                    unitProductName: productPrice?.unitPrice ?? ""
                 }));
                 // console.log("Harga " + productPrice?.price);
+            } else {
+                let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "1");
+                if (!productPrice) {
+                    productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId !== "1");
+                }
+                // Update the form with the found price
+                setDebtDetailForm(prevForm => ({
+                    ...prevForm,
+                    price: productPrice?.price ?? 0,
+                    unitProductId: productPrice?.unitPriceId ?? "",
+                }));
             }
-            
+
             // Update the form with the productId and reset the unitProductId
             setDebtDetailForm(prevForm => ({
                 ...prevForm,
-                productId: value?.id.toString() ?? "",
-                unitProductId: "1"
+                productId: value?.id?.toString() ?? "",
+                // unitProductId: "1"
             }));
             setDefaultValueProduct(value);
             setError(undefined);
         }
-        
+
         // console.log(debtDetailForm);
     }
 
     const handleOnChangeSelectUnit = (e: any) => {
         const { value } = e.target;
-        // console.log("Ini value " + value);
+
         setDebtDetailForm({...debtDetailForm, unitProductId: value});
         const debtDetails = dataProducts?.find(p => p.id === debtDetailForm.productId);
         if (debtDetails) {
@@ -267,7 +266,7 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
                         <form method="dialog">
                             {/* if there is a button in form, it will close the modal */}
                             <div className={'flex gap-2 justify-end'}>
-                                
+
                                 <button className="btn" onClick={onClickCancel}>Tutup</button>
                             </div>
                         </form>
@@ -282,7 +281,7 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
                     <div className={'grid grid-cols-1 mb-4'}>
                         <ComboBox
                             defaultValue={defaultValueProduct}
-                            options={productOptions} 
+                            options={productOptions}
                             labelTitle={"Produk"}
                             onChange={handleOnChangeSelect} />
                         {error?.productError && (
@@ -297,12 +296,12 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
                             )}
                         </div>
                         <div className="flex flex-col">
-                            <SelectBox2 
-                                labelTitle="Satuan" 
-                                placeholder={"Pilih Satuan"} 
-                                options={units} 
+                            <SelectBox2
+                                labelTitle="Satuan"
+                                placeholder={"Pilih Satuan"}
+                                options={units}
                                 name="unitProductId"
-                                value={debtDetailForm.unitProductId} 
+                                value={debtDetailForm.unitProductId}
                                 handleOnChange={handleOnChangeSelectUnit}
                             />
                             {error?.unitError && (
@@ -310,12 +309,12 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
                         )}
                         </div>
                         <InputText2 name={"price"} labelTitle="Harga" type={"number"} value={debtDetailForm.price} handleOnChange={handleOnChange}/>
-                        <InputText2 
-                            name={"date"} 
-                            labelTitle={"Tanggal"} 
-                            type={"date"} 
-                            value={formatDateString(debtDetailForm.date)} 
-                            handleOnChange={handleOnChange} 
+                        <InputText2
+                            name={"date"}
+                            labelTitle={"Tanggal"}
+                            type={"date"}
+                            value={formatDateString(debtDetailForm.date)}
+                            handleOnChange={handleOnChange}
                         />
 
                     </div>
@@ -326,9 +325,9 @@ export const FormComponentDebt = ({debtDetailForm, setDebtDetailForm, handleSubm
                             </label>
                             <input type={"number"} value={debtDetailForm.count * debtDetailForm.price} className="input input-bordered w-full " disabled />
                         </div>
-                        <TextAreaInput2 
-                            labelTitle="Catatan" 
-                            name="note" 
+                        <TextAreaInput2
+                            labelTitle="Catatan"
+                            name="note"
                             value={debtDetailForm.note}
                             handleOnChange={(e) => setDebtDetailForm({...debtDetailForm, note: e.target.value})}
                          />

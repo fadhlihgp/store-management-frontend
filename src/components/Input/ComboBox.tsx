@@ -4,19 +4,21 @@ import { CheckIcon } from '@heroicons/react/20/solid';
 import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon';
 
 export interface IOption {
-    id: string | number;
+    id?: string | number | null;
     name: string;
 }
 
 interface ComboBoxProps {
     labelTitle?: string;
     placeHolder?: string;
+    isRequired?: boolean;
     options: IOption[];
     defaultValue?: IOption | null; // Add defaultValue prop
+    isDisabled?: boolean;
     onChange?: (selected: IOption | null) => void;
 }
 
-export function ComboBox({ labelTitle, placeHolder, options, defaultValue, onChange }: ComboBoxProps) {
+export function ComboBox({ labelTitle, placeHolder, options, defaultValue, onChange, isRequired = false, isDisabled = false }: ComboBoxProps) {
     const [selected, setSelected] = useState<IOption | null>(defaultValue || null);
     const [query, setQuery] = useState('');
 
@@ -47,27 +49,30 @@ export function ComboBox({ labelTitle, placeHolder, options, defaultValue, onCha
 
     return (
         <div className="">
-            <Combobox value={selected} onChange={handleSelect}>
+            <Combobox value={selected} onChange={handleSelect} disabled={isDisabled}>
                 {labelTitle && (
                     <label className="label">
-                        <span className="label-text text-base-content">{labelTitle}</span>
+                        <span className="label-text text-base-content">{labelTitle} {isRequired ? <span className="text-red-600 text-lg">*</span> : ""}</span>
                     </label>
                 )}
                 <div className="relative mt-1">
                     <div className="relative">
                         <Combobox.Input
-                            className="input input-bordered w-full items-center text-sm"
+                            required={isRequired}
+                            className={`input input-bordered w-full items-center text-sm `}
                             displayValue={(option: IOption | null) => option ? option.name : ''}
                             title="Testing"
                             placeholder={placeHolder}
                             onChange={(event) => setQuery(event.target.value)}
                         />
-                        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                            <ChevronDownIcon
-                                className="h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                            />
-                        </Combobox.Button>
+                        {!isDisabled && (
+                            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                                <ChevronDownIcon
+                                    className="h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
+                                />
+                            </Combobox.Button>
+                        )}
                     </div>
                     <Transition
                         as={Fragment}
@@ -121,4 +126,5 @@ export function ComboBox({ labelTitle, placeHolder, options, defaultValue, onCha
             </Combobox>
         </div>
     );
+
 }
