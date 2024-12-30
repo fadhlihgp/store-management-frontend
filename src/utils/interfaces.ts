@@ -64,7 +64,7 @@ export interface IStoreRequest {
     address: string,
     phoneNumber: string,
     businessType: string,
-    establishDate?: Date
+    establishDate: Date
 }
 
 export interface IProductListResponse {
