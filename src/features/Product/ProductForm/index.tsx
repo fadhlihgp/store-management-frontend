@@ -61,7 +61,7 @@ export const ProductFormContainer = () => {
     },[id, isSuccessGetData, productOne])
 
     useEffect(() => {
-        if (isSuccessGetCategories) {
+        if (isSuccessGetCategories && categories.data) {
             setCategoryList(categories.data);
         }
     }, [categories, isSuccessGetCategories]);
@@ -121,12 +121,12 @@ export const ProductFormContainer = () => {
                     .then((res) => {
                         const updatedProductForm = { ...productForm, imageId: res.data.id };
                         setProductForm(updatedProductForm);
-    
+
                         const editProductData = {
                             id: id,
                             data: updatedProductForm
                         }
-    
+
                         editProduct(editProductData).unwrap()
                             .then((res) => {
                                 toast.success(res.message ?? "Berhasil memperbarui produk");
@@ -169,9 +169,9 @@ export const ProductFormContainer = () => {
     const validationInput = (): boolean => {
         let isValid = true;
         const newErrorInput = {...errorInput};
-    
+
         // console.log("validation");
-    
+
         if (!productForm.productPrices || productForm.productPrices.length < 1) {
             newErrorInput.errorProductPrice = "Produk setidaknya harus memiliki satu harga";
             isValid = false;
@@ -192,7 +192,7 @@ export const ProductFormContainer = () => {
             newErrorInput.errorCategory = "Kategori produk tidak boleh kosong";
             isValid = false;
         }
-    
+
         setErrorInput(newErrorInput);
         return isValid;
     }
@@ -261,7 +261,7 @@ export const ProductFormContainer = () => {
                                 <ValidationLabelError message={errorInput.errorCategory} />
                             )}
                         </div>
-                        
+
                     </div>
                     <div className="grid grid-cols-1 gap-4">
                         <div>
@@ -298,7 +298,7 @@ export const ProductFormContainer = () => {
                     </div>
                 </>
             )}
-            
+
         </TitleCard>
     )
 }

@@ -21,7 +21,7 @@ interface FormComponentPurchase {
 interface ErrorValidation{
     productError?: string,
     unitError?: string,
-    amountError?: string 
+    amountError?: string
 }
 
 export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit, indexPurchaseDetail = -1, setIndexPurchaseDetail, idDebtDetail = "-1", setIdDebtDetail}: FormComponentPurchase) => {
@@ -74,7 +74,7 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
                 }
         }
     }, [idDebtDetail, setIdDebtDetail]);
-    
+
     const reset = () => {
         setProductForm({
             qty: 0,
@@ -135,18 +135,18 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
 
     const handleOnChangeSelect = (value: IOption | null) => {
         // Find the selected product details
-        const debtDetails = dataProducts?.find(p => p.id === value?.id.toString());
-        
+        const debtDetails = dataProducts?.find(p => p.id === value?.id?.toString() ?? "");
+
         if (debtDetails) {
             // Map product prices to unit options
             const unitOptions = debtDetails.productPrices.map(pp => ({
                 id: pp.unitPriceId,
                 name: pp.unitPrice
             }));
-            
+
             // Update unit options and reset the unitPriceId
             setUnits(unitOptions);
-            
+
             // If unitPriceId exists, find the corresponding product price
             if (productForm.unitPriceId && productForm.unitPriceId.length > 0) {
                 let productPrice = debtDetails.productPrices.find(pp => pp.unitPriceId === productForm.unitPriceId);
@@ -172,17 +172,17 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
                 }));
                 // console.log("Harga " + productPrice?.price);
             }
-            
+
             // Update the form with the productId and reset the unitPriceId
             setProductForm(prevForm => ({
                 ...prevForm,
-                productId: value?.id.toString() ?? "",
+                productId: value?.id?.toString() ?? "",
                 // unitPriceId: "1"
             }));
             setDefaultValueProduct(value);
             setError(undefined);
         }
-        
+
         // console.log(productForm);
     }
 
@@ -206,7 +206,7 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
                     <div className={'grid grid-cols-1 mb-4'}>
                         <ComboBox
                             defaultValue={defaultValueProduct}
-                            options={productOptions} 
+                            options={productOptions}
                             labelTitle={"Produk"}
                             onChange={handleOnChangeSelect} />
                         {error?.productError && (
@@ -221,12 +221,12 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
                             )}
                         </div>
                         <div className="flex flex-col">
-                            <SelectBox2 
-                                labelTitle="Satuan" 
-                                placeholder={"Pilih Satuan"} 
-                                options={units} 
+                            <SelectBox2
+                                labelTitle="Satuan"
+                                placeholder={"Pilih Satuan"}
+                                options={units}
                                 name="unitPriceId"
-                                value={productForm.unitPriceId} 
+                                value={productForm.unitPriceId}
                                 handleOnChange={handleOnChangeSelectUnit}
                             />
                             {error?.unitError && (
@@ -243,7 +243,7 @@ export const FormComponentPurchase = ({productForm, setProductForm, handleSubmit
                         </div>
                         </div>
                     </div>
-                    
+
                     <div className="modal-action">
                         <form method="dialog">
                             {/* if there is a button in form, it will close the modal */}

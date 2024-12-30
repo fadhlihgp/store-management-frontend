@@ -38,7 +38,7 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
     const [satuanList, setSatuanList] = useState<IParameterizeResponse[]>([]);
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && categories.data) {
             setSatuanList(categories.data);
         }
     }, [categories, isSuccess]);
@@ -48,7 +48,7 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
         const productFormDet = productForm?.productPrices[id];
 
         if (productFormDet) {
-            setProductPriceForm(productFormDet) 
+            setProductPriceForm(productFormDet)
         }
 
         showOrCloseModal("show")
@@ -99,7 +99,7 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
 
     // Function for adding or editing product price
     const addOrEditProductPrice = () => {
-        
+
         if (!validationInputForm()) {
             return;
         }
@@ -122,7 +122,7 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
 
             // Reset productPriceForm
             setProductPriceForm({ price: 0, unitPriceId: '', qtyPcs: 0, unitPrice: ""});
-            
+
         } else {
 
             const findProductPriceByIndex = productForm?.productPrices.findIndex(
@@ -208,12 +208,12 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
 
     return(
         <>
-        <ConfirmationModal 
-            id="modal-delete" 
+        <ConfirmationModal
+            id="modal-delete"
             title="Konfirmasi hapus"
-            message="Anda yakin ingin menghapus harga produk ?" 
+            message="Anda yakin ingin menghapus harga produk ?"
             key={"1"}
-            onClickYes={handleDelete} 
+            onClickYes={handleDelete}
         />
 
         <dialog id="modal-product-price" className="modal modal-bottom sm:modal-middle">
@@ -304,8 +304,8 @@ export const ListPrice = ({productForm, setProductForm, showEdited = false}: Lis
                     </tbody>
                 </table>
             </div>
-        </TitleCard>    
+        </TitleCard>
         </>
-        
+
     )
 }
