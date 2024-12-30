@@ -4,7 +4,7 @@ import { CheckIcon } from '@heroicons/react/20/solid';
 import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon';
 
 export interface IOption {
-    id: string | number | null;
+    id?: string | number | null;
     name: string;
 }
 

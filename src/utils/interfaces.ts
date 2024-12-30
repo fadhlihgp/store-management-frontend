@@ -64,7 +64,7 @@ export interface IStoreRequest {
     address: string,
     phoneNumber: string,
     businessType: string,
-    establishDate: Date
+    establishDate?: Date
 }
 
 export interface IProductListResponse {
@@ -398,7 +398,7 @@ export interface IStockInOutResponse {
 
 export interface ResponseApi<T> {
     message: string,
-    data?: T   
+    data?: T
 }
 
 export interface RequestApi<T> {

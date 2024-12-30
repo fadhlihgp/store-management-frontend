@@ -3,7 +3,7 @@ import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircle
 interface IOption {
     name: string | number,
     value?: string | number,
-    id?: string | number
+    id?: string | number | null
 }
 
 interface SelectBox2Props {
